@@ -1,0 +1,11 @@
+langchain
+langgraph
+fastapi
+pydantic
+uvicorn
+chromadb
+openai
+pypdf
+python-dotenv
+selenium
+webdriver-manager
