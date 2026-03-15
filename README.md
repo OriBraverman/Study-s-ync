@@ -1,79 +1,114 @@
-# ArmorAgent BIU Syllabus Extraction Pipeline
+# ArmorAgent
 
-This project scrapes course syllabuses from the Bar-Ilan University course system at `https://courses.biu.ac.il/` and stores raw syllabus records in `data/raw/syllabuses.json`.
+Token-efficient multi-agent system for BIU students returning from reserve duty, aligned with the plan in `PLANNING.md`.
 
-The pipeline targets Computer Science courses by filtering the BIU search portal to the Hebrew department query `המחלקה למדעי המחשב` and then collecting unique course codes (typically `89*`).
+## Current Status
 
-## What The Pipeline Does
+- Repository structure has been reorganized by responsibility.
+- The BIU syllabus scraper is isolated in `src/scraper`.
+- Legacy/experimental code was moved to `experiments`.
+- The scraper is treated as working baseline for now.
 
-1. Opens the BIU course search page with Selenium and waits for anti-bot verification to resolve.
-2. Applies department filtering using `ContentPlaceHolder1_cmbDepartments` and searches for the CS department (`המחלקה למדעי המחשב`, value `84` fallback).
-3. Traverses the paginated results grid and extracts unique `89*` course codes while handling postback pagination and recovery.
-4. For each unique course, opens course details and attempts syllabus extraction from either:
-	- dedicated syllabus link/tab, or
-	- details-page fallback text when syllabus-like content is embedded.
-5. Extracts weekly topics heuristically from syllabus text.
-6. Loads existing JSON records (from `data/raw/syllabuses.json`, or legacy `src/data/raw/syllabuses.json`), merges by `course_num`, and keeps records deduplicated.
-7. Validates output JSON structure and writes formatted UTF-8 JSON to `data/raw/syllabuses.json`.
+## Project Goal
 
-## Output File
+ArmorAgent will:
 
-- Primary output: `data/raw/syllabuses.json`
-- JSON structure: list of objects, each object contains:
-	- `course_num` (string, format like `89-110`)
-	- `found` (boolean)
-	- `course_name` (string)
-	- `lecturer` (string)
-	- `semester` (string)
-	- `department` (string)
-	- `course_type` (string)
-	- `search_term` (string)
-	- `source_url` (string)
-	- `scraped_at` (ISO timestamp)
-	- `errors` (list of strings)
-	- `syllabus_text` (string)
-	- `topics` (list of objects with `week` and `topic`)
+1. Receive absence window and course list.
+2. Identify missed topics from official syllabus data.
+3. Retrieve the most relevant course materials.
+4. Generate a prioritized recovery bootcamp plan with citations.
 
-Example record:
+## Repository Structure
 
-```json
-{
-	"course_num": "89-110",
-	"found": true,
-	"course_name": "מבוא למדעי המחשב",
-	"lecturer": "...",
-	"semester": "סמסטר א'",
-	"department": "המחלקה למדעי המחשב",
-	"errors": [],
-	"syllabus_text": "...",
-	"topics": [
-		{"week": "1", "topic": "..."}
-	]
-}
+```text
+ArmorAgent/
+├─ PLANNING.md
+├─ README.md
+├─ requirements.txt
+├─ data/
+│  ├─ README.md
+│  ├─ raw/
+│  │  └─ README.md
+│  └─ processed/
+│     └─ README.md
+├─ src/
+│  ├─ __init__.py
+│  ├─ README.md
+│  ├─ scraper/
+│  │  ├─ __init__.py
+│  │  ├─ README.md
+│  │  ├─ syllabus_scraper.py
+│  │  ├─ batch_scrape_syllabuses.py
+│  │  ├─ inspect_biu_home.py
+│  │  └─ last_biu_home.html
+│  ├─ agents/
+│  │  └─ README.md
+│  ├─ retrieval/
+│  │  └─ README.md
+│  ├─ orchestration/
+│  │  └─ README.md
+│  ├─ api/
+│  │  └─ README.md
+│  ├─ schemas/
+│  │  └─ README.md
+│  └─ ui/
+│     └─ README.md
+└─ experiments/
+   ├─ README.md
+   ├─ legacy_scraper/
+   │  └─ README.md
+   └─ legacy_artifacts/
+      ├─ README.md
+      └─ src_data_snapshot/
+         └─ README.md
 ```
 
-## Environment Setup
+## Active Scraper Pipeline
+
+The active scraping code is now in `src/scraper`.
+
+### What it does
+
+1. Opens BIU course portal and handles delayed form availability.
+2. Filters by CS department (`המחלקה למדעי המחשב`, with fallback logic).
+3. Traverses paginated results and collects unique `89*` course codes.
+4. Scrapes syllabus text from dedicated syllabus link or details fallback.
+5. Extracts heuristic weekly topics.
+6. Merges with existing records and writes deduplicated JSON.
+
+### Output
+
+- Primary output: `data/raw/syllabuses.json`
+
+### Run
 
 ```powershell
 conda activate agents
-```
-
-Install dependencies if needed:
-
-```powershell
 pip install -r requirements.txt
-pip install selenium webdriver-manager
+python src/scraper/batch_scrape_syllabuses.py
 ```
 
-## Run The Full CS Scrape
+Single course test:
 
 ```powershell
-python src/batch_scrape_syllabuses.py
+python src/scraper/syllabus_scraper.py 89-110
 ```
 
-## Notes On Robustness
+## Alignment With Planning
 
-- The pipeline includes retry and backoff logic for intermittent network or anti-bot delays.
-- Retries are skipped for deterministic outcomes (for example, no syllabus link on a course details page).
-- It uses polite delays between requests to reduce load on the source system.
-- Existing records are preserved and merged by `course_num` to avoid accidental overwrite.
+Based on `PLANNING.md`, this repo now separates:
+
+- Data collection (`src/scraper`)
+- Future agent implementations (`src/agents`)
+- Retrieval/indexing (`src/retrieval`)
+- Orchestration graph (`src/orchestration`)
+- Backend API (`src/api`)
+- Schema contracts (`src/schemas`)
+- Frontend/UI (`src/ui`)
+
+This keeps hackathon implementation steps isolated and easier to execute.
+
+## Notes
+
+- `experiments/legacy_scraper` is preserved for reference and is not part of production flow.
+- Raw/processed data are ignored in git by default.

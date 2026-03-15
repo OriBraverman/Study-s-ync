@@ -8,7 +8,11 @@ import time
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select
 
-from syllabus_scraper import get_course_syllabus, setup_driver, wait_for_search_form
+try:
+    from .syllabus_scraper import get_course_syllabus, setup_driver, wait_for_search_form
+except ImportError:
+    # Allow running as a direct script: python src/scraper/batch_scrape_syllabuses.py
+    from syllabus_scraper import get_course_syllabus, setup_driver, wait_for_search_form
 
 
 OUTPUT_PATH = "data/raw/syllabuses.json"

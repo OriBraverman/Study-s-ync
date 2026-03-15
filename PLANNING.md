@@ -33,8 +33,8 @@ ArmorAgent is a multi-agent system designed to automatically close knowledge gap
 
 #### Phase 1: Pre-Hackathon Preparation (Start Now)
 
-* [ ] **Repository Setup:** Initialize GitHub repo, set up Python virtual environment, and install dependencies (`langchain`, `langgraph`, `fastapi`, `pydantic`).
-* [ ] **Data Scraping (Crucial):** Do NOT try to bypass the Bar-e-learn SSO login during the hackathon. Download 3-4 course syllabuses (e.g., Intro to CS, Data Structures) and 10-15 PDFs from the BIU CS Summaries Drive locally.
+* [x] **Repository Setup:** Initialize GitHub repo, set up Python virtual environment, and install dependencies (`langchain`, `langgraph`, `fastapi`, `pydantic`).
+* [x] **Data Scraping (Crucial):** Do NOT try to bypass the Bar-e-learn SSO login during the hackathon. Download 3-4 course syllabuses (e.g., Intro to CS, Data Structures) and 10-15 PDFs from the BIU CS Summaries Drive locally.
 * [ ] **Data Processing:** Write a Python script to chunk these PDFs and load them into a local Vector Database.
 * [ ] **Define Pydantic Schemas:** Write strict JSON output schemas for what the agents will pass to each other (e.g., `MissedTopicsSchema`, `StudyPlanSchema`).
 
