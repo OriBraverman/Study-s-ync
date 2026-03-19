@@ -1,0 +1,9 @@
+Algorithms – Sorting: Bubble Sort, Merge Sort, and Quick Sort
+
+Sorting is the process of arranging a collection of elements in a defined order (typically ascending or descending). Three fundamental sorting algorithms illustrate the progression from naive to efficient approaches.
+
+Bubble Sort is the simplest comparison-based algorithm. It repeatedly steps through the list, compares adjacent elements, and swaps them if they are in the wrong order. Each full pass "bubbles" the largest unsorted element to its correct position. Bubble sort has O(n²) average and worst-case time complexity, making it practical only for very small or nearly sorted datasets. Its one advantage is in-place sorting with O(1) auxiliary space.
+
+Merge Sort is a divide-and-conquer algorithm that recursively splits the array into halves, sorts each half, and then merges the sorted halves into a single sorted array. The merge step scans both halves simultaneously in linear time. Merge sort guarantees O(n log n) time in all cases and is stable — equal elements preserve their original order. The drawback is O(n) auxiliary space for the temporary merge buffers.
+
+Quick Sort also uses divide-and-conquer. It selects a pivot element and partitions the array into elements less than, equal to, and greater than the pivot, then recursively sorts the partitions. With a good pivot selection strategy (such as median-of-three), quick sort achieves O(n log n) average time and O(log n) stack space. Its worst case is O(n²) when pivots are consistently the smallest or largest element, but this is rare in practice. Quick sort is typically the fastest in-practice general-purpose sorting algorithm due to cache locality.
