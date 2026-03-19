@@ -1,0 +1,17 @@
+{
+  "course_num": "89-985",
+  "found": false,
+  "syllabus_text": "",
+  "topics": [],
+  "course_name": "",
+  "lecturer": "פרופ' גל קמינקא",
+  "semester": "סמסטר ב'",
+  "course_type": "",
+  "department": "המחלקה למדעי המחשב",
+  "search_term": "המחלקה למדעי המחשב",
+  "source_url": "https://courses.biu.ac.il/CourseDetails.aspx?lid=796431",
+  "scraped_at": "2026-03-15T11:03:47.024108Z",
+  "errors": [
+    "Syllabus link not found on details page"
+  ]
+}

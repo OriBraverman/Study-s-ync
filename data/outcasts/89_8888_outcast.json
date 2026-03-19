@@ -1,0 +1,17 @@
+{
+  "course_num": "89-8888",
+  "found": false,
+  "syllabus_text": "",
+  "topics": [],
+  "course_name": "",
+  "lecturer": "שעות סמסטר א' - 0.00",
+  "semester": "סמסטר א'",
+  "course_type": "",
+  "department": "המחלקה למדעי המחשב",
+  "search_term": "המחלקה למדעי המחשב",
+  "source_url": "https://courses.biu.ac.il/CourseDetails.aspx?lid=798342",
+  "scraped_at": "2026-03-15T11:02:33.975478Z",
+  "errors": [
+    "Syllabus link not found on details page"
+  ]
+}

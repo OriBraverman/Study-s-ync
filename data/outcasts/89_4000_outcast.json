@@ -1,0 +1,17 @@
+{
+  "course_num": "89-4000",
+  "found": false,
+  "syllabus_text": "",
+  "topics": [],
+  "course_name": "",
+  "lecturer": "ד\"ר יוני זוהר",
+  "semester": "סמסטר ב'",
+  "course_type": "",
+  "department": "המחלקה למדעי המחשב",
+  "search_term": "המחלקה למדעי המחשב",
+  "source_url": "https://courses.biu.ac.il/CourseDetails.aspx?lid=791647",
+  "scraped_at": "2026-03-15T10:42:14.372035Z",
+  "errors": [
+    "Syllabus link not found on details page"
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "course_num": "89-2322",
+  "found": true,
+  "syllabus_text": "מוקד תמיכה טכנית: 03-5317000 , 9392*\nשיבוץ החדרים אינו סופי. יש להתעדכן בשיבוץ הקורסים סמוך לפתיחת שנת הלימודים.\nתאריך עדכון : 25/03/2025 09:38:33\nאלגוריתמים מתקדמים 892322-01\nAdvanced Algorithms\nמרצה: פרופ' אלי פורת\nפרופ' משה לוינשטיין\nתאור הקורס\nמטרות הקורס (מטרות על / מטרות ספציפיות):\n  Study and understand advanced topics and methods in algorithms and the theory of computer science (TCS).\nתוכן הקורס: (רציונל, נושאים)\n    מהלך השיעורים:\nFrontal lectures, some using slides and others as board lectures. Some material will be provided for self-study.\n      תכנית הוראה מפורטת לכל השיעורים:\nWe will study the following topics (not necessarily in this order):\nLinear programming (LP).\nApproximation algorithms.\nThe online model & algorithms.\nRandomized algorithms.\nFixed-parameter tractable (FPT) algorithms.\nThe parallel model.\nPattern matching (PM).\nThe streaming model and other sub-linear algorithms.\nThe distributed model.\nIf time permits, we will also cover additional topics (such as advanced data structures and compression).\n  מטרות הקורס / תוצרי הלמידה\nידע\n1.\n2.\n3.\nמיומנויות\n1.\n2.\nערכים (במידה ולא רלוונטי ניתן למחוק)\n1.\n2.\nלמידה פעילה - תכנון מהלך השיעורים\nמס'\nהשיעור נושא השיעור למידה פעילה קריאה/צפיה נדרשת\n1   למידה בקבוצות/ מרצה אורח.ת  \n2      \n3      \n4      \n5      \n6      \n7      \n8      \n9      \n10      \n11      \n12      \n13      \n14      \n** ייתכנו שינויים בסילבוס בהתאם לקצב ההתקדמות ואפקטיביות הלמידה\nציון סופי\nמבחן  85% (חובת מעבר), שיעורי בית 15%. \nתיאור התוצר משקל בציון הסופי\n                דרישות הקורס\nHomework assignments, final exam\n  חומר מחייב למבחנים: חומרי ההרצאה, התרגולים, ותרגילי הבית.\n  הערה: הקורס יינתן בשפה העברית או האנגלית לפי בחירת המרצה.\nדרישות קדם\nכל קורסי שנה א'\n89-220 או 89-2201 – אלגוריתמים 1\n89-226 – חישוביות וסיבוכיות\n89-262 – הסתברות כללית\nביבליוגרפיה\nאין ספר לימוד אחד שמאגד את כלל הנושאים שבקורס. מצ\"ב מקבץ ספרים המכסים יחדיו את רוב נושאי הקורס.\nספרי הלימוד (textbooks) וספרי עזר נוספים:\nCormen, Leiserson, Rivest, and Stein. Introduction to Algorithms (4th edition).\nMotwani and Raghavan. Randomized Algorithms\nBorodin, Allan, and Ran El-Yaniv. Online Computation and Competitive Analysis.\nHochbaum, Dorit, ed. Approximation Algorithms for NP-Hard Problems.\n  סגור",
+  "topics": [],
+  "course_name": "פרופ' משה לוינשטיין",
+  "lecturer": "פרופ' אלי פורת",
+  "semester": "סמסטר א'",
+  "course_type": "ד' 11:00 - 14:00",
+  "department": "המחלקה למדעי המחשב",
+  "search_term": "המחלקה למדעי המחשב",
+  "source_url": "https://courses.biu.ac.il/CourseDetails.aspx?lid=797166",
+  "scraped_at": "2026-03-15T10:37:51.752594Z",
+  "errors": []
+}

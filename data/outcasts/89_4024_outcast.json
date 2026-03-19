@@ -1,0 +1,17 @@
+{
+  "course_num": "89-4024",
+  "found": false,
+  "syllabus_text": "",
+  "topics": [],
+  "course_name": "",
+  "lecturer": "ד\"ר אורן גליקמן",
+  "semester": "סמסטר ב'",
+  "course_type": "",
+  "department": "המחלקה למדעי המחשב",
+  "search_term": "המחלקה למדעי המחשב",
+  "source_url": "https://courses.biu.ac.il/CourseDetails.aspx?lid=802853",
+  "scraped_at": "2026-03-15T10:46:32.706750Z",
+  "errors": [
+    "Syllabus link not found on details page"
+  ]
+}

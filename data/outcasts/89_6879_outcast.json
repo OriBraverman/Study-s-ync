@@ -1,0 +1,15 @@
+{
+  "course_num": "89-6879",
+  "found": true,
+  "syllabus_text": "מוקד תמיכה טכנית: 03-5317000 , 9392*\nשיבוץ החדרים אינו סופי. יש להתעדכן בשיבוץ הקורסים סמוך לפתיחת שנת הלימודים.\nתאריך עדכון : 27/07/2025 18:54:00\nניתוח רשתות נוירונים 896879-01\nExplainability methods for Neural Networks\nמרצה: מר יהונתן שאקי\nCourse description\nMachine learning models, such as LLMs, had huge success in recent years, yet their internal mechanisms are not widely understood. \nThis course explores methods for understanding how such models work. It covers both methods for understanding why a model reaches its conclusions — on which aspects of the inputs the decision is based upon — and how, regarding the way information is processed internally.\nWe will cover both black-box methods that aim to explain model predictions from the outside and white-box methods that attempt to expose the internal mechanisms of neural networks. Emphasis will be placed on both theoretical insights and practical methods for interpretability, including techniques for probing, visualizing, editing, and evaluating models.\nUnderstanding such models is not only interesting but also allows one to decide to which degree they should be trusted, detect and mitigate biases, reveal patterns about the training data, and even edit specific factual knowledge or other aspects in these models, leaving the rest intact.\nActive learning – lessons plan\nLesson No. Topic Active learning Required reading Assessment\n1 Introduction      \n2 Black-box methods      \n3 Recap on NNs and CNNs      \n4 Gradient-based methods      \n5 Transformers      \n6 \"Inherent Interpretability\" of transformers/LLMs      \n7 Internal representations      \n8 Neuron level approaches      \n9 Knowledge editing      \n10 Circuits analysis      \n11 Evaluating LLMs      \n12 Behavioral patterns      \n*There may be changes in the syllabus depending on learning progress and effectiveness\nFinal grade\nDescription of the learning product Weight in the final score\nFinal exam 70%\nAssignments 30%\nCourse requirements\nStudents are required to complete several assignments throughout the semester and pass the final exam.\nPrerequisites\nStudents should have completed Machine Learning (892511) or be currently enrolled in Deep Learning Methods for Texts and Sequences (896876). Basic knowledge of neural networks and Python is expected.\nסגור",
+  "topics": [],
+  "course_name": "הרצאה",
+  "lecturer": "מר יהונתן שאקי",
+  "semester": "סמסטר ב'",
+  "course_type": "",
+  "department": "המחלקה למדעי המחשב",
+  "search_term": "המחלקה למדעי המחשב",
+  "source_url": "https://courses.biu.ac.il/CourseDetails.aspx?lid=801976",
+  "scraped_at": "2026-03-15T11:01:29.663029Z",
+  "errors": []
+}

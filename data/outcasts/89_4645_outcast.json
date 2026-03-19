@@ -1,0 +1,17 @@
+{
+  "course_num": "89-4645",
+  "found": false,
+  "syllabus_text": "",
+  "topics": [],
+  "course_name": "",
+  "lecturer": "פרופ' שרית קראוס",
+  "semester": "סמסטר ב'",
+  "course_type": "",
+  "department": "המחלקה למדעי המחשב",
+  "search_term": "המחלקה למדעי המחשב",
+  "source_url": "https://courses.biu.ac.il/CourseDetails.aspx?lid=799764",
+  "scraped_at": "2026-03-15T10:50:53.167576Z",
+  "errors": [
+    "Syllabus link not found on details page"
+  ]
+}

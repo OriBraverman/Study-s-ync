@@ -1,0 +1,17 @@
+{
+  "course_num": "89-4943",
+  "found": false,
+  "syllabus_text": "",
+  "topics": [],
+  "course_name": "",
+  "lecturer": "פרופ' אסתר עזרא",
+  "semester": "סמסטר א'",
+  "course_type": "",
+  "department": "המחלקה למדעי המחשב",
+  "search_term": "המחלקה למדעי המחשב",
+  "source_url": "https://courses.biu.ac.il/CourseDetails.aspx?lid=792446",
+  "scraped_at": "2026-03-15T10:51:49.478320Z",
+  "errors": [
+    "Syllabus link not found on details page"
+  ]
+}

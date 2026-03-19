@@ -1,0 +1,17 @@
+{
+  "course_num": "89-4016",
+  "found": false,
+  "syllabus_text": "",
+  "topics": [],
+  "course_name": "",
+  "lecturer": "ד\"ר אורי שחם",
+  "semester": "סמסטר א'",
+  "course_type": "",
+  "department": "המחלקה למדעי המחשב",
+  "search_term": "המחלקה למדעי המחשב",
+  "source_url": "https://courses.biu.ac.il/CourseDetails.aspx?lid=789191",
+  "scraped_at": "2026-03-15T10:44:15.885732Z",
+  "errors": [
+    "Syllabus link not found on details page"
+  ]
+}

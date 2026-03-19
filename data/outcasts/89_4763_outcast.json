@@ -1,0 +1,17 @@
+{
+  "course_num": "89-4763",
+  "found": false,
+  "syllabus_text": "",
+  "topics": [],
+  "course_name": "",
+  "lecturer": "פרופ' עמיהוד אמיר",
+  "semester": "סמסטר א'",
+  "course_type": "",
+  "department": "המחלקה למדעי המחשב",
+  "search_term": "המחלקה למדעי המחשב",
+  "source_url": "https://courses.biu.ac.il/CourseDetails.aspx?lid=798246",
+  "scraped_at": "2026-03-15T10:51:13.985942Z",
+  "errors": [
+    "Syllabus link not found on details page"
+  ]
+}

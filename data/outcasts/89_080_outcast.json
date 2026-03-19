@@ -1,0 +1,17 @@
+{
+  "course_num": "89-080",
+  "found": false,
+  "syllabus_text": "",
+  "topics": [],
+  "course_name": "הרצאה",
+  "lecturer": "ד\"ר מרים בן-ניסן",
+  "semester": "סמסטר ק'",
+  "course_type": "",
+  "department": "המחלקה למדעי המחשב",
+  "search_term": "המחלקה למדעי המחשב",
+  "source_url": "https://courses.biu.ac.il/CourseDetails.aspx?lid=792518",
+  "scraped_at": "2026-03-15T10:30:50.749028Z",
+  "errors": [
+    "Syllabus link not found on details page"
+  ]
+}

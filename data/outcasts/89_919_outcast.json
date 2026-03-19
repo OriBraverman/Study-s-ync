@@ -1,0 +1,15 @@
+{
+  "course_num": "89-919",
+  "found": true,
+  "syllabus_text": "מוקד תמיכה טכנית: 03-5317000 , 9392*\nשיבוץ החדרים אינו סופי. יש להתעדכן בשיבוץ הקורסים סמוך לפתיחת שנת הלימודים.\nתאריך עדכון : 24/03/2025 16:32:07\nמודלים הסתברותיים יישומיים במדעי המחשב 89919-01\nApplied Probabilistic Models in Computer Science\nמרצה: פרופ' עידו דגן\nתאור הקורס\n אתר הקורס באינטרנט:       http://u.cs.biu.ac.il/~89-919/   \n  א. מטרות הקורס (מטרות על / מטרות ספציפיות):\nהקניית ידע והבנה במודלים חישוביים הסתברותיים בסיסיים, הכרת ה\"שפה\" ההסתברותית וטכניקות חישוביות רלוונטיות, יכולת הבנה של מאמרים וספרות המתארים פתרונות חישוביים מבוססי מודלים הסתברותיים.\n  ב. תוכן הקורס: (רציונל, נושאים)\n  Probabilistic models became a central tool in many computer application areas, including text, speech and image processing, vision, robotics, and artificial intelligence. However, traditional computer science curriculum does not provide the relevant background in these areas. This course will make the students familiar with the \"language\" of probabilistic modeling and teach basic models and estimation and learning methods, including: probability concepts and definitions, maximum likelihood estimation, hidden variables, Bayesian models, classification, clustering, Expectation-Maximization algorithm, information theory basics.\nמטרות הקורס / תוצרי הלמידה\nידע\n1.\n2.\n3.\nמיומנויות\n1.\n2.\nערכים (במידה ולא רלוונטי ניתן למחוק)\n1.\n2.\nלמידה פעילה - תכנון מהלך השיעורים\nמס'\nהשיעור נושא השיעור למידה פעילה קריאה/צפיה נדרשת\n1   למידה בקבוצות/ מרצה אורח.ת  \n2      \n3      \n4      \n5      \n6      \n7      \n8      \n9      \n10      \n11      \n12      \n13      \n14      \n** ייתכנו שינויים בסילבוס בהתאם לקצב ההתקדמות ואפקטיביות הלמידה\nציון סופי\nבחינה (70%), תרגילי בית (30%) \nתיאור התוצר משקל בציון הסופי\n            דרישות קדם\nהסתברות כללית למדעי המחשב - 89-262\nשיטות סטטיסטיות - 89-362\nביבליוגרפיה\n      ספרי הלימוד (textbooks) וספרי עזר נוספים: אין\n חומר מחייב למבחנים: החומר שנלמד בהרצאות ובתרגילי הבית.\n  הערה: הקורס יינתן בשפה העברית או האנגלית לפי בחירת המרצה.\nסגור",
+  "topics": [],
+  "course_name": "הרצאה",
+  "lecturer": "פרופ' עידו דגן",
+  "semester": "סמסטר א'",
+  "course_type": "",
+  "department": "המחלקה למדעי המחשב",
+  "search_term": "המחלקה למדעי המחשב",
+  "source_url": "https://courses.biu.ac.il/CourseDetails.aspx?lid=795348",
+  "scraped_at": "2026-03-15T11:02:55.528560Z",
+  "errors": []
+}
