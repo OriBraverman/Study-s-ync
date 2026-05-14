@@ -126,5 +126,110 @@
     "created_at": 1778777642.167485,
     "token": "61e2a6b5cffb4957f6237f1fccdbb28a",
     "token_issued_at": 1778777642.2337902
+  },
+  {
+    "id": "d2cf0bdbf2dffd5b",
+    "username": "testuser_5b731f57",
+    "salt": "63dec1ba03f447e263f973815f8a350e",
+    "password_hash": "b39968c3276b0f410a43ad8ef2be55e8bac69ba0daf9e3646369cf2a7279aed8",
+    "courses": [],
+    "created_at": 1778778298.3576055,
+    "token": null,
+    "token_issued_at": 0
+  },
+  {
+    "id": "123b819a3053abbb",
+    "username": "dupuser_623d1088",
+    "salt": "aecb090f2ed84b5f06a4c8d9bdc7595b",
+    "password_hash": "b2a6d2bae4eb0d0f8676dd45b2ee7f4a0d31587f032472dd81987b4fb16cbb1f",
+    "courses": [],
+    "created_at": 1778778298.4369469,
+    "token": null,
+    "token_issued_at": 0
+  },
+  {
+    "id": "931587d078a1a41b",
+    "username": "loginuser_e75e643d",
+    "salt": "8137ff9a52ac9b527adaefc98249e573",
+    "password_hash": "7dde69f33963998b36539b68387f6ab63a4596cad3aa0764961c07964a9df5c8",
+    "courses": [],
+    "created_at": 1778778298.520467,
+    "token": "d29c4d80f83d415a006ccfb7101ff315",
+    "token_issued_at": 1778778298.5919948
+  },
+  {
+    "id": "a2a91af5b1a49432",
+    "username": "meuser_c1c43b23",
+    "salt": "51d6dfad51f4c7dcddffa1b34eeeea38",
+    "password_hash": "bc8624a802569e9a89936e8defb2e3a0ea15f63155a2aa72851584c9edfcffcc",
+    "courses": [],
+    "created_at": 1778778298.6873603,
+    "token": "8d008d244381aec848ba45b1b8f4e0f0",
+    "token_issued_at": 1778778298.7586298
+  },
+  {
+    "id": "6326b5bdd8100132",
+    "username": "logoutuser_1a72456a",
+    "salt": "b3471f735558fa4a7fd03d7e3fa4d8b1",
+    "password_hash": "f6c685f6bbc02f2502ed928dfcb969cc9fd21a5dc2abec13a08ac4a7056f3351",
+    "courses": [],
+    "created_at": 1778778298.8371625,
+    "token": null,
+    "token_issued_at": 0
+  },
+  {
+    "id": "9bd10cc3f4c682d8",
+    "username": "courseuser_f72273df",
+    "salt": "8c2fd147acb86730a5bd5efebb1c4364",
+    "password_hash": "219421e68f66d7fc0fab570a7fadf2965498d6785c28b306ee74c828b7e355e7",
+    "courses": [
+      {
+        "course_name": "Data Structures",
+        "course_num": "89-210"
+      }
+    ],
+    "created_at": 1778778299.013932,
+    "token": "0b34e05ba12b2e35f66d12efc64b6f45",
+    "token_issued_at": 1778778299.091255
+  },
+  {
+    "id": "a3c64d824a5e3258",
+    "username": "courseuser_93e5cf36",
+    "salt": "a4671d162c953e3f5462e7e0f6de74bd",
+    "password_hash": "1c86324c4579de9159b7414759155ac2489d019e16d0931573d927448d7de72c",
+    "courses": [
+      {
+        "course_name": "Algorithms",
+        "course_num": "89-220"
+      }
+    ],
+    "created_at": 1778778299.194322,
+    "token": "a6180356fe504f6779ac7f1870b5532d",
+    "token_issued_at": 1778778299.271969
+  },
+  {
+    "id": "51e107671385a81a",
+    "username": "courseuser_d8b2ec64",
+    "salt": "c6ebbb47d0bb75507b06df83eb18c14e",
+    "password_hash": "cdd9068997059274fe8879cc989117c4bca5cabb1f99d3afd462a848bea42930",
+    "courses": [],
+    "created_at": 1778778299.359122,
+    "token": "e4bb16b3912995c83acd7ea115aeef94",
+    "token_issued_at": 1778778299.4388676
+  },
+  {
+    "id": "6e30a0ec4b5faa7e",
+    "username": "courseuser_2e7429f5",
+    "salt": "1cf161c7e93b2c672ce1786ed1d870be",
+    "password_hash": "cd938d7733045c962f972f96db034a3497723f8884303a6663c7e9a8dc3d9b86",
+    "courses": [
+      {
+        "course_name": "OS",
+        "course_num": "89-400"
+      }
+    ],
+    "created_at": 1778778299.5304165,
+    "token": "39ae0e847f385edeb9825220e4143bf0",
+    "token_issued_at": 1778778299.6084225
   }
 ]

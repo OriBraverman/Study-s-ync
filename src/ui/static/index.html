@@ -644,12 +644,14 @@
         }
 
         function escapeHtml(text) {
+            // Escapes for BOTH safe HTML text AND JS string literals inside HTML attributes.
+            // We use \' instead of &#39; because HTML attributes decode entities before JS runs.
             return text
                 .replace(/&/g, '&amp;')
                 .replace(/</g, '&lt;')
                 .replace(/>/g, '&gt;')
                 .replace(/"/g, '&quot;')
-                .replace(/'/g, '&#39;');
+                .replace(/'/g, "\\'");
         }
 
         // ================================================================
