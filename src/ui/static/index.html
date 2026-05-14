@@ -78,6 +78,8 @@
             height: 500px;
             background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
             border-radius: 50%;
+            pointer-events: none; /* Prevent pseudo-element from capturing clicks */
+            z-index: 0;
         }
 
         /* Tabs */
@@ -423,9 +425,16 @@
         function closeAuthModal() { document.getElementById('authModal').classList.add('hidden'); }
 
         async function demoLoginDanny() {
+            console.log("[DEBUG] demoLoginDanny clicked");
             authToken = "21575b2934a50e7402008e11aa1f5c88";
             localStorage.setItem("study_sync_token", authToken);
-            await fetchCurrentUser();
+            console.log("[DEBUG] Token set, calling fetchCurrentUser...");
+            try {
+                await fetchCurrentUser();
+                console.log("[DEBUG] fetchCurrentUser done. currentUser=", currentUser);
+            } catch (e) {
+                console.error("[DEBUG] fetchCurrentUser failed:", e);
+            }
             document.getElementById('startDate').value = "2025-10-20";
             document.getElementById('endDate').value = "2025-11-05";
             addChatMessage('assistant', "👋 ברוכים הבאים לדמו! התחברת כ-Danny Israely. בחרתי עבורך טווח תאריכים של שבועיים (20/10 - 05/11). לחץ על 'הצג את כל ההרצאות בטווח' כדי להתחיל.");
