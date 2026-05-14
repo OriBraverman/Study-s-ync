@@ -194,6 +194,7 @@ Output only valid JSON matching the specified structure.
                 {"role": "user", "content": user_prompt},
             ],
             temperature=0.3,
+            max_tokens=4096,
         )
         raw = response.choices[0].message.content.strip()
         # Strip markdown fences if present
@@ -356,6 +357,7 @@ def chat_with_tester(
             model=model,
             messages=[{"role": "system", "content": system_prompt}, *messages],
             temperature=0.4,
+            max_tokens=2048,
         )
         return response.choices[0].message.content.strip()
     except Exception as e:

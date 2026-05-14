@@ -316,7 +316,7 @@ Rules:
 - Output ONLY the JSON object, no other text
 """
 
-    llm = ChatOpenAI(model="gpt-4o-mini", api_key=api_key, temperature=0.3)
+    llm = ChatOpenAI(model="gpt-4o-mini", api_key=api_key, temperature=0.3, max_tokens=8192)
 
     try:
         response = llm.invoke(

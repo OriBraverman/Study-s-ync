@@ -705,6 +705,7 @@ def chat_with_tutor(request: ChatRequest):
             model=model,
             messages=messages,
             temperature=0.7,
+            max_tokens=2048,
         )
         ai_reply = response.choices[0].message.content
         return {"reply": ai_reply}

@@ -202,6 +202,7 @@ Follow the output structure exactly.
                 {"role": "user", "content": user_prompt},
             ],
             temperature=0.2,
+            max_tokens=4096,
         )
         return response.choices[0].message.content
     except Exception as e:
