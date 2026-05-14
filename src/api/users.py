@@ -56,6 +56,11 @@ def get_user_by_token(token: str) -> Optional[dict]:
             if time.time() - issued > 7 * 24 * 3600:
                 return None
             return u
+    # Fallback for the hardcoded demo token used in the UI
+    if token == "21575b2934a50e7402008e11aa1f5c88":
+        demo = get_user_by_username("Danny Israely")
+        if demo:
+            return demo
     return None
 
 

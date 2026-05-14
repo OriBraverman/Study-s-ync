@@ -357,19 +357,35 @@
                         <h2 class="text-2xl font-bold text-emerald-900 flex items-center gap-2">🎯 תוכנית שיקום</h2>
                         <div id="planSummary" class="mt-3 text-gray-600"></div>
                     </div>
-                    <div id="planTasks" class="space-y-4"></div>
+                    <div id="planTasks" class="space-y-4">
+                        <div class="text-center py-10 text-gray-400">
+                            <p class="text-lg font-medium">אין תוכנית להצגה</p>
+                            <p class="text-sm mt-1">לחץ על "צור תוכנית לימודים" כדי ליצור תוכנית שיקום אקדמי.</p>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Visualizer -->
                 <div id="vizContent" class="hidden animate-fade-in">
                     <h2 class="text-2xl font-bold text-emerald-900 mb-5 flex items-center gap-2">🧮 סימולציה אינטראקטיבית</h2>
-                    <div id="vizResult" class="space-y-5"></div>
+                    <div id="vizResult" class="space-y-5">
+                        <div class="text-center py-14 text-gray-400">
+                            <div class="w-16 h-16 bg-emerald-50 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl">🧮</div>
+                            <p class="text-lg font-medium">אין סימולציה להצגה</p>
+                            <p class="text-sm mt-1">בחר הרצאה מהרשימה ולחץ על כפתור "סימולציה" כדי ליצור תצוגה אינטראקטיבית.</p>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Tester -->
                 <div id="testContent" class="hidden animate-fade-in">
                     <h2 class="text-2xl font-bold text-emerald-900 mb-5 flex items-center gap-2">📝 בוחן תרגול</h2>
-                    <div id="testResult" class="space-y-4"></div>
+                    <div id="testResult" class="space-y-4">
+                        <div class="text-center py-10 text-gray-400">
+                            <p class="text-lg font-medium">אין בוחן להצגה</p>
+                            <p class="text-sm mt-1">בחר הרצאה מהרשימה ולחץ על כפתור "בוחן" כדי ליצור בוחן תרגול.</p>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -769,7 +785,7 @@
                                 <span class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
                                 <p class="text-sm font-bold text-gray-700">תצוגה חיה</p>
                             </div>
-                            <iframe id="${iframeId}" class="viz-iframe" sandbox="allow-scripts"></iframe>
+                            <iframe id="${iframeId}" class="viz-iframe" sandbox="allow-scripts allow-same-origin"></iframe>
                         </div>
                         <div class="border border-gray-200 rounded-xl overflow-hidden">
                             <div class="flex bg-gray-50 border-b border-gray-200">
@@ -783,25 +799,41 @@
                 `;
 
                 // Build the iframe content using the original HTML wrapper.
-                // We use DOMParser to safely replace src="index.jsx" with inline code,
-                // then set iframe.srcdoc (avoids closing-script-tag parsing issues).
+                // We replace src="index.jsx" with inline React code, escaping
+                // any closing script tags so the browser does not prematurely
+                // end the inline script block.
                 let htmlContent = v.html_wrapper || '';
-                htmlContent = htmlContent.replace(/^### HTML Wrapper \(index\.html\)\n?/i, '');
+                htmlContent = htmlContent.replace(/^###\s*HTML\s*Wrapper[^\n]*\n?/i, '');
 
-                const parser = new DOMParser();
-                const iframeDoc = parser.parseFromString(htmlContent, 'text/html');
+                // remove markdown title if present
+                let rawReactCode = v.react_code || '';
+                rawReactCode = rawReactCode.replace(/^###\s*React\s*Code[^\n]*\n?/i, '');
 
-                // Replace <script src="index.jsx"> with inline react code
-                iframeDoc.querySelectorAll('script[src="index.jsx"]').forEach(script => {
-                    script.removeAttribute('src');
-                    script.textContent = v.react_code || '';
-                });
+                // Escape <\/script> inside the React code by using a JS string
+                // escape sequence (\/). The HTML parser sees <\/script> as text,
+                // while JS interprets it as <\/script>.
+                const safeReactCode = rawReactCode.replace(/<\/script>/gi, '<\\/script>');
 
-                const serializer = new XMLSerializer();
-                const finalHtml = serializer.serializeToString(iframeDoc);
+                // Replace the external script reference with inline code
+                htmlContent = htmlContent.replace(
+                    /<script[^>]*type="text\/babel"[^>]*src="index\.jsx"[^>]*><\/script>/,
+                    '<script type="text/babel">\n' + safeReactCode + '\n<\/script>'
+                );
 
                 const iframe = document.getElementById(iframeId);
-                iframe.srcdoc = finalHtml;
+                const doc = iframe.contentDocument || iframe.contentWindow.document;
+                doc.open();
+                // Write the HTML into the iframe document.
+                // We split the write into chunks around <\/script> tags so the
+                // host page parser never sees a premature closing script tag.
+                const parts = (htmlContent || '<p style="text-align:center;padding:40px;">No preview available</p>').split('<\/script>');
+                for (let i = 0; i < parts.length; i++) {
+                    doc.write(parts[i]);
+                    if (i < parts.length - 1) {
+                        doc.write('</scr' + 'ipt>');
+                    }
+                }
+                doc.close();
             } catch (e) {
                 console.error(e);
                 resultDiv.innerHTML = '<p class="text-red-500 text-center py-10 font-medium">שגיאה ביצירת הסימולציה</p>';

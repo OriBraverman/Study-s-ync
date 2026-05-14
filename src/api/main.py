@@ -25,6 +25,7 @@ Run with:
 """
 import json
 import os
+import re
 from datetime import date, datetime
 from pathlib import Path
 
@@ -58,8 +59,11 @@ from src.api.users import (
     get_user_courses,
 )
 
-# Ensure mock mode is on by default so the API works without an OpenAI key
-os.environ.setdefault("USE_MOCK_LLM", "true")
+# Only default to mock mode when no API key is configured.
+if not os.getenv("OPENAI_API_KEY") and not os.getenv("OPENROUTER_API_KEY"):
+    os.environ.setdefault("USE_MOCK_LLM", "true")
+else:
+    os.environ.setdefault("USE_MOCK_LLM", "false")
 
 # ---------------------------------------------------------------------------
 # App setup
@@ -142,6 +146,54 @@ def _load_lectures() -> list:
     path = _get_lectures_db_path()
     with path.open(encoding="utf-8") as f:
         return json.load(f)
+
+
+# ---------------------------------------------------------------------------
+# React code sanitizer for in-browser Babel
+# ---------------------------------------------------------------------------
+
+def _sanitize_react_code(code: str) -> str:
+    """
+    Convert ES-module React imports/exports into globals that Babel standalone
+    can execute directly in the browser (no bundler).
+
+    Transforms:
+      import React, { useState } from 'react'
+      import ReactDOM from 'react-dom'
+      export default MyComponent
+    into:
+      const { useState } = React;
+      const ReactDOM = window.ReactDOM;
+      // (export line removed)
+    """
+    import re
+    lines_out = []
+    for line in code.splitlines():
+        stripped = line.strip()
+        # Remove ES-module imports
+        if stripped.startswith("import "):
+            # import React, { useState, useEffect } from 'react'
+            m = re.match(r'import\s+(.*?)\s+from\s+["\']([^"\']+)["\'];?', stripped)
+            if m:
+                bindings = m.group(1)
+                module = m.group(2)
+                if module == 'react':
+                    # Extract named bindings like { useState, useEffect }
+                    named_match = re.search(r'\{([^}]+)\}', bindings)
+                    if named_match:
+                        names = named_match.group(1).strip()
+                        lines_out.append(f"const {{ {names} }} = React;")
+                elif 'react-dom' in module:
+                    # import ReactDOM from 'react-dom'
+                    default_match = re.match(r'(\w+)', bindings)
+                    if default_match:
+                        lines_out.append(f"const {default_match.group(1)} = window.ReactDOM;")
+                continue
+        # Remove export statements
+        if stripped.startswith("export default"):
+            continue
+        lines_out.append(line)
+    return "\n".join(lines_out)
 
 
 # ---------------------------------------------------------------------------
@@ -413,16 +465,39 @@ async def generate_visualizer_endpoint(request: VisualizerRequestSchema):
     current_section = None
 
     for line in lines:
-        lower = line.lower()
-        if "react code" in lower or line.strip().startswith("```jsx"):
-            current_section = "react"
-            if line.strip().startswith("```"):
+        stripped = line.strip()
+        lower = stripped.lower()
+
+        # Skip markdown headers that introduce sections
+        if lower.startswith("###") or lower.startswith("##"):
+            if "react" in lower or "jsx" in lower:
+                current_section = "react"
                 continue
-        elif "html wrapper" in lower or line.strip().startswith("```html"):
-            current_section = "html"
-            if line.strip().startswith("```"):
+            elif "html" in lower or "wrapper" in lower:
+                current_section = "html"
                 continue
-        elif line.strip() == "```":
+            elif "explanation" in lower or "overview" in lower or "introduction" in lower:
+                current_section = None
+                continue
+            else:
+                # Generic header – treat it as explanation text if we're not inside a code block
+                if not current_section:
+                    explanation += stripped.lstrip("#").strip() + "\n"
+                continue
+
+        # Code fence boundaries
+        if stripped.startswith("```"):
+            if "jsx" in lower or "javascript" in lower or "react" in lower:
+                current_section = "react"
+                continue
+            elif "html" in lower:
+                current_section = "html"
+                continue
+            else:
+                # End of a code block
+                current_section = None
+                continue
+        elif stripped == "```":
             current_section = None
             continue
 
@@ -430,15 +505,57 @@ async def generate_visualizer_endpoint(request: VisualizerRequestSchema):
             react_code += line + "\n"
         elif current_section == "html":
             html_wrapper += line + "\n"
-        elif not current_section and line.strip() and not line.startswith("#"):
+        elif not current_section and stripped and not stripped.startswith("#"):
             explanation += line + "\n"
+
+    # Sanitise React code for browser Babel (remove ES-module syntax)
+    react_code = _sanitize_react_code(react_code)
+
+    # Build a standard HTML wrapper ourselves so we don't rely on the LLM
+    # to inline the React code correctly.
+    standard_html_wrapper = (
+        '<!DOCTYPE html>\n'
+        '<html lang="en">\n'
+        '<head>\n'
+        '  <meta charset="UTF-8" />\n'
+        '  <title>Visualizer</title>\n'
+        '  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>\n'
+        '  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>\n'
+        '  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>\n'
+        '</head>\n'
+        '<body>\n'
+        '  <div id="root"></div>\n'
+        '  <script type="text/babel" src="index.jsx"></script>\n'
+        '  <script type="text/babel">\n'
+        '    ReactDOM.createRoot(document.getElementById(\'root\')).render(\n'
+        '      <React.StrictMode>\n'
+        '        <App />\n'
+        '      </React.StrictMode>\n'
+        '    );\n'
+        '  </script>\n'
+        '</body>\n'
+        '</html>'
+    )
+
+    # Ensure the React component is rendered as <App /> (remove default export)
+    react_code = re.sub(r'export\s+default\s+\w+;?', '', react_code).strip()
+    # Find the component name from "const ComponentName = () =>{" or "function ComponentName("
+    # Skip bindings like "const ReactDOM = window.ReactDOM" that are not components.
+    # We look for a PascalCase name that is NOT React or ReactDOM.
+    component_match = re.search(
+        r'(?:const|function)\s+((?!ReactDOM\b|React\b)[A-Z][A-Za-z0-9_]*)\s*[=\(]',
+        react_code,
+    )
+    if component_match:
+        component_name = component_match.group(1)
+        standard_html_wrapper = standard_html_wrapper.replace('<App />', f'<{component_name} />')
 
     output = VisualizerOutputSchema(
         topic=request.topic,
         concept_type=request.concept_type,
         explanation=explanation.strip(),
         react_code=react_code.strip(),
-        html_wrapper=html_wrapper.strip(),
+        html_wrapper=standard_html_wrapper,
         generated_at=datetime.utcnow().isoformat() + "Z",
     )
 

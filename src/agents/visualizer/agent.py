@@ -53,7 +53,7 @@ I've prepared a conceptual bubble-sort visualizer for you.
 
 ### React Code (index.jsx)
 ```jsx
-import React, { useState, useEffect, useCallback } from 'react';
+const { useState, useEffect, useCallback } = React;
 
 const BubbleSortVisualizer = () => {
   const [array, setArray] = useState([5, 3, 8, 4, 2]);
@@ -120,8 +120,6 @@ const BubbleSortVisualizer = () => {
     </div>
   );
 };
-
-export default BubbleSortVisualizer;
 ```
 
 ### HTML Wrapper (index.html)
@@ -185,7 +183,8 @@ def generate_visualizer(
     except ImportError:
         return MOCK_RESPONSE
 
-    client = OpenAI(api_key=key)
+    base_url = os.getenv("OPENAI_BASE_URL")
+    client = OpenAI(api_key=key, base_url=base_url) if base_url else OpenAI(api_key=key)
 
     user_prompt = f"""
 Topic: {topic}
