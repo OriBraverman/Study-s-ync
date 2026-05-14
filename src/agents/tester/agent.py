@@ -233,27 +233,85 @@ Output only valid JSON matching the specified structure.
 # ---------------------------------------------------------------------------
 
 def _build_chat_system_prompt(topic: str, topic_content: str) -> str:
-    return f"""You are an educational AI assistant helping a student study the topic: "{topic}".
+    return f"""אתה עוזר AI חינוכי שעוזר לסטודנט ללמוד את הנושא: "{topic}".
 
-Here is the relevant study content the student is reviewing:
+שפת התקשורת: עברית בלבד. ענה תמיד בעברית, גם אם הסטודנט כותב באנגלית.
+
+נוסחאות מתמטיות: השתמש ב-LaTeX לכתיבת סמלים ונוסחאות מתמטיות.
+- נוסחאות בתוך שורה: $...$ (לדוגמה: $O(n^2)$, $f(n) = n \\cdot f(n-1)$)
+- נוסחאות בשורה נפרדת: $$...$$ (לדוגמה: $$T(n) = 2T(n/2) + O(n)$$)
+
+להלן תוכן החומר שהסטודנט לומד:
 
 <topic-content>
 {topic_content}
 </topic-content>
 
-Your responsibilities — follow this exact order:
-1. GREET: Your very first message must be: "Are you ready for an understanding testing session, or need any further explanation?"
-   Do not summarize or ask questions yet.
-2. WAIT: Only after the student confirms they are ready, begin the session.
-3. CHECK: Ask 1–2 focused comprehension questions about the content above. One concept at a time.
-4. EVALUATE: If the answer is correct, acknowledge it and move to the next concept.
-   If the answer is wrong or incomplete, explain the concept clearly using the content above.
-5. REVEAL: Do NOT reveal the answer unless the student explicitly asks for it.
+תפקידיך — פעל לפי הסדר הבא:
+1. פתיחה: ההודעה הראשונה שלך חייבת להיות בדיוק: "האם אתה מוכן לסשן בדיקת הבנה, או שאתה זקוק להסבר נוסף?"
+   אל תסכם ואל תשאל שאלות בשלב זה.
+2. המתנה: רק לאחר שהסטודנט מאשר שהוא מוכן, התחל את הסשן.
+3. בדיקה: שאל 1–2 שאלות הבנה ממוקדות על התוכן שלמעלה. מושג אחד בכל פעם.
+4. הערכה: אם התשובה נכונה, אשר זאת ועבור למושג הבא.
+   אם התשובה שגויה או חלקית, הסבר את המושג בבירור תוך שימוש בתוכן שלמעלה, והוסף [חזור-לתוכן] בסוף תגובתך.
+5. חשיפה: אל תחשוף את התשובה אלא אם הסטודנט מבקש זאת במפורש.
 
-CRITICAL — Student questions and topic requests:
-- If the student asks a question or requests an explanation, answer it immediately and fully.
-- Do NOT redirect them back to your previous question. After answering, offer to continue naturally.
-- Treat any question or explanation request as a clarification, not an answer attempt."""
+חשוב — שאלות ובקשות הסטודנט:
+- אם הסטודנט שואל שאלה או מבקש הסבר, ענה עליה מיד ובמלואה.
+- אל תפנה אותו חזרה לשאלתך הקודמת. לאחר המענה, הצע להמשיך באופן טבעי.
+- התייחס לכל שאלה או בקשת הסבר כהבהרה, לא כניסיון לענות."""
+
+
+def _mock_chat_response(topic: str, messages: List[dict]) -> str:
+    """
+    Rule-based mock for chat_with_tester.
+    Conversation shape (message list passed in):
+      []                                       → opening greeting
+      [assistant, user]                        → ask Q1
+      [assistant, user, assistant, user]       → evaluate Q1, ask Q2
+      ...after last question wraps to Q1 again with a new-round notice.
+    """
+    if not messages:
+        return "האם אתה מוכן לסשן בדיקת הבנה, או שאתה זקוק להסבר נוסף?"
+
+    test = generate_test(topic, num_questions=3)
+    questions = test.questions
+    if not questions:
+        return f"אין שאלות זמינות לנושא {topic}."
+    n = len(questions)
+
+    def _fmt(idx: int) -> str:
+        q = questions[idx]
+        text = f"שאלה {idx + 1}:\n\n{q.question_text}"
+        if q.options:
+            text += "\n\n" + "\n".join(q.options)
+        return text
+
+    # messages == [greeting, user_ready] → ask Q1
+    if len(messages) == 2:
+        return "מצוין! " + _fmt(0)
+
+    # prev_q_idx: index (in questions list) of the question the user just answered
+    # Formula: after greeting+ready (2 msgs), each Q&A pair adds 2 msgs.
+    prev_q_idx = (len(messages) - 4) // 2  # 0 when len=4, 1 when len=6, …
+    answered_total = (len(messages) - 4) // 2  # same, kept for clarity
+    prev_q = questions[prev_q_idx % n]
+
+    last_user = messages[-1]["content"].lower()
+    correct_lower = prev_q.correct_answer.lower()
+    is_correct = any(w in last_user for w in correct_lower.split() if len(w) > 2)
+
+    feedback = f"נכון מאוד! {prev_q.explanation}\n\n" if is_correct \
+               else f"לא בדיוק. {prev_q.explanation} [חזור-לתוכן]\n\n"
+
+    next_idx = answered_total + 1      # absolute question counter (never wraps)
+    next_in_round = next_idx % n       # which question inside current round
+
+    # Completed a round → add transition message
+    if next_idx % n == 0:
+        feedback += "כל הכבוד על סיום הסבב! בוא נמשיך לתרגל:\n\n"
+
+    return feedback + _fmt(next_in_round)
 
 
 def chat_with_tester(
@@ -278,7 +336,10 @@ def chat_with_tester(
         ValueError: If no API key is available.
     """
     key = api_key or os.getenv("OPENROUTER_API_KEY", "")
+    use_mock = os.getenv("USE_MOCK_LLM", "true").lower() == "true"
     if not key:
+        if use_mock:
+            return _mock_chat_response(topic, messages)  # topic_content unused in mock; real LLM injects it
         raise ValueError("OPENROUTER_API_KEY is required for chat_with_tester")
 
     from openai import OpenAI
@@ -318,7 +379,7 @@ if __name__ == "__main__":
     reply = chat_with_tester("Recursion", sample_content, history)
     print(f"Agent: {reply}")
     history.append({"role": "assistant", "content": reply})
-    history.append({"role": "user", "content": "Yes, I'm ready!"})
+    history.append({"role": "user", "content": "כן, אני מוכן!"})
     reply = chat_with_tester("Recursion", sample_content, history)
-    print(f"User: Yes, I'm ready!")
+    print(f"User: כן, אני מוכן!")
     print(f"Agent: {reply}")
