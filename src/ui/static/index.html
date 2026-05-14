@@ -425,16 +425,9 @@
         function closeAuthModal() { document.getElementById('authModal').classList.add('hidden'); }
 
         async function demoLoginDanny() {
-            console.log("[DEBUG] demoLoginDanny clicked");
             authToken = "21575b2934a50e7402008e11aa1f5c88";
             localStorage.setItem("study_sync_token", authToken);
-            console.log("[DEBUG] Token set, calling fetchCurrentUser...");
-            try {
-                await fetchCurrentUser();
-                console.log("[DEBUG] fetchCurrentUser done. currentUser=", currentUser);
-            } catch (e) {
-                console.error("[DEBUG] fetchCurrentUser failed:", e);
-            }
+            await fetchCurrentUser();
             document.getElementById('startDate').value = "2025-10-20";
             document.getElementById('endDate').value = "2025-11-05";
             addChatMessage('assistant', "👋 ברוכים הבאים לדמו! התחברת כ-Danny Israely. בחרתי עבורך טווח תאריכים של שבועיים (20/10 - 05/11). לחץ על 'הצג את כל ההרצאות בטווח' כדי להתחיל.");
@@ -790,28 +783,48 @@
                 `;
 
                 // Build a self-contained HTML document with the React component INLINE
+                // We must use DOM API (not string concatenation) because reactCode
+                // may contain `</script>` which would break HTML parsing.
                 let htmlDoc = v.html_wrapper || '';
-                // Remove markdown header if present
                 htmlDoc = htmlDoc.replace(/^### HTML Wrapper \(index\.html\)\n?/i, '');
-                // Replace external src reference with inline React code
-                const reactCode = v.react_code || '';
-                htmlDoc = htmlDoc.replace(
-                    /<script[^>]*type="text\/babel"[^>]*src="index\.jsx"[^>]*><\/script>/,
-                    '<script type="text/babel">' + reactCode + '</script>'
-                );
-                // Also append the component definition inside the babel script block if not already present
-                if (!htmlDoc.includes(reactCode.substring(0, 50)) && reactCode) {
-                    htmlDoc = htmlDoc.replace(
-                        /<script type="text\/babel">/,
-                        '<script type="text/babel">' + reactCode + '\n'
-                    );
-                }
 
                 const iframe = document.getElementById(iframeId);
                 const doc = iframe.contentDocument || iframe.contentWindow.document;
                 doc.open();
-                doc.write(htmlDoc || '<p style="text-align:center;padding:40px;color:#999">No preview available</p>');
+                doc.write('<!DOCTYPE html><html><head></head><body></body></html>');
                 doc.close();
+
+                // Now build the DOM programmatically to avoid </script> escaping issues
+                const head = doc.head;
+                const body = doc.body;
+
+                // Clear any existing content
+                body.innerHTML = '';
+
+                // Add React scripts
+                const reactScript = doc.createElement('script');
+                reactScript.src = 'https://unpkg.com/react@18/umd/react.development.js';
+                reactScript.crossOrigin = true;
+                head.appendChild(reactScript);
+
+                const reactDomScript = doc.createElement('script');
+                reactDomScript.src = 'https://unpkg.com/react-dom@18/umd/react-dom.development.js';
+                reactDomScript.crossOrigin = true;
+                head.appendChild(reactDomScript);
+
+                const babelScript = doc.createElement('script');
+                babelScript.src = 'https://unpkg.com/@babel/standalone/babel.min.js';
+                head.appendChild(babelScript);
+
+                const rootDiv = doc.createElement('div');
+                rootDiv.id = 'root';
+                body.appendChild(rootDiv);
+
+                // Add the React component code via DOM (safe from </script> injection)
+                const componentScript = doc.createElement('script');
+                componentScript.type = 'text/babel';
+                componentScript.textContent = (v.react_code || '') + '\n\nReactDOM.createRoot(document.getElementById("root")).render(<App />);';
+                body.appendChild(componentScript);
             } catch (e) {
                 console.error(e);
                 resultDiv.innerHTML = '<p class="text-red-500 text-center py-10 font-medium">שגיאה ביצירת הסימולציה</p>';
