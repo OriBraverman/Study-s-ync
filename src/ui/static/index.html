@@ -332,7 +332,7 @@
                     <button onclick="switchTab('lesson')" id="tab-lesson" class="px-5 py-3 tab-active transition text-sm md:text-base">📖 תוכן</button>
                     <button onclick="switchTab('plan')" id="tab-plan" class="px-5 py-3 tab-inactive transition text-sm md:text-base">🎯 תוכנית</button>
                     <button onclick="switchTab('viz')" id="tab-viz" class="px-5 py-3 tab-inactive transition text-sm md:text-base">🧮 סימולציה</button>
-                    <button onclick="switchTab('test')" id="tab-test" class="px-5 py-3 tab-inactive transition text-sm md:text-base">📝 בוחן</button>
+                    <button onclick="currentTopic ? generateTest(currentTopic) : switchTab('test')" id="tab-test" class="px-5 py-3 tab-inactive transition text-sm md:text-base">📝 בוחן</button>
                 </div>
 
                 <!-- Welcome -->
