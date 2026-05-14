@@ -228,6 +228,76 @@ Output only valid JSON matching the specified structure.
         return generate_test(topic, num_questions, difficulty)  # fallback to mock
 
 
+# ---------------------------------------------------------------------------
+# Chat agent (ported from Ofek educational chatbot)
+# ---------------------------------------------------------------------------
+
+def _build_chat_system_prompt(topic: str, topic_content: str) -> str:
+    return f"""You are an educational AI assistant helping a student study the topic: "{topic}".
+
+Here is the relevant study content the student is reviewing:
+
+<topic-content>
+{topic_content}
+</topic-content>
+
+Your responsibilities — follow this exact order:
+1. GREET: Your very first message must be: "Are you ready for an understanding testing session, or need any further explanation?"
+   Do not summarize or ask questions yet.
+2. WAIT: Only after the student confirms they are ready, begin the session.
+3. CHECK: Ask 1–2 focused comprehension questions about the content above. One concept at a time.
+4. EVALUATE: If the answer is correct, acknowledge it and move to the next concept.
+   If the answer is wrong or incomplete, explain the concept clearly using the content above.
+5. REVEAL: Do NOT reveal the answer unless the student explicitly asks for it.
+
+CRITICAL — Student questions and topic requests:
+- If the student asks a question or requests an explanation, answer it immediately and fully.
+- Do NOT redirect them back to your previous question. After answering, offer to continue naturally.
+- Treat any question or explanation request as a clarification, not an answer attempt."""
+
+
+def chat_with_tester(
+    topic: str,
+    topic_content: str,
+    messages: List[dict],
+    api_key: Optional[str] = None,
+) -> str:
+    """
+    Conduct a conversational comprehension-checking session on a topic.
+
+    Args:
+        topic: The study topic (e.g., "Recursion", "BFS").
+        topic_content: The raw study material/notes for the topic (injected into system prompt).
+        messages: Conversation history as [{"role": "user"|"assistant", "content": "..."}].
+        api_key: OpenRouter API key. Falls back to OPENROUTER_API_KEY env var.
+
+    Returns:
+        The assistant's next message as a plain string.
+
+    Raises:
+        ValueError: If no API key is available.
+    """
+    key = api_key or os.getenv("OPENROUTER_API_KEY", "")
+    if not key:
+        raise ValueError("OPENROUTER_API_KEY is required for chat_with_tester")
+
+    from openai import OpenAI
+
+    client = OpenAI(
+        base_url="https://openrouter.ai/api/v1",
+        api_key=key,
+    )
+    model = os.getenv("OPENROUTER_MODEL", "anthropic/claude-sonnet-4-5")
+    system_prompt = _build_chat_system_prompt(topic, topic_content)
+
+    response = client.chat.completions.create(
+        model=model,
+        messages=[{"role": "system", "content": system_prompt}, *messages],
+        temperature=0.4,
+    )
+    return response.choices[0].message.content.strip()
+
+
 if __name__ == "__main__":
     test = generate_test("Recursion and base cases", num_questions=2)
     print(f"Generated test for: {test.topic}")
@@ -238,3 +308,17 @@ if __name__ == "__main__":
                 print(f"  {opt}")
         print(f"Answer: {q.correct_answer}")
         print(f"Explanation: {q.explanation}")
+
+    print("\n--- Chat Demo ---")
+    sample_content = (
+        "A recursive function calls itself with a smaller input until it reaches a base case. "
+        "The base case stops the recursion. For factorial: fact(0) = 1, fact(n) = n * fact(n-1)."
+    )
+    history: List[dict] = []
+    reply = chat_with_tester("Recursion", sample_content, history)
+    print(f"Agent: {reply}")
+    history.append({"role": "assistant", "content": reply})
+    history.append({"role": "user", "content": "Yes, I'm ready!"})
+    reply = chat_with_tester("Recursion", sample_content, history)
+    print(f"User: Yes, I'm ready!")
+    print(f"Agent: {reply}")
