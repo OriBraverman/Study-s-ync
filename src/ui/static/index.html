@@ -12,226 +12,391 @@
                 displayMath: [['$$', '$$'], ['\\[', '\\]']],
                 processEscapes: true
             },
-            options: {
-                skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
-            }
+            options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre'] }
         };
     </script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600;700;800&display=swap');
+
+        :root {
+            --primary: #059669;
+            --primary-light: #d1fae5;
+            --primary-dark: #047857;
+            --accent: #0ea5e9;
+            --glass: rgba(255,255,255,0.85);
+        }
 
         body {
             font-family: 'Assistant', sans-serif;
+            background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 50%, #f8fafc 100%);
+            min-height: 100vh;
         }
 
+        /* Glassmorphism card */
+        .glass {
+            background: var(--glass);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.6);
+        }
+
+        /* Smooth fade-in */
         .animate-fade-in {
-            animation: fadeIn 0.5s ease-in;
+            animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            opacity: 0;
+            transform: translateY(12px);
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            to { opacity: 1; transform: translateY(0); }
         }
 
+        .animate-slide-up {
+            animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        @keyframes slideUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Header gradient */
+        .hero-header {
+            background: linear-gradient(120deg, #059669 0%, #10b981 40%, #34d399 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        /* Tabs */
         .tab-active {
-            border-bottom: 3px solid #166534;
-            color: #166534;
+            border-bottom: 3px solid #059669;
+            color: #059669;
             font-weight: 700;
         }
-
         .tab-inactive {
             border-bottom: 3px solid transparent;
-            color: #6b7280;
+            color: #64748b;
         }
-
         .tab-inactive:hover {
-            color: #15803d;
+            color: #059669;
         }
 
+        /* Modal */
         .modal-overlay {
-            background-color: rgba(0, 0, 0, 0.5);
+            background-color: rgba(2, 44, 34, 0.45);
+            backdrop-filter: blur(4px);
+        }
+
+        /* Chat bubbles */
+        .chat-user {
+            background: linear-gradient(135deg, #059669, #10b981);
+            color: white;
+            border-radius: 18px 18px 4px 18px;
+            box-shadow: 0 4px 15px rgba(5, 150, 105, 0.25);
+            align-self: flex-end;
+        }
+        .chat-assistant {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            color: #1e293b;
+            border-radius: 18px 18px 18px 4px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            align-self: flex-start;
+        }
+
+        /* Code block styling */
+        .code-block {
+            background: #0f172a;
+            color: #e2e8f0;
+            font-family: 'Fira Code', 'Consolas', monospace;
+            font-size: 0.8rem;
+            line-height: 1.6;
+            border-radius: 10px;
+            padding: 1rem;
+            overflow-x: auto;
+            direction: ltr;
+            text-align: left;
+        }
+
+        /* Buttons */
+        .btn-primary {
+            background: linear-gradient(135deg, #059669, #10b981);
+            box-shadow: 0 4px 14px rgba(5, 150, 105, 0.35);
+            transition: all 0.25s ease;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(5, 150, 105, 0.45);
+        }
+
+        .btn-secondary {
+            background: #f1f5f9;
+            color: #334155;
+            border: 1px solid #e2e8f0;
+            transition: all 0.2s ease;
+        }
+        .btn-secondary:hover {
+            background: #e2e8f0;
+            border-color: #cbd5e1;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        /* Pulse animation for live indicator */
+        .pulse-dot {
+            width: 8px; height: 8px;
+            background: #22c55e;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+
+        /* Section card hover */
+        .section-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .section-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+        }
+
+        /* Iframe for visualizer */
+        .viz-iframe {
+            width: 100%;
+            min-height: 320px;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            background: white;
         }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-900 text-right">
+<body class="text-gray-800 text-right">
 
-    <header class="bg-green-800 text-white p-4 shadow-lg">
-        <div class="container mx-auto flex justify-between items-center flex-wrap gap-2">
-            <div>
-                <h1 class="text-2xl font-bold tracking-tight">study<span class="text-green-300">[</span>s<span class="text-green-300">]</span>ync</h1>
-                <span class="text-sm opacity-80 italic">מעטפת אקדמית לסטודנטים</span>
+    <!-- Header -->
+    <header class="hero-header text-white p-5 shadow-xl">
+        <div class="container mx-auto flex justify-between items-center flex-wrap gap-3 relative z-10">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center backdrop-blur-sm">
+                    <span class="text-xl">🛡️</span>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-extrabold tracking-tight">study<span class="text-emerald-200">[</span>s<span class="text-emerald-200">]</span>ync</h1>
+                    <span class="text-xs opacity-90 font-light tracking-wide">השלמת פערים אקדמיים חכמה</span>
+                </div>
             </div>
             <div id="authHeader" class="flex items-center gap-3">
-                <button onclick="demoLoginDanny()" class="bg-green-300 text-green-900 px-4 py-2 rounded-lg font-bold hover:bg-green-200 transition text-sm">👤 Demo: Danny Israely</button>
-                <button onclick="openAuthModal()" class="bg-white text-green-800 px-4 py-2 rounded-lg font-bold hover:bg-green-100 transition text-sm">התחברות / הרשמה</button>
+                <button onclick="demoLoginDanny()" class="bg-white/20 hover:bg-white/30 text-white px-4 py-2 rounded-xl font-bold backdrop-blur-sm transition text-sm border border-white/20">👤 Demo: Danny Israely</button>
+                <button onclick="openAuthModal()" class="bg-white text-emerald-700 px-4 py-2 rounded-xl font-bold hover:bg-emerald-50 transition text-sm shadow-lg">התחברות / הרשמה</button>
             </div>
         </div>
     </header>
 
-    <main class="container mx-auto p-6">
+    <main class="container mx-auto p-5 md:p-8 max-w-7xl">
         <!-- Auth Modal -->
         <div id="authModal" class="fixed inset-0 modal-overlay hidden z-50 flex items-center justify-center">
-            <div class="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-md mx-4 animate-fade-in">
+            <div class="bg-white/95 backdrop-blur-xl p-8 rounded-3xl shadow-2xl w-full max-w-md mx-4 animate-fade-in border border-white/50">
                 <div class="flex justify-between items-center mb-6">
-                    <h2 id="authModalTitle" class="text-2xl font-bold text-green-900">התחברות</h2>
-                    <button onclick="closeAuthModal()" class="text-gray-400 hover:text-gray-600 text-2xl">&times;</button>
+                    <h2 id="authModalTitle" class="text-2xl font-bold text-emerald-900">התחברות</h2>
+                    <button onclick="closeAuthModal()" class="text-gray-400 hover:text-gray-600 text-2xl w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 transition">&times;</button>
                 </div>
                 <div id="authForm">
                     <div class="mb-4">
                         <label class="block text-sm font-bold text-gray-700 mb-1">שם משתמש</label>
-                        <input id="authUsername" type="text" class="border p-3 rounded-lg w-full focus:ring-2 focus:ring-green-500 outline-none border-gray-300" placeholder="הכנס שם משתמש">
+                        <input id="authUsername" type="text" class="border p-3 rounded-xl w-full focus:ring-2 focus:ring-emerald-500 outline-none border-gray-200 bg-gray-50/50 transition" placeholder="הכנס שם משתמש">
                     </div>
                     <div class="mb-6">
                         <label class="block text-sm font-bold text-gray-700 mb-1">סיסמה</label>
-                        <input id="authPassword" type="password" class="border p-3 rounded-lg w-full focus:ring-2 focus:ring-green-500 outline-none border-gray-300" placeholder="הכנס סיסמה">
+                        <input id="authPassword" type="password" class="border p-3 rounded-xl w-full focus:ring-2 focus:ring-emerald-500 outline-none border-gray-200 bg-gray-50/50 transition" placeholder="הכנס סיסמה">
                     </div>
-                    <button id="authActionBtn" onclick="performAuth()" class="w-full bg-green-600 text-white py-3 rounded-lg font-bold hover:bg-green-700 transition">התחבר</button>
-                    <p class="text-center mt-4 text-sm text-gray-600">
+                    <button id="authActionBtn" onclick="performAuth()" class="w-full btn-primary text-white py-3 rounded-xl font-bold">התחבר</button>
+                    <p class="text-center mt-4 text-sm text-gray-500">
                         <span id="authToggleText">אין לך חשבון?</span>
-                        <button onclick="toggleAuthMode()" class="text-green-700 font-bold underline mr-1">לחץ כאן</button>
+                        <button onclick="toggleAuthMode()" class="text-emerald-600 font-bold underline mr-1 hover:text-emerald-800">לחץ כאן</button>
                     </p>
-                    <p id="authError" class="text-red-600 text-sm mt-3 text-center hidden"></p>
+                    <p id="authError" class="text-red-500 text-sm mt-3 text-center hidden font-semibold"></p>
                 </div>
             </div>
         </div>
 
-        <!-- User Panel (courses) -->
-        <div id="userPanel" class="hidden mb-6 bg-white p-6 rounded-xl shadow-md border border-gray-100">
-            <div class="flex items-center justify-between mb-4">
-                <h3 class="font-bold text-green-900 text-xl">🎓 הקורסים שלי</h3>
-                <span id="welcomeUser" class="text-sm text-gray-500"></span>
+        <!-- User Panel -->
+        <div id="userPanel" class="hidden mb-6 glass rounded-2xl p-6 shadow-lg section-card animate-slide-up">
+            <div class="flex items-center justify-between mb-5">
+                <div class="flex items-center gap-2">
+                    <div class="w-10 h-10 bg-emerald-100 rounded-full flex items-center justify-center text-emerald-700 font-bold text-lg">🎓</div>
+                    <h3 class="font-bold text-emerald-900 text-xl">הקורסים שלי</h3>
+                </div>
+                <span id="welcomeUser" class="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full"></span>
             </div>
-            <div class="flex flex-wrap gap-3 mb-4" id="myCoursesList">
-                <!-- Courses will be rendered here -->
-            </div>
-            <div class="flex flex-wrap gap-3 items-end border-t pt-4">
+            <div class="flex flex-wrap gap-3 mb-5" id="myCoursesList"></div>
+            <div class="flex flex-wrap gap-3 items-end border-t border-gray-200/60 pt-4">
                 <div class="flex-1 min-w-[180px]">
-                    <label class="block text-xs font-bold text-gray-600 mb-1">שם קורס</label>
-                    <input id="newCourseName" type="text" class="border p-2 rounded-lg w-full focus:ring-2 focus:ring-green-500 outline-none border-gray-300" placeholder="למשל: מבוא למדעי המחשב">
+                    <label class="block text-xs font-bold text-gray-500 mb-1.5">שם קורס</label>
+                    <input id="newCourseName" type="text" class="border p-2.5 rounded-xl w-full focus:ring-2 focus:ring-emerald-500 outline-none border-gray-200 bg-gray-50/50 text-sm" placeholder="למשל: מבוא למדעי המחשב">
                 </div>
                 <div class="w-40">
-                    <label class="block text-xs font-bold text-gray-600 mb-1">קוד קורס</label>
-                    <input id="newCourseNum" type="text" class="border p-2 rounded-lg w-full focus:ring-2 focus:ring-green-500 outline-none border-gray-300" placeholder="למשל: 89-110">
+                    <label class="block text-xs font-bold text-gray-500 mb-1.5">קוד קורס</label>
+                    <input id="newCourseNum" type="text" class="border p-2.5 rounded-xl w-full focus:ring-2 focus:ring-emerald-500 outline-none border-gray-200 bg-gray-50/50 text-sm" placeholder="למשל: 89-110">
                 </div>
-                <button onclick="addCourse()" class="bg-green-600 text-white px-5 py-2 rounded-lg font-bold hover:bg-green-700 transition h-[42px]">הוסף קורס</button>
+                <button onclick="addCourse()" class="btn-primary text-white px-6 py-2.5 rounded-xl font-bold text-sm h-[46px]">הוסף קורס</button>
             </div>
-            <p id="courseMsg" class="text-sm mt-2 hidden"></p>
+            <p id="courseMsg" class="text-sm mt-3 hidden font-semibold"></p>
         </div>
 
         <!-- Date Picker -->
-        <div class="bg-white p-6 rounded-xl shadow-md border border-gray-100 mb-6">
+        <div class="glass rounded-2xl p-6 shadow-lg section-card mb-6 animate-slide-up" style="animation-delay:0.05s">
             <div class="flex flex-wrap md:flex-nowrap gap-4 items-end justify-center">
-                <div class="w-full md:w-64">
-                    <label class="block text-sm font-bold text-gray-700 mb-1">מתאריך</label>
-                    <input id="startDate" type="date" class="border p-2 rounded-lg w-full focus:ring-2 focus:ring-green-500 outline-none border-gray-300">
+                <div class="w-full md:w-56">
+                    <label class="block text-sm font-bold text-gray-600 mb-1.5">מתאריך</label>
+                    <input id="startDate" type="date" class="border p-2.5 rounded-xl w-full focus:ring-2 focus:ring-emerald-500 outline-none border-gray-200 bg-gray-50/50 transition hover:border-emerald-300">
                 </div>
-                <div class="w-full md:w-64">
-                    <label class="block text-sm font-bold text-gray-700 mb-1">עד תאריך</label>
-                    <input id="endDate" type="date" class="border p-2 rounded-lg w-full focus:ring-2 focus:ring-green-500 outline-none border-gray-300">
+                <div class="w-full md:w-56">
+                    <label class="block text-sm font-bold text-gray-600 mb-1.5">עד תאריך</label>
+                    <input id="endDate" type="date" class="border p-2.5 rounded-xl w-full focus:ring-2 focus:ring-emerald-500 outline-none border-gray-200 bg-gray-50/50 transition hover:border-emerald-300">
                 </div>
-                <button onclick="loadLessonRange()" class="bg-green-600 text-white px-8 py-2 rounded-lg font-bold hover:bg-green-700 transition shadow-md h-[42px] whitespace-nowrap">הצג את כל ההרצאות בטווח</button>
+                <button onclick="loadLessonRange()" class="btn-primary text-white px-8 py-2.5 rounded-xl font-bold shadow-lg h-[46px] whitespace-nowrap">הצג את כל ההרצאות בטווח</button>
             </div>
         </div>
 
         <!-- Missing Courses -->
-        <div id="missingCoursesSection" class="hidden mb-6 bg-orange-50 p-6 rounded-xl border border-orange-200 shadow-sm animate-fade-in">
-            <h3 class="font-bold text-orange-900 text-lg mb-2">⚠️ קורסים ללא נתונים</h3>
-            <p class="text-sm text-gray-600 mb-3">הקורסים הבאים עדיין לא נסרקו. לחץ כדי לסרוק אותם עכשיו:</p>
+        <div id="missingCoursesSection" class="hidden mb-6 bg-gradient-to-r from-amber-50 to-orange-50 p-6 rounded-2xl border border-amber-200 shadow-md animate-fade-in">
+            <div class="flex items-center gap-2 mb-3">
+                <span class="text-xl">⚠️</span>
+                <h3 class="font-bold text-amber-900 text-lg">קורסים ללא נתונים</h3>
+            </div>
+            <p class="text-sm text-gray-600 mb-4">הקורסים הבאים עדיין לא נסרקו. לחץ כדי לסרוק אותם עכשיו:</p>
             <div id="missingCoursesList" class="flex flex-wrap gap-3"></div>
             <div id="scrapeLoading" class="hidden mt-4 text-center text-gray-500">
-                <span class="inline-block animate-spin rounded-full h-5 w-5 border-b-2 border-orange-700 mr-2"></span>
+                <span class="inline-block animate-spin rounded-full h-5 w-5 border-b-2 border-amber-600 mr-2"></span>
                 מסרק קורסים...
             </div>
         </div>
 
-        <!-- Planner Button -->
-        <div id="plannerSection" class="hidden mb-6 bg-gradient-to-l from-green-50 to-white p-6 rounded-xl border border-green-200 shadow-sm animate-fade-in">
+        <!-- Planner -->
+        <div id="plannerSection" class="hidden mb-6 bg-gradient-to-l from-emerald-50 to-white p-6 rounded-2xl border border-emerald-200 shadow-md animate-fade-in">
             <div class="flex items-center justify-between">
-                <div>
-                    <h3 class="font-bold text-green-900 text-xl mb-1">🎯 תוכנית שיקום אקדמי</h3>
-                    <p class="text-sm text-gray-600">צור תוכנית לימודים מותאמת אישית להרצאות שהפסדת</p>
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center text-2xl">🎯</div>
+                    <div>
+                        <h3 class="font-bold text-emerald-900 text-xl">תוכנית שיקום אקדמי</h3>
+                        <p class="text-sm text-gray-500">תוכנית לימודים מותאמת אישית להרצאות שהפסדת</p>
+                    </div>
                 </div>
-                <button onclick="generateBootcamp()" class="bg-green-700 text-white px-6 py-3 rounded-lg font-bold hover:bg-green-800 transition shadow-md whitespace-nowrap">
+                <button onclick="generateBootcamp()" class="btn-primary text-white px-6 py-3 rounded-xl font-bold shadow-lg whitespace-nowrap">
                     צור תוכנית לימודים
                 </button>
             </div>
-            <div id="plannerLoading" class="hidden mt-4 text-center text-gray-500">
-                <span class="inline-block animate-spin rounded-full h-5 w-5 border-b-2 border-green-700 mr-2"></span>
+            <div id="plannerLoading" class="hidden mt-5 text-center text-gray-500 bg-white/60 rounded-xl py-4">
+                <span class="inline-block animate-spin rounded-full h-6 w-6 border-b-2 border-emerald-600 mr-2"></span>
                 מכין את התוכנית...
             </div>
         </div>
 
         <!-- Lectures List -->
-        <div id="lectureList" class="hidden mb-6 p-6 bg-white rounded-xl border border-gray-200 shadow-sm animate-fade-in">
-            <h3 class="font-bold text-gray-800 mb-4 text-xl border-b pb-2">📚 פירוט הרצאות לפי קורסים:</h3>
-            <div id="buttonsContainer" class="space-y-6"></div>
+        <div id="lectureList" class="hidden mb-6 p-6 glass rounded-2xl border border-gray-200 shadow-md animate-fade-in">
+            <div class="flex items-center gap-2 mb-5 border-b border-gray-200/60 pb-3">
+                <span class="text-xl">📚</span>
+                <h3 class="font-bold text-gray-800 text-xl">פירוט הרצאות לפי קורסים</h3>
+            </div>
+            <div id="buttonsContainer" class="space-y-5"></div>
         </div>
 
-        <!-- Main Content Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <!-- Left Panel: Content / Plan / Visualizer / Tester -->
-            <div class="md:col-span-2 bg-white p-8 rounded-xl shadow-md border border-gray-100 min-h-[600px]">
+        <!-- Main Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Content Panel -->
+            <div class="lg:col-span-2 glass p-6 md:p-8 rounded-2xl shadow-lg border border-white/60 min-h-[600px] animate-slide-up" style="animation-delay:0.1s">
 
                 <!-- Tabs -->
-                <div class="flex border-b mb-4" id="contentTabs">
-                    <button onclick="switchTab('lesson')" id="tab-lesson" class="px-4 py-2 tab-active transition">📖 תוכן</button>
-                    <button onclick="switchTab('plan')" id="tab-plan" class="px-4 py-2 tab-inactive transition">🎯 תוכנית</button>
-                    <button onclick="switchTab('viz')" id="tab-viz" class="px-4 py-2 tab-inactive transition">🧮 סימולציה</button>
-                    <button onclick="switchTab('test')" id="tab-test" class="px-4 py-2 tab-inactive transition">📝 בוחן</button>
+                <div class="flex border-b border-gray-200/60 mb-5" id="contentTabs">
+                    <button onclick="switchTab('lesson')" id="tab-lesson" class="px-5 py-3 tab-active transition text-sm md:text-base">📖 תוכן</button>
+                    <button onclick="switchTab('plan')" id="tab-plan" class="px-5 py-3 tab-inactive transition text-sm md:text-base">🎯 תוכנית</button>
+                    <button onclick="switchTab('viz')" id="tab-viz" class="px-5 py-3 tab-inactive transition text-sm md:text-base">🧮 סימולציה</button>
+                    <button onclick="switchTab('test')" id="tab-test" class="px-5 py-3 tab-inactive transition text-sm md:text-base">📝 בוחן</button>
                 </div>
 
                 <!-- Welcome -->
-                <div id="welcomeMessage" class="text-center mt-20 text-gray-400">
-                    <p class="text-5xl mb-4">📖</p>
-                    <p class="text-xl">בחר טווח תאריכים והרצאה להצגת החומר</p>
+                <div id="welcomeMessage" class="text-center mt-24 text-gray-400 animate-fade-in">
+                    <div class="w-24 h-24 bg-emerald-50 rounded-full flex items-center justify-center mx-auto mb-5 text-5xl shadow-inner">📖</div>
+                    <p class="text-xl font-semibold text-gray-500">בחר טווח תאריכים והרצאה להצגת החומר</p>
+                    <p class="text-sm text-gray-400 mt-2">ה-AI ינתח עבורך את הנושאים שהפסדת ויבנה תוכנית לימודים</p>
                 </div>
 
-                <!-- Lesson Content -->
+                <!-- Lesson -->
                 <div id="lessonContent" class="hidden animate-fade-in">
-                    <h2 id="lessonTopic" class="text-3xl font-bold mb-4 text-green-900 border-b-4 border-green-100 pb-2"></h2>
-                    <div id="textContent" class="leading-relaxed text-lg whitespace-pre-line text-gray-800"></div>
+                    <div class="flex items-center gap-3 mb-5">
+                        <div class="w-1 h-8 bg-emerald-500 rounded-full"></div>
+                        <h2 id="lessonTopic" class="text-2xl md:text-3xl font-bold text-emerald-900"></h2>
+                    </div>
+                    <div id="textContent" class="leading-relaxed text-lg whitespace-pre-line text-gray-700 bg-emerald-50/30 p-5 rounded-xl border border-emerald-100"></div>
                 </div>
 
-                <!-- Bootcamp Plan -->
+                <!-- Plan -->
                 <div id="planContent" class="hidden animate-fade-in">
-                    <div id="planHeader" class="mb-4 pb-4 border-b border-green-100">
-                        <h2 class="text-2xl font-bold text-green-900">🎯 תוכנית שיקום</h2>
-                        <div id="planSummary" class="mt-2 text-gray-600"></div>
+                    <div id="planHeader" class="mb-5 pb-4 border-b border-emerald-100">
+                        <h2 class="text-2xl font-bold text-emerald-900 flex items-center gap-2">🎯 תוכנית שיקום</h2>
+                        <div id="planSummary" class="mt-3 text-gray-600"></div>
                     </div>
                     <div id="planTasks" class="space-y-4"></div>
                 </div>
 
                 <!-- Visualizer -->
                 <div id="vizContent" class="hidden animate-fade-in">
-                    <h2 class="text-2xl font-bold text-green-900 mb-4">🧮 סימולציה אינטראקטיבית</h2>
-                    <div id="vizResult" class="space-y-4"></div>
+                    <h2 class="text-2xl font-bold text-emerald-900 mb-5 flex items-center gap-2">🧮 סימולציה אינטראקטיבית</h2>
+                    <div id="vizResult" class="space-y-5"></div>
                 </div>
 
                 <!-- Tester -->
                 <div id="testContent" class="hidden animate-fade-in">
-                    <h2 class="text-2xl font-bold text-green-900 mb-4">📝 בוחן תרגול</h2>
+                    <h2 class="text-2xl font-bold text-emerald-900 mb-5 flex items-center gap-2">📝 בוחן תרגול</h2>
                     <div id="testResult" class="space-y-4"></div>
                 </div>
             </div>
 
-            <!-- Right Panel: AI Chat -->
-            <div class="bg-white flex flex-col h-[650px] rounded-xl shadow-xl border border-gray-100 overflow-hidden">
-                <div class="bg-green-800 p-4 font-bold text-white text-center shadow-inner">מורה פרטי AI 🤖</div>
-                <div id="chatBox" class="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50 flex flex-col">
-                    <div class="bg-white border border-green-100 p-4 rounded-2xl rounded-tr-none shadow-sm text-gray-700 self-start max-w-[85%] italic">
+            <!-- Chat Panel -->
+            <div class="glass flex flex-col h-[680px] rounded-2xl shadow-xl border border-white/60 overflow-hidden animate-slide-up" style="animation-delay:0.15s">
+                <div class="bg-gradient-to-l from-emerald-700 to-emerald-600 p-4 font-bold text-white text-center shadow-md flex items-center justify-center gap-2">
+                    <span class="pulse-dot"></span>
+                    <span>מורה פרטי AI</span>
+                    <span class="text-lg">🤖</span>
+                </div>
+                <div id="chatBox" class="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50/50 flex flex-col">
+                    <div class="chat-assistant p-4 max-w-[85%] text-sm">
                         שלום! התחבר כדי שאדע אילו קורסים אתה לומד, או בחר טווח תאריכים כדי לראות מה הפסדת.
                     </div>
                 </div>
-                <div class="p-4 border-t bg-white flex gap-2">
-                    <input id="userInput" type="text" placeholder="שאל אותי משהו..." class="flex-1 border border-gray-300 p-3 rounded-xl outline-none focus:ring-2 focus:ring-green-500 bg-gray-50 text-right">
-                    <button onclick="sendMessage()" class="bg-green-600 text-white px-4 rounded-xl hover:bg-green-700 transition">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" /></svg>
+                <div class="p-4 border-t border-gray-200/60 bg-white/80 flex gap-2">
+                    <input id="userInput" type="text" placeholder="שאל אותי משהו..." class="flex-1 border border-gray-200 p-3 rounded-xl outline-none focus:ring-2 focus:ring-emerald-500 bg-gray-50/50 text-right text-sm transition" onkeydown="if(event.key==='Enter')sendMessage()">
+                    <button onclick="sendMessage()" class="btn-primary text-white px-5 rounded-xl hover:scale-105 transition shadow-md">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" /></svg>
                     </button>
                 </div>
             </div>
         </div>
     </main>
+
+    <!-- Footer -->
+    <footer class="text-center py-6 text-gray-400 text-sm">
+        <p>Study[S]ync v1.3 · Bar-Ilan University CS · AI Academic Recovery</p>
+    </footer>
 
     <script>
         const API_BASE = "";
@@ -244,38 +409,26 @@
         let isRegisterMode = false;
         let userCourses = [];
 
-        // -------------------------------------------------------------
-        // Init
-        // --------------------------------------------------------------
         document.addEventListener("DOMContentLoaded", async () => {
-            if (authToken) {
-                await fetchCurrentUser();
-            }
+            if (authToken) { await fetchCurrentUser(); }
         });
 
-        // ---------------------------------------------------------------
+        // ================================================================
         // Auth
-        // ---------------------------------------------------------------
+        // ================================================================
         function openAuthModal() {
             document.getElementById('authModal').classList.remove('hidden');
             document.getElementById('authError').classList.add('hidden');
         }
+        function closeAuthModal() { document.getElementById('authModal').classList.add('hidden'); }
 
         async function demoLoginDanny() {
-            // Pre-set demo token for Danny Israely (matches data/users.json)
             authToken = "21575b2934a50e7402008e11aa1f5c88";
             localStorage.setItem("study_sync_token", authToken);
             await fetchCurrentUser();
-
-            // Pre-fill dates for a realistic demo absence (e.g., missed 2 weeks in Oct-Nov 2025)
             document.getElementById('startDate').value = "2025-10-20";
             document.getElementById('endDate').value = "2025-11-05";
-
-            addChatMessage('assistant', "👋 ברוכים הבאים לדמו! התחברת כ-Danny Israely. בחרתי עבורך טווח תאריכים של שבועיים (20/10 - 05/11) כדי להדגים את הפלט. לחץ על 'הצג את כל ההרצאות בטווח' כדי להתחיל.");
-        }
-
-        function closeAuthModal() {
-            document.getElementById('authModal').classList.add('hidden');
+            addChatMessage('assistant', "👋 ברוכים הבאים לדמו! התחברת כ-Danny Israely. בחרתי עבורך טווח תאריכים של שבועיים (20/10 - 05/11). לחץ על 'הצג את כל ההרצאות בטווח' כדי להתחיל.");
         }
 
         function toggleAuthMode() {
@@ -284,13 +437,9 @@
             const title = document.getElementById('authModalTitle');
             const toggleText = document.getElementById('authToggleText');
             if (isRegisterMode) {
-                btn.innerText = "הירשם";
-                title.innerText = "הרשמה";
-                toggleText.innerText = "כבר יש לך חשבון?";
+                btn.innerText = "הירשם"; title.innerText = "הרשמה"; toggleText.innerText = "כבר יש לך חשבון?";
             } else {
-                btn.innerText = "התחבר";
-                title.innerText = "התחברות";
-                toggleText.innerText = "אין לך חשבון?";
+                btn.innerText = "התחבר"; title.innerText = "התחברות"; toggleText.innerText = "אין לך חשבון?";
             }
             document.getElementById('authError').classList.add('hidden');
         }
@@ -300,129 +449,79 @@
             const password = document.getElementById('authPassword').value.trim();
             const errorEl = document.getElementById('authError');
             errorEl.classList.add('hidden');
-
-            if (!username || !password) {
-                errorEl.innerText = "אנא הכנס שם משתמש וסיסמה";
-                errorEl.classList.remove('hidden');
-                return;
-            }
+            if (!username || !password) { errorEl.innerText = "אנא הכנס שם משתמש וסיסמה"; errorEl.classList.remove('hidden'); return; }
 
             const endpoint = isRegisterMode ? "/auth/register" : "/auth/login";
             try {
-                const resp = await fetch(`${API_BASE}${endpoint}`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ username, password })
-                });
+                const resp = await fetch(`${API_BASE}${endpoint}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ username, password }) });
                 const data = await resp.json();
-                if (!resp.ok) {
-                    errorEl.innerText = data.detail || "שגיאה";
-                    errorEl.classList.remove('hidden');
-                    return;
-                }
+                if (!resp.ok) { errorEl.innerText = data.detail || "שגיאה"; errorEl.classList.remove('hidden'); return; }
                 if (isRegisterMode) {
-                    // Auto-login after register
-                    const loginResp = await fetch(`${API_BASE}/auth/login`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ username, password })
-                    });
+                    const loginResp = await fetch(`${API_BASE}/auth/login`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ username, password }) });
                     const loginData = await loginResp.json();
-                    if (loginResp.ok && loginData.token) {
-                        authToken = loginData.token;
-                        localStorage.setItem("study_sync_token", authToken);
-                    }
-                } else {
-                    authToken = data.token;
-                    localStorage.setItem("study_sync_token", authToken);
-                }
-                closeAuthModal();
-                await fetchCurrentUser();
-            } catch (e) {
-                errorEl.innerText = "שגיאת תקשורת";
-                errorEl.classList.remove('hidden');
-            }
+                    if (loginResp.ok && loginData.token) { authToken = loginData.token; localStorage.setItem("study_sync_token", authToken); }
+                } else { authToken = data.token; localStorage.setItem("study_sync_token", authToken); }
+                closeAuthModal(); await fetchCurrentUser();
+            } catch (e) { errorEl.innerText = "שגיאת תקשורת"; errorEl.classList.remove('hidden'); }
         }
 
         async function logout() {
-            if (authToken) {
-                await fetch(`${API_BASE}/auth/logout`, {
-                    method: 'POST',
-                    headers: { 'X-Token': authToken }
-                });
-            }
-            authToken = "";
-            currentUser = null;
-            userCourses = [];
+            if (authToken) { await fetch(`${API_BASE}/auth/logout`, { method: 'POST', headers: { 'X-Token': authToken } }); }
+            authToken = ""; currentUser = null; userCourses = [];
             localStorage.removeItem("study_sync_token");
-            renderAuthHeader();
-            document.getElementById('userPanel').classList.add('hidden');
+            renderAuthHeader(); document.getElementById('userPanel').classList.add('hidden');
             addChatMessage('assistant', 'התנתקת בהצלחה. התחבר כדי שאדע אילו קורסים אתה לומד.');
         }
 
         async function fetchCurrentUser() {
             if (!authToken) return;
             try {
-                const resp = await fetch(`${API_BASE}/auth/me`, {
-                    headers: { 'X-Token': authToken }
-                });
+                const resp = await fetch(`${API_BASE}/auth/me`, { headers: { 'X-Token': authToken } });
                 if (resp.ok) {
                     const data = await resp.json();
-                    currentUser = data.user;
-                    userCourses = currentUser.courses || [];
-                    renderAuthHeader();
-                    renderUserPanel();
+                    currentUser = data.user; userCourses = currentUser.courses || [];
+                    renderAuthHeader(); renderUserPanel();
                     addChatMessage('assistant', `שלום ${currentUser.username}! ראיתי שאתה רשום ל-${userCourses.length} קורסים.`);
-                } else {
-                    // Token expired
-                    authToken = "";
-                    localStorage.removeItem("study_sync_token");
-                    renderAuthHeader();
-                }
-            } catch (e) {
-                console.error("fetch user error", e);
-            }
+                } else { authToken = ""; localStorage.removeItem("study_sync_token"); renderAuthHeader(); }
+            } catch (e) { console.error("fetch user error", e); }
         }
 
         function renderAuthHeader() {
             const container = document.getElementById('authHeader');
             if (currentUser) {
                 container.innerHTML = `
-                    <span class="text-sm opacity-90">שלום, <strong>${escapeHtml(currentUser.username)}</strong></span>
-                    <button onclick="logout()" class="bg-green-700 border border-green-500 text-white px-4 py-2 rounded-lg font-bold hover:bg-green-600 transition text-sm">התנתק</button>
+                    <span class="text-sm text-white/90 font-medium">שלום, <strong>${escapeHtml(currentUser.username)}</strong></span>
+                    <button onclick="logout()" class="bg-white/20 hover:bg-white/30 text-white px-4 py-2 rounded-xl font-bold transition text-sm border border-white/20">התנתק</button>
                 `;
             } else {
                 container.innerHTML = `
-                    <button onclick="openAuthModal()" class="bg-white text-green-800 px-4 py-2 rounded-lg font-bold hover:bg-green-100 transition text-sm">התחברות / הרשמה</button>
+                    <button onclick="demoLoginDanny()" class="bg-white/20 hover:bg-white/30 text-white px-4 py-2 rounded-xl font-bold backdrop-blur-sm transition text-sm border border-white/20">👤 Demo: Danny Israely</button>
+                    <button onclick="openAuthModal()" class="bg-white text-emerald-700 px-4 py-2 rounded-xl font-bold hover:bg-emerald-50 transition text-sm shadow-lg">התחברות / הרשמה</button>
                 `;
             }
         }
 
-        // ---------------------------------------------------------------
-        // User Courses Panel
-        // ---------------------------------------------------------------
+        // ================================================================
+        // Courses Panel
+        // ================================================================
         function renderUserPanel() {
             const panel = document.getElementById('userPanel');
-            if (!currentUser) {
-                panel.classList.add('hidden');
-                return;
-            }
+            if (!currentUser) { panel.classList.add('hidden'); return; }
             panel.classList.remove('hidden');
-            document.getElementById('welcomeUser').innerText = `משתמש: ${currentUser.username}`;
+            document.getElementById('welcomeUser').innerText = currentUser.username;
             renderCoursesList();
         }
 
         function renderCoursesList() {
             const list = document.getElementById('myCoursesList');
             if (userCourses.length === 0) {
-                list.innerHTML = '<span class="text-gray-400 text-sm">עדיין לא רשמת קורסים. הוסף קורס למטה.</span>';
-                return;
+                list.innerHTML = '<span class="text-gray-400 text-sm bg-gray-50 px-4 py-2 rounded-lg">עדיין לא רשמת קורסים. הוסף קורס למטה.</span>'; return;
             }
             list.innerHTML = userCourses.map(c => `
-                <div class="bg-green-50 border border-green-200 px-3 py-2 rounded-lg flex items-center gap-2">
-                    <span class="font-semibold text-green-900 text-sm">${escapeHtml(c.course_name)}</span>
-                    <span class="text-xs text-green-700 bg-green-100 px-2 py-0.5 rounded">${escapeHtml(c.course_num)}</span>
-                    <button onclick="removeCourse('${escapeHtml(c.course_num)}')" class="text-red-400 hover:text-red-600 text-xs mr-1" title="הסר">&times;</button>
+                <div class="bg-emerald-50 border border-emerald-200/60 px-4 py-2.5 rounded-xl flex items-center gap-2.5 shadow-sm hover:shadow-md transition">
+                    <span class="font-semibold text-emerald-900 text-sm">${escapeHtml(c.course_name)}</span>
+                    <span class="text-xs text-emerald-700 bg-emerald-100/70 px-2.5 py-0.5 rounded-md font-mono">${escapeHtml(c.course_num)}</span>
+                    <button onclick="removeCourse('${escapeHtml(c.course_num)}')" class="text-red-400 hover:text-red-600 text-sm mr-1 w-5 h-5 flex items-center justify-center rounded-full hover:bg-red-50 transition" title="הסר">&times;</button>
                 </div>
             `).join('');
         }
@@ -431,173 +530,102 @@
             const nameInput = document.getElementById('newCourseName');
             const numInput = document.getElementById('newCourseNum');
             const msg = document.getElementById('courseMsg');
-            const name = nameInput.value.trim();
-            const num = numInput.value.trim();
-
-            if (!name || !num) {
-                msg.innerText = "אנא הכנס שם קורס וקוד קורס";
-                msg.className = "text-sm mt-2 text-red-600";
-                msg.classList.remove('hidden');
-                return;
-            }
-
+            const name = nameInput.value.trim(); const num = numInput.value.trim();
+            if (!name || !num) { msg.innerText = "אנא הכנס שם קורס וקוד קורס"; msg.className = "text-sm mt-3 text-red-500 font-semibold"; msg.classList.remove('hidden'); return; }
             try {
-                const resp = await fetch(`${API_BASE}/my_courses`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'X-Token': authToken },
-                    body: JSON.stringify({ course_name: name, course_num: num })
-                });
+                const resp = await fetch(`${API_BASE}/my_courses`, { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Token': authToken }, body: JSON.stringify({ course_name: name, course_num: num }) });
                 const data = await resp.json();
-                if (resp.ok) {
-                    userCourses = data.courses;
-                    renderCoursesList();
-                    nameInput.value = "";
-                    numInput.value = "";
-                    msg.innerText = "הקורס נוסף בהצלחה!";
-                    msg.className = "text-sm mt-2 text-green-600";
-                    msg.classList.remove('hidden');
-                } else {
-                    msg.innerText = data.detail || "שגיאה בהוספת קורס";
-                    msg.className = "text-sm mt-2 text-red-600";
-                    msg.classList.remove('hidden');
-                }
-            } catch (e) {
-                msg.innerText = "שגיאת תקשורת";
-                msg.className = "text-sm mt-2 text-red-600";
-                msg.classList.remove('hidden');
-            }
+                if (resp.ok) { userCourses = data.courses; renderCoursesList(); nameInput.value = ""; numInput.value = ""; msg.innerText = "הקורס נוסף בהצלחה!"; msg.className = "text-sm mt-3 text-emerald-600 font-semibold"; msg.classList.remove('hidden'); }
+                else { msg.innerText = data.detail || "שגיאה בהוספת קורס"; msg.className = "text-sm mt-3 text-red-500 font-semibold"; msg.classList.remove('hidden'); }
+            } catch (e) { msg.innerText = "שגיאת תקשורת"; msg.className = "text-sm mt-3 text-red-500 font-semibold"; msg.classList.remove('hidden'); }
         }
 
         async function removeCourse(courseNum) {
             try {
-                const resp = await fetch(`${API_BASE}/my_courses/${encodeURIComponent(courseNum)}`, {
-                    method: 'DELETE',
-                    headers: { 'X-Token': authToken }
-                });
+                const resp = await fetch(`${API_BASE}/my_courses/${encodeURIComponent(courseNum)}`, { method: 'DELETE', headers: { 'X-Token': authToken } });
                 const data = await resp.json();
-                if (resp.ok) {
-                    userCourses = data.courses;
-                    renderCoursesList();
-                }
-            } catch (e) {
-                console.error("remove course error", e);
-            }
+                if (resp.ok) { userCourses = data.courses; renderCoursesList(); }
+            } catch (e) { console.error("remove course error", e); }
         }
 
-        // ---------------------------------------------------------------
+        // ================================================================
         // Tabs
-        // ---------------------------------------------------------------
+        // ================================================================
         function switchTab(tabName) {
             ['lesson', 'plan', 'viz', 'test'].forEach(t => {
                 document.getElementById(t === 'lesson' ? 'lessonContent' : t + 'Content').classList.add('hidden');
-                document.getElementById('tab-' + t).classList.remove('tab-active');
-                document.getElementById('tab-' + t).classList.add('tab-inactive');
+                document.getElementById('tab-' + t).classList.remove('tab-active'); document.getElementById('tab-' + t).classList.add('tab-inactive');
             });
             document.getElementById(tabName === 'lesson' ? 'lessonContent' : tabName + 'Content').classList.remove('hidden');
-            document.getElementById('tab-' + tabName).classList.remove('tab-inactive');
-            document.getElementById('tab-' + tabName).classList.add('tab-active');
+            document.getElementById('tab-' + tabName).classList.remove('tab-inactive'); document.getElementById('tab-' + tabName).classList.add('tab-active');
         }
 
-        // ---------------------------------------------------------------
+        // ================================================================
         // Lectures
-        // ---------------------------------------------------------------
+        // ================================================================
         async function loadLessonRange() {
             const startDateVal = document.getElementById('startDate').value;
             const endDateVal = document.getElementById('endDate').value;
-
             if (!startDateVal || !endDateVal) return alert("אנא בחר טווח תאריכים");
-
-            const start = new Date(startDateVal);
-            start.setHours(0, 0, 0, 0);
-            const end = new Date(endDateVal);
-            end.setHours(23, 59, 59, 999);
+            const start = new Date(startDateVal); start.setHours(0,0,0,0);
+            const end = new Date(endDateVal); end.setHours(23,59,59,999);
 
             const container = document.getElementById('buttonsContainer');
             const listDiv = document.getElementById('lectureList');
             const missingSection = document.getElementById('missingCoursesSection');
-            container.innerHTML = '';
-            missingSection.classList.add('hidden');
+            container.innerHTML = ''; missingSection.classList.add('hidden');
 
             try {
                 const headers = authToken ? { 'X-Token': authToken } : {};
                 const response = await fetch(`${API_BASE}/get_missed_class_all`, { headers });
                 const lectures = await response.json();
 
-                // Determine user course names for missing-course detection
-                const userCourseNames = new Set(userCourses.map(c => c.course_name));
-                const userCourseNums = {};
-                userCourses.forEach(c => { userCourseNums[c.course_name] = c.course_num; });
-
-                const filtered = lectures.filter(l => {
-                    const lDate = new Date(l.lecture_date);
-                    return lDate >= start && lDate <= end;
-                });
-
+                const filtered = lectures.filter(l => { const lDate = new Date(l.lecture_date); return lDate >= start && lDate <= end; });
                 if (filtered.length === 0) {
-                    alert("לא נמצאו הרצאות בטווח הזה (נסה שנת 2022)");
-                    listDiv.classList.add('hidden');
-                    document.getElementById('plannerSection').classList.add('hidden');
-                    return;
+                    alert("לא נמצאו הרצאות בטווח הזה"); listDiv.classList.add('hidden');
+                    document.getElementById('plannerSection').classList.add('hidden'); return;
                 }
 
                 const grouped = {};
-                filtered.forEach(l => {
-                    if (!grouped[l.course_name]) grouped[l.course_name] = [];
-                    grouped[l.course_name].push(l);
-                });
-
-                // Show planner and lectures
-                document.getElementById('plannerSection').classList.remove('hidden');
-                listDiv.classList.remove('hidden');
+                filtered.forEach(l => { if (!grouped[l.course_name]) grouped[l.course_name] = []; grouped[l.course_name].push(l); });
+                document.getElementById('plannerSection').classList.remove('hidden'); listDiv.classList.remove('hidden');
 
                 for (const courseName in grouped) {
                     const section = document.createElement('div');
-                    section.className = "border-r-4 border-green-600 pr-4 py-2 bg-gray-50/50 rounded-lg mb-4";
-                    section.innerHTML = `<h4 class="text-xl font-bold text-green-800 mb-3">${courseName}</h4><div class="flex flex-wrap gap-3 mt-2"></div>`;
+                    section.className = "bg-white/70 rounded-xl p-4 border border-emerald-100 shadow-sm";
+                    section.innerHTML = `<h4 class="text-lg font-bold text-emerald-800 mb-3 flex items-center gap-2"><span class="w-2 h-2 bg-emerald-500 rounded-full"></span>${courseName}</h4><div class="flex flex-wrap gap-3"></div>`;
                     const btnsContainer = section.querySelector('div');
 
                     grouped[courseName].forEach(lecture => {
-                        const wrapper = document.createElement('div');
-                        wrapper.className = "flex flex-col gap-2";
-
+                        const wrapper = document.createElement('div'); wrapper.className = "flex flex-col gap-1.5";
                         const btn = document.createElement('button');
-                        btn.className = "bg-white border border-green-500 text-green-700 px-4 py-2 rounded-lg hover:bg-green-500 hover:text-white transition shadow-sm font-semibold text-sm text-right";
+                        btn.className = "bg-white border border-emerald-200 text-emerald-800 px-4 py-2.5 rounded-xl hover:bg-emerald-500 hover:text-white transition shadow-sm font-semibold text-sm text-right";
                         btn.innerText = `${lecture.lecture_date}: ${lecture.topic}`;
                         btn.onclick = () => displaySpecificLecture(lecture);
 
-                        // Agent buttons row
-                        const actions = document.createElement('div');
-                        actions.className = "flex gap-2 mt-1";
+                        const actions = document.createElement('div'); actions.className = "flex gap-2 mt-0.5 mr-1";
                         actions.innerHTML = `
-                            <button onclick="generateVisualizer('${escapeHtml(lecture.topic)}')" class="bg-blue-50 border border-blue-300 text-blue-700 px-3 py-1 rounded text-xs hover:bg-blue-100 transition">🧮 סימולציה</button>
-                            <button onclick="generateTest('${escapeHtml(lecture.topic)}')" class="bg-purple-50 border border-purple-300 text-purple-700 px-3 py-1 rounded text-xs hover:bg-purple-100 transition">📝 בוחן</button>
+                            <button onclick="generateVisualizer('${escapeHtml(lecture.topic)}')" class="bg-sky-50 border border-sky-200 text-sky-700 px-3 py-1 rounded-lg text-xs hover:bg-sky-100 transition font-medium">🧮 סימולציה</button>
+                            <button onclick="generateTest('${escapeHtml(lecture.topic)}')" class="bg-purple-50 border border-purple-200 text-purple-700 px-3 py-1 rounded-lg text-xs hover:bg-purple-100 transition font-medium">📝 בוחן</button>
                         `;
-
-                        wrapper.appendChild(btn);
-                        wrapper.appendChild(actions);
-                        btnsContainer.appendChild(wrapper);
+                        wrapper.appendChild(btn); wrapper.appendChild(actions); btnsContainer.appendChild(wrapper);
                     });
                     container.appendChild(section);
                 }
 
-                // Detect missing courses for logged-in users
                 if (currentUser && userCourses.length > 0) {
                     const foundCourseNames = new Set(Object.keys(grouped));
                     const missing = userCourses.filter(c => !foundCourseNames.has(c.course_name));
-                    if (missing.length > 0) {
-                        renderMissingCourses(missing);
-                    }
+                    if (missing.length > 0) renderMissingCourses(missing);
                 }
-            } catch (e) {
-                alert("שגיאה בתקשורת עם השרת.");
-            }
+            } catch (e) { alert("שגיאה בתקשורת עם השרת."); }
         }
 
         function renderMissingCourses(missing) {
             const section = document.getElementById('missingCoursesSection');
             const list = document.getElementById('missingCoursesList');
             list.innerHTML = missing.map(c => `
-                <button onclick="scrapeCourse('${escapeHtml(c.course_num)}', '${escapeHtml(c.course_name)}')" class="bg-white border border-orange-300 text-orange-700 px-4 py-2 rounded-lg hover:bg-orange-100 transition text-sm font-semibold">
+                <button onclick="scrapeCourse('${escapeHtml(c.course_num)}', '${escapeHtml(c.course_name)}')" class="bg-white border border-amber-300 text-amber-700 px-4 py-2.5 rounded-xl hover:bg-amber-50 transition text-sm font-semibold shadow-sm">
                     🔍 ${escapeHtml(c.course_name)} (${escapeHtml(c.course_num)})
                 </button>
             `).join('');
@@ -605,287 +633,254 @@
         }
 
         async function scrapeCourse(courseNum, courseName) {
-            const loading = document.getElementById('scrapeLoading');
-            loading.classList.remove('hidden');
+            const loading = document.getElementById('scrapeLoading'); loading.classList.remove('hidden');
             try {
-                const resp = await fetch(`${API_BASE}/scrape_course`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ course_num: courseNum })
-                });
+                const resp = await fetch(`${API_BASE}/scrape_course`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ course_num: courseNum }) });
                 const data = await resp.json();
-                if (resp.ok && data.result && data.result.found) {
-                    alert(`הקורס ${courseName} נסרק בהצלחה! נמצאו ${data.result.topics.length} נושאים.`);
-                    // Reload lectures to see if data appears (lectures are generated separately,
-                    // but for now we show the syllabus topics as a preview)
-                } else {
-                    alert(`לא נמצא סילבוס לקורס ${courseName}. ייתכן שהקורס לא זמין או שהקוד שגוי.`);
-                }
-            } catch (e) {
-                alert("שגיאה בסריקת הקורס.");
-            } finally {
-                loading.classList.add('hidden');
-            }
+                if (resp.ok && data.result && data.result.found) { alert(`הקורס ${courseName} נסרק בהצלחה! נמצאו ${data.result.topics.length} נושאים.`); }
+                else { alert(`לא נמצא סילבוס לקורס ${courseName}.`); }
+            } catch (e) { alert("שגיאה בסריקת הקורס."); }
+            finally { loading.classList.add('hidden'); }
         }
 
-        function escapeHtml(text) {
-            return text.replace(/'/g, "\\'").replace(/"/g, '&quot;');
-        }
+        function escapeHtml(text) { return text.replace(/'/g, "\\'").replace(/"/g, '&quot;'); }
 
-        // ---------------------------------------------------------------
+        // ================================================================
         // Display Lecture
-        // ---------------------------------------------------------------
+        // ================================================================
         function displaySpecificLecture(lecture) {
             try {
-                currentLecture = lecture;
-                currentCourse = lecture.course_name;
-                currentTopic = lecture.topic;
-
+                currentLecture = lecture; currentCourse = lecture.course_name; currentTopic = lecture.topic;
                 document.getElementById('welcomeMessage').classList.add('hidden');
                 document.getElementById('lessonContent').classList.remove('hidden');
                 document.getElementById('lessonTopic').innerText = lecture.topic;
-
-                const pattern = "\\";
-                const citeRegex = new RegExp(pattern, "g");
-                let cleanContent = lecture.content.replace(citeRegex, "");
+                let cleanContent = lecture.content.replace(/\\/g, "");
                 document.getElementById('textContent').innerText = cleanContent;
-
                 switchTab('lesson');
-
                 document.getElementById('chatBox').innerHTML = '';
                 let firstQuestion = lecture.ai_questions.replace("שאל את הסטודנט ", "");
                 addChatMessage('assistant', firstQuestion);
                 chatHistory = [{ role: "assistant", content: firstQuestion }];
-
                 if (window.MathJax && window.MathJax.typesetPromise) MathJax.typesetPromise();
                 else if (window.MathJax && window.MathJax.typeset) window.MathJax.typeset();
-            } catch (e) {
-                console.error("שגיאה בהצגת ההרצאה:", e);
-            }
+            } catch (e) { console.error("שגיאה בהצגת ההרצאה:", e); }
         }
 
-        // ---------------------------------------------------------------
-        // Planner Agent
-        // ---------------------------------------------------------------
+        // ================================================================
+        // Planner
+        // ================================================================
         async function generateBootcamp() {
             const startDateVal = document.getElementById('startDate').value;
             const endDateVal = document.getElementById('endDate').value;
             if (!startDateVal || !endDateVal) return alert("בחר תאריכים קודם");
             if (!currentCourse) currentCourse = "קורס כללי";
-
             document.getElementById('plannerLoading').classList.remove('hidden');
-
             try {
                 const response = await fetch(`${API_BASE}/generate_bootcamp`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        student_name: currentUser ? currentUser.username : "סטודנט",
-                        course_name: currentCourse,
-                        course_num: "89-110",
-                        absence_start: startDateVal,
-                        absence_end: endDateVal
-                    })
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ student_name: currentUser ? currentUser.username : "סטודנט", course_name: currentCourse, course_num: "89-110", absence_start: startDateVal, absence_end: endDateVal })
                 });
                 const data = await response.json();
-                if (data.success) {
-                    renderBootcampPlan(data.bootcamp_plan);
-                    switchTab('plan');
-                } else {
-                    alert("שגיאה ביצירת התוכנית");
-                }
-            } catch (e) {
-                alert("שגיאת תקשורת עם Planner Agent");
-            } finally {
-                document.getElementById('plannerLoading').classList.add('hidden');
-            }
+                if (data.success) { renderBootcampPlan(data.bootcamp_plan); switchTab('plan'); }
+                else { alert("שגיאה ביצירת התוכנית"); }
+            } catch (e) { alert("שגיאת תקשורת עם Planner Agent"); }
+            finally { document.getElementById('plannerLoading').classList.add('hidden'); }
         }
 
         function renderBootcampPlan(plan) {
             document.getElementById('planSummary').innerHTML = `
-                <div class="flex gap-4 text-sm">
-                    <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full">📅 ${plan.total_days} ימים</span>
-                    <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full">⏱️ ${plan.total_hours} שעות</span>
-                    <span class="bg-orange-100 text-orange-800 px-3 py-1 rounded-full">📚 ${plan.study_tasks.length} נושאים</span>
+                <div class="flex gap-3 text-sm flex-wrap">
+                    <span class="bg-emerald-100 text-emerald-800 px-4 py-1.5 rounded-full font-medium">📅 ${plan.total_days} ימים</span>
+                    <span class="bg-sky-100 text-sky-800 px-4 py-1.5 rounded-full font-medium">⏱️ ${plan.total_hours} שעות</span>
+                    <span class="bg-amber-100 text-amber-800 px-4 py-1.5 rounded-full font-medium">📚 ${plan.study_tasks.length} נושאים</span>
                 </div>
-                <p class="mt-2 text-gray-700">${plan.executive_summary}</p>
+                <p class="mt-3 text-gray-600 leading-relaxed bg-white p-4 rounded-xl border border-gray-100 shadow-sm">${plan.executive_summary}</p>
             `;
-
-            const tasksDiv = document.getElementById('planTasks');
-            tasksDiv.innerHTML = '';
-
+            const tasksDiv = document.getElementById('planTasks'); tasksDiv.innerHTML = '';
             plan.study_tasks.forEach(task => {
                 const div = document.createElement('div');
-                div.className = "border-r-4 border-green-500 bg-gray-50 p-4 rounded-lg";
-
-                const priorityColor = task.priority === 'high' ? 'text-red-600' : task.priority === 'medium' ? 'text-yellow-600' : 'text-green-600';
-                const priorityEmoji = task.priority === 'high' ? '🔴' : task.priority === 'medium' ? '🟡' : '🟢';
-
+                div.className = "border-r-4 border-emerald-500 bg-white p-5 rounded-xl shadow-sm hover:shadow-md transition";
+                const pColor = task.priority === 'high' ? 'text-red-500' : task.priority === 'medium' ? 'text-amber-500' : 'text-emerald-500';
+                const pEmoji = task.priority === 'high' ? '🔴' : task.priority === 'medium' ? '🟡' : '🟢';
                 div.innerHTML = `
                     <div class="flex justify-between items-start mb-2">
                         <h4 class="font-bold text-lg text-gray-800">${task.topic}</h4>
-                        <span class="text-sm ${priorityColor}">${priorityEmoji} ${task.priority}</span>
+                        <span class="text-sm ${pColor} font-semibold bg-gray-50 px-2 py-1 rounded-lg">${pEmoji} ${task.priority}</span>
                     </div>
-                    <p class="text-gray-600 text-sm mb-2">${task.description}</p>
-                    <div class="flex gap-2 text-xs text-gray-500 mb-2">
-                        <span>⏱️ ${task.estimated_hours} שעות</span>
-                        <span>📅 יום ${task.day}</span>
+                    <p class="text-gray-600 text-sm mb-3 leading-relaxed">${task.description}</p>
+                    <div class="flex gap-3 text-xs text-gray-500 mb-3">
+                        <span class="bg-gray-50 px-2 py-1 rounded-md">⏱️ ${task.estimated_hours} שעות</span>
+                        <span class="bg-gray-50 px-2 py-1 rounded-md">📅 יום ${task.day}</span>
                     </div>
-                    <div class="mt-2">
-                        <p class="text-xs font-bold text-gray-700 mb-1">💡 טיפים:</p>
-                        <ul class="text-xs text-gray-600 list-disc mr-4">
+                    <div class="mt-2 bg-emerald-50/50 p-3 rounded-lg">
+                        <p class="text-xs font-bold text-gray-700 mb-1.5">💡 טיפים:</p>
+                        <ul class="text-xs text-gray-600 list-disc mr-5 space-y-1">
                             ${task.study_tips.map(t => `<li>${t}</li>`).join('')}
                         </ul>
                     </div>
-                    <div class="mt-3 flex gap-2">
-                        <button onclick="generateVisualizer('${escapeHtml(task.topic)}')" class="bg-blue-50 border border-blue-300 text-blue-700 px-3 py-1 rounded text-xs hover:bg-blue-100 transition">🧮 סימולציה</button>
-                        <button onclick="generateTest('${escapeHtml(task.topic)}')" class="bg-purple-50 border border-purple-300 text-purple-700 px-3 py-1 rounded text-xs hover:bg-purple-100 transition">📝 בוחן</button>
+                    <div class="mt-4 flex gap-2">
+                        <button onclick="generateVisualizer('${escapeHtml(task.topic)}')" class="bg-sky-50 border border-sky-200 text-sky-700 px-3 py-1.5 rounded-lg text-xs hover:bg-sky-100 transition font-medium">🧮 סימולציה</button>
+                        <button onclick="generateTest('${escapeHtml(task.topic)}')" class="bg-purple-50 border border-purple-200 text-purple-700 px-3 py-1.5 rounded-lg text-xs hover:bg-purple-100 transition font-medium">📝 בוחן</button>
                     </div>
                 `;
                 tasksDiv.appendChild(div);
             });
         }
 
-        // ---------------------------------------------------------------
-        // Visualizer Agent
-        // ---------------------------------------------------------------
+        // ================================================================
+        // Visualizer — FIXED with live iframe preview
+        // ================================================================
         async function generateVisualizer(topic) {
             switchTab('viz');
             const resultDiv = document.getElementById('vizResult');
-            resultDiv.innerHTML = '<div class="text-center py-10"><span class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-green-700"></span><p class="mt-2 text-gray-500">מייצר סימולציה...</p></div>';
-
+            resultDiv.innerHTML = `
+                <div class="text-center py-14">
+                    <span class="inline-block animate-spin rounded-full h-10 w-10 border-b-2 border-emerald-600"></span>
+                    <p class="mt-3 text-gray-500 font-medium">מייצר סימולציה...</p>
+                </div>
+            `;
             try {
-                const response = await fetch(`${API_BASE}/generate_visualizer`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ topic: topic })
-                });
+                const response = await fetch(`${API_BASE}/generate_visualizer`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ topic: topic }) });
                 const data = await response.json();
                 if (data.success) {
                     const v = data.visualizer;
+                    const safeTopic = topic.replace(/[^a-zA-Z0-9א-ת ]/g, '');
+                    const iframeId = 'vizFrame_' + Date.now();
                     resultDiv.innerHTML = `
-                        <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
-                            <h3 class="font-bold text-lg mb-2">${v.topic}</h3>
-                            <p class="text-gray-600 mb-4">${v.explanation}</p>
-                            <div class="mb-4">
-                                <p class="text-sm font-bold text-gray-700 mb-1">React Code:</p>
-                                <pre class="bg-gray-800 text-green-400 p-3 rounded text-xs overflow-auto max-h-40 text-left" dir="ltr">${escapeHtmlEntity(v.react_code)}</pre>
+                        <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm">
+                            <h3 class="font-bold text-xl mb-3 text-emerald-900">${v.topic}</h3>
+                            <p class="text-gray-600 mb-5 leading-relaxed">${v.explanation}</p>
+
+                            <!-- Live Preview -->
+                            <div class="mb-5">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
+                                    <p class="text-sm font-bold text-gray-700">תצוגה חיה</p>
+                                </div>
+                                <iframe id="${iframeId}" class="viz-iframe" sandbox="allow-scripts"></iframe>
                             </div>
-                            <div>
-                                <p class="text-sm font-bold text-gray-700 mb-1">HTML Wrapper:</p>
-                                <pre class="bg-gray-800 text-blue-400 p-3 rounded text-xs overflow-auto max-h-40 text-left" dir="ltr">${escapeHtmlEntity(v.html_wrapper)}</pre>
+
+                            <!-- Code Tabs -->
+                            <div class="border border-gray-200 rounded-xl overflow-hidden">
+                                <div class="flex bg-gray-50 border-b border-gray-200">
+                                    <button onclick="toggleCodeTab(this,'reactCode')" class="px-4 py-2 text-sm font-bold text-emerald-700 bg-white border-l border-gray-200">React Code</button>
+                                    <button onclick="toggleCodeTab(this,'htmlCode')" class="px-4 py-2 text-sm font-bold text-gray-500 hover:text-gray-700">HTML Wrapper</button>
+                                </div>
+                                <div id="reactCode" class="p-0">
+                                    <pre class="code-block m-0 rounded-none">${escapeHtmlEntity(v.react_code || '// No React code generated')}</pre>
+                                </div>
+                                <div id="htmlCode" class="hidden p-0">
+                                    <pre class="code-block m-0 rounded-none">${escapeHtmlEntity(v.html_wrapper || '<!-- No HTML wrapper -->')}</pre>
+                                </div>
                             </div>
                         </div>
                     `;
+                    // Inject HTML wrapper into iframe so user sees the component LIVE
+                    const iframe = document.getElementById(iframeId);
+                    const doc = iframe.contentDocument || iframe.contentWindow.document;
+                    doc.open();
+                    doc.write(v.html_wrapper || '<p style="text-align:center;padding:40px;color:#999">No preview available</p>');
+                    doc.close();
                 } else {
-                    resultDiv.innerHTML = '<p class="text-red-500">שגיאה ביצירת הסימולציה</p>';
+                    resultDiv.innerHTML = '<p class="text-red-500 text-center py-10 font-medium">שגיאה ביצירת הסימולציה</p>';
                 }
             } catch (e) {
-                resultDiv.innerHTML = '<p class="text-red-500">שגיאת תקשורת עם Visualizer Agent</p>';
+                resultDiv.innerHTML = '<p class="text-red-500 text-center py-10 font-medium">שגיאת תקשורת עם Visualizer Agent</p>';
             }
         }
 
+        function toggleCodeTab(btn, targetId) {
+            ['reactCode','htmlCode'].forEach(id => {
+                document.getElementById(id).classList.add('hidden');
+            });
+            document.getElementById(targetId).classList.remove('hidden');
+            btn.parentElement.querySelectorAll('button').forEach(b => {
+                b.classList.remove('text-emerald-700','bg-white'); b.classList.add('text-gray-500');
+            });
+            btn.classList.remove('text-gray-500'); btn.classList.add('text-emerald-700','bg-white');
+        }
+
         function escapeHtmlEntity(text) {
+            if (!text) return '';
             return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
         }
 
-        // ---------------------------------------------------------------
-        // Tester Agent
-        // ---------------------------------------------------------------
+        // ================================================================
+        // Tester
+        // ================================================================
         async function generateTest(topic) {
             switchTab('test');
             const resultDiv = document.getElementById('testResult');
-            resultDiv.innerHTML = '<div class="text-center py-10"><span class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-green-700"></span><p class="mt-2 text-gray-500">מכין בוחן...</p></div>';
-
+            resultDiv.innerHTML = `
+                <div class="text-center py-14">
+                    <span class="inline-block animate-spin rounded-full h-10 w-10 border-b-2 border-emerald-600"></span>
+                    <p class="mt-3 text-gray-500 font-medium">מכין בוחן...</p>
+                </div>
+            `;
             try {
                 const response = await fetch(`${API_BASE}/generate_test?topic=${encodeURIComponent(topic)}&num_questions=3`);
                 const data = await response.json();
                 if (data.success) {
                     const t = data.test;
                     let html = `
-                        <div class="mb-4 flex justify-between items-center">
-                            <h3 class="font-bold text-lg">בוחן: ${t.topic}</h3>
-                            <span class="text-sm text-gray-500">${t.total_questions} שאלות · ~${t.estimated_minutes} דקות</span>
+                        <div class="mb-5 flex justify-between items-center bg-white p-4 rounded-xl border border-gray-100 shadow-sm">
+                            <h3 class="font-bold text-lg text-gray-800">בוחן: ${t.topic}</h3>
+                            <span class="text-sm text-gray-500 bg-gray-50 px-3 py-1 rounded-full">${t.total_questions} שאלות · ~${t.estimated_minutes} דקות</span>
                         </div>
                     `;
-
                     t.questions.forEach((q, idx) => {
-                        html += `<div class="border-r-4 border-purple-500 bg-gray-50 p-4 rounded-lg mb-4">`;
-                        html += `<p class="font-bold text-gray-800 mb-3">${idx + 1}. ${q.question_text}</p>`;
-
+                        html += `<div class="border-r-4 border-purple-500 bg-white p-5 rounded-xl mb-4 shadow-sm">`;
+                        html += `<p class="font-bold text-gray-800 mb-4 text-lg">${idx + 1}. ${q.question_text}</p>`;
                         if (q.options && q.options.length > 0) {
-                            html += `<div class="space-y-2 mr-4">`;
+                            html += `<div class="space-y-2 mr-5">`;
                             q.options.forEach(opt => {
                                 html += `
-                                    <label class="flex items-center gap-2 cursor-pointer p-2 rounded hover:bg-white transition">
-                                        <input type="radio" name="q${idx}" value="${opt}" class="text-purple-600" onchange="showAnswer(${idx}, '${escapeHtml(q.correct_answer)}', this)">
+                                    <label class="flex items-center gap-3 cursor-pointer p-3 rounded-xl hover:bg-gray-50 transition border border-transparent hover:border-gray-100">
+                                        <input type="radio" name="q${idx}" value="${opt}" class="text-purple-600 w-4 h-4" onchange="showAnswer(${idx}, '${escapeHtml(q.correct_answer)}', this)">
                                         <span class="text-gray-700">${opt}</span>
                                     </label>
                                 `;
                             });
                             html += `</div>`;
                         } else {
-                            html += `<input type="text" id="q${idx}input" class="border p-2 rounded w-full" placeholder="הקלד תשובה...">`;
-                            html += `<button onclick="showOpenAnswer(${idx}, '${escapeHtml(q.correct_answer)}')" class="mt-2 bg-purple-600 text-white px-4 py-1 rounded text-sm hover:bg-purple-700">בדוק תשובה</button>`;
+                            html += `<input type="text" id="q${idx}input" class="border p-3 rounded-xl w-full bg-gray-50 focus:ring-2 focus:ring-purple-500 outline-none" placeholder="הקלד תשובה...">`;
+                            html += `<button onclick="showOpenAnswer(${idx}, '${escapeHtml(q.correct_answer)}')" class="mt-3 bg-purple-600 text-white px-5 py-2 rounded-xl text-sm hover:bg-purple-700 transition font-bold shadow-md">בדוק תשובה</button>`;
                         }
-
-                        html += `<div id="answer${idx}" class="hidden mt-3 p-3 rounded bg-white border border-gray-200">
-                            <p class="text-sm"><span class="font-bold">תשובה נכונה:</span> <span class="text-green-700">${q.correct_answer}</span></p>
-                            <p class="text-sm mt-1 text-gray-600">${q.explanation}</p>
+                        html += `<div id="answer${idx}" class="hidden mt-4 p-4 rounded-xl bg-emerald-50 border border-emerald-200">
+                            <p class="text-sm"><span class="font-bold text-gray-700">תשובה נכונה:</span> <span class="text-emerald-700 font-bold">${q.correct_answer}</span></p>
+                            <p class="text-sm mt-2 text-gray-600 leading-relaxed">${q.explanation}</p>
                         </div>`;
                         html += `</div>`;
                     });
-
                     resultDiv.innerHTML = html;
-                } else {
-                    resultDiv.innerHTML = '<p class="text-red-500">שגיאה ביצירת הבוחן</p>';
-                }
-            } catch (e) {
-                resultDiv.innerHTML = '<p class="text-red-500">שגיאת תקשורת עם Tester Agent</p>';
-            }
+                } else { resultDiv.innerHTML = '<p class="text-red-500 text-center py-10 font-medium">שגיאה ביצירת הבוחן</p>'; }
+            } catch (e) { resultDiv.innerHTML = '<p class="text-red-500 text-center py-10 font-medium">שגיאת תקשורת עם Tester Agent</p>'; }
         }
 
         function showAnswer(qIdx, correctAnswer, radio) {
             document.querySelectorAll(`input[name="q${qIdx}"]`).forEach(r => r.disabled = true);
-            const div = document.getElementById('answer' + qIdx);
-            div.classList.remove('hidden');
-            if (radio.value.includes(correctAnswer)) {
-                radio.parentElement.classList.add('bg-green-50', 'border-green-300');
-            } else {
-                radio.parentElement.classList.add('bg-red-50', 'border-red-300');
-            }
+            const div = document.getElementById('answer' + qIdx); div.classList.remove('hidden');
+            if (radio.value === correctAnswer || radio.value.includes(correctAnswer)) {
+                radio.parentElement.classList.add('bg-emerald-50', 'border-emerald-300');
+            } else { radio.parentElement.classList.add('bg-red-50', 'border-red-300'); }
         }
-
         function showOpenAnswer(qIdx, correctAnswer) {
-            const input = document.getElementById('q' + qIdx + 'input');
-            input.disabled = true;
-            const div = document.getElementById('answer' + qIdx);
-            div.classList.remove('hidden');
-            if (input.value.trim().toLowerCase() === correctAnswer.toLowerCase()) {
-                input.classList.add('border-green-500', 'bg-green-50');
-            } else {
-                input.classList.add('border-red-500', 'bg-red-50');
-            }
+            const input = document.getElementById('q' + qIdx + 'input'); input.disabled = true;
+            const div = document.getElementById('answer' + qIdx); div.classList.remove('hidden');
+            if (input.value.trim().toLowerCase() === correctAnswer.toLowerCase()) { input.classList.add('border-emerald-500', 'bg-emerald-50'); }
+            else { input.classList.add('border-red-500', 'bg-red-50'); }
         }
 
-        // ---------------------------------------------------------------
-        // Chat
-        // ---------------------------------------------------------------
+        // ================================================================
+        // Chat — FIXED alignment
+        // ================================================================
         async function sendMessage() {
             const input = document.getElementById('userInput');
-            const message = input.value;
-            if (!message) return;
-
-            addChatMessage('user', message);
-            input.value = '';
+            const message = input.value; if (!message) return;
+            addChatMessage('user', message); input.value = '';
             const loadingId = addChatMessage('assistant', 'חושב...');
-
             try {
-                const response = await fetch(`${API_BASE}/chat`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ user_message: message, history: chatHistory })
-                });
+                const response = await fetch(`${API_BASE}/chat`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ user_message: message, history: chatHistory }) });
                 const data = await response.json();
                 updateChatMessage(loadingId, data.reply);
                 chatHistory.push({ role: "user", content: message }, { role: "assistant", content: data.reply });
@@ -895,12 +890,15 @@
 
         function addChatMessage(role, text) {
             const chatBox = document.getElementById('chatBox');
-            const id = Date.now();
+            const id = Date.now() + Math.random();
             const div = document.createElement('div');
             div.id = id;
-            div.className = role === 'user'
-                ? 'bg-green-600 text-white p-3 rounded-2xl rounded-tl-none self-end ml-auto max-w-[85%] shadow-sm text-right'
-                : 'bg-white border border-gray-200 p-3 rounded-2xl rounded-tr-none self-start mr-auto max-w-[85%] shadow-sm text-gray-800 text-right';
+            // RTL fix: user = right side (self-start in RTL), assistant = left side (self-end in RTL)
+            if (role === 'user') {
+                div.className = "chat-user p-3.5 max-w-[85%] text-sm leading-relaxed";
+            } else {
+                div.className = "chat-assistant p-3.5 max-w-[85%] text-sm leading-relaxed";
+            }
             div.innerText = text;
             chatBox.appendChild(div);
             chatBox.scrollTop = chatBox.scrollHeight;
