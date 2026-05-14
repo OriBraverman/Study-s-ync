@@ -48,18 +48,76 @@
         .tab-inactive:hover {
             color: #15803d;
         }
+
+        .modal-overlay {
+            background-color: rgba(0, 0, 0, 0.5);
+        }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-900 text-right">
 
     <header class="bg-green-800 text-white p-4 shadow-lg">
-        <div class="container mx-auto flex justify-between items-center">
-            <h1 class="text-2xl font-bold tracking-tight">study<span class="text-green-300">[</span>s<span class="text-green-300">]</span>ync</h1>
-            <span class="text-sm opacity-80 italic">מעטפת אקדמית לסטודנטים</span>
+        <div class="container mx-auto flex justify-between items-center flex-wrap gap-2">
+            <div>
+                <h1 class="text-2xl font-bold tracking-tight">study<span class="text-green-300">[</span>s<span class="text-green-300">]</span>ync</h1>
+                <span class="text-sm opacity-80 italic">מעטפת אקדמית לסטודנטים</span>
+            </div>
+            <div id="authHeader" class="flex items-center gap-3">
+                <button onclick="openAuthModal()" class="bg-white text-green-800 px-4 py-2 rounded-lg font-bold hover:bg-green-100 transition text-sm">התחברות / הרשמה</button>
+            </div>
         </div>
     </header>
 
     <main class="container mx-auto p-6">
+        <!-- Auth Modal -->
+        <div id="authModal" class="fixed inset-0 modal-overlay hidden z-50 flex items-center justify-center">
+            <div class="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-md mx-4 animate-fade-in">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 id="authModalTitle" class="text-2xl font-bold text-green-900">התחברות</h2>
+                    <button onclick="closeAuthModal()" class="text-gray-400 hover:text-gray-600 text-2xl">&times;</button>
+                </div>
+                <div id="authForm">
+                    <div class="mb-4">
+                        <label class="block text-sm font-bold text-gray-700 mb-1">שם משתמש</label>
+                        <input id="authUsername" type="text" class="border p-3 rounded-lg w-full focus:ring-2 focus:ring-green-500 outline-none border-gray-300" placeholder="הכנס שם משתמש">
+                    </div>
+                    <div class="mb-6">
+                        <label class="block text-sm font-bold text-gray-700 mb-1">סיסמה</label>
+                        <input id="authPassword" type="password" class="border p-3 rounded-lg w-full focus:ring-2 focus:ring-green-500 outline-none border-gray-300" placeholder="הכנס סיסמה">
+                    </div>
+                    <button id="authActionBtn" onclick="performAuth()" class="w-full bg-green-600 text-white py-3 rounded-lg font-bold hover:bg-green-700 transition">התחבר</button>
+                    <p class="text-center mt-4 text-sm text-gray-600">
+                        <span id="authToggleText">אין לך חשבון?</span>
+                        <button onclick="toggleAuthMode()" class="text-green-700 font-bold underline mr-1">לחץ כאן</button>
+                    </p>
+                    <p id="authError" class="text-red-600 text-sm mt-3 text-center hidden"></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- User Panel (courses) -->
+        <div id="userPanel" class="hidden mb-6 bg-white p-6 rounded-xl shadow-md border border-gray-100">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="font-bold text-green-900 text-xl">🎓 הקורסים שלי</h3>
+                <span id="welcomeUser" class="text-sm text-gray-500"></span>
+            </div>
+            <div class="flex flex-wrap gap-3 mb-4" id="myCoursesList">
+                <!-- Courses will be rendered here -->
+            </div>
+            <div class="flex flex-wrap gap-3 items-end border-t pt-4">
+                <div class="flex-1 min-w-[180px]">
+                    <label class="block text-xs font-bold text-gray-600 mb-1">שם קורס</label>
+                    <input id="newCourseName" type="text" class="border p-2 rounded-lg w-full focus:ring-2 focus:ring-green-500 outline-none border-gray-300" placeholder="למשל: מבוא למדעי המחשב">
+                </div>
+                <div class="w-40">
+                    <label class="block text-xs font-bold text-gray-600 mb-1">קוד קורס</label>
+                    <input id="newCourseNum" type="text" class="border p-2 rounded-lg w-full focus:ring-2 focus:ring-green-500 outline-none border-gray-300" placeholder="למשל: 89-110">
+                </div>
+                <button onclick="addCourse()" class="bg-green-600 text-white px-5 py-2 rounded-lg font-bold hover:bg-green-700 transition h-[42px]">הוסף קורס</button>
+            </div>
+            <p id="courseMsg" class="text-sm mt-2 hidden"></p>
+        </div>
+
         <!-- Date Picker -->
         <div class="bg-white p-6 rounded-xl shadow-md border border-gray-100 mb-6">
             <div class="flex flex-wrap md:flex-nowrap gap-4 items-end justify-center">
@@ -72,6 +130,17 @@
                     <input id="endDate" type="date" class="border p-2 rounded-lg w-full focus:ring-2 focus:ring-green-500 outline-none border-gray-300">
                 </div>
                 <button onclick="loadLessonRange()" class="bg-green-600 text-white px-8 py-2 rounded-lg font-bold hover:bg-green-700 transition shadow-md h-[42px] whitespace-nowrap">הצג את כל ההרצאות בטווח</button>
+            </div>
+        </div>
+
+        <!-- Missing Courses -->
+        <div id="missingCoursesSection" class="hidden mb-6 bg-orange-50 p-6 rounded-xl border border-orange-200 shadow-sm animate-fade-in">
+            <h3 class="font-bold text-orange-900 text-lg mb-2">⚠️ קורסים ללא נתונים</h3>
+            <p class="text-sm text-gray-600 mb-3">הקורסים הבאים עדיין לא נסרקו. לחץ כדי לסרוק אותם עכשיו:</p>
+            <div id="missingCoursesList" class="flex flex-wrap gap-3"></div>
+            <div id="scrapeLoading" class="hidden mt-4 text-center text-gray-500">
+                <span class="inline-block animate-spin rounded-full h-5 w-5 border-b-2 border-orange-700 mr-2"></span>
+                מסרק קורסים...
             </div>
         </div>
 
@@ -150,7 +219,7 @@
                 <div class="bg-green-800 p-4 font-bold text-white text-center shadow-inner">מורה פרטי AI 🤖</div>
                 <div id="chatBox" class="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50 flex flex-col">
                     <div class="bg-white border border-green-100 p-4 rounded-2xl rounded-tr-none shadow-sm text-gray-700 self-start max-w-[85%] italic">
-                        שלום! בחר טווח תאריכים כדי לראות מה הפסדת.
+                        שלום! התחבר כדי שאדע אילו קורסים אתה לומד, או בחר טווח תאריכים כדי לראות מה הפסדת.
                     </div>
                 </div>
                 <div class="p-4 border-t bg-white flex gap-2">
@@ -169,6 +238,237 @@
         let currentCourse = "";
         let currentTopic = "";
         let currentLecture = null;
+        let authToken = localStorage.getItem("study_sync_token") || "";
+        let currentUser = null;
+        let isRegisterMode = false;
+        let userCourses = [];
+
+        // -------------------------------------------------------------
+        // Init
+        // --------------------------------------------------------------
+        document.addEventListener("DOMContentLoaded", async () => {
+            if (authToken) {
+                await fetchCurrentUser();
+            }
+        });
+
+        // ---------------------------------------------------------------
+        // Auth
+        // ---------------------------------------------------------------
+        function openAuthModal() {
+            document.getElementById('authModal').classList.remove('hidden');
+            document.getElementById('authError').classList.add('hidden');
+        }
+
+        function closeAuthModal() {
+            document.getElementById('authModal').classList.add('hidden');
+        }
+
+        function toggleAuthMode() {
+            isRegisterMode = !isRegisterMode;
+            const btn = document.getElementById('authActionBtn');
+            const title = document.getElementById('authModalTitle');
+            const toggleText = document.getElementById('authToggleText');
+            if (isRegisterMode) {
+                btn.innerText = "הירשם";
+                title.innerText = "הרשמה";
+                toggleText.innerText = "כבר יש לך חשבון?";
+            } else {
+                btn.innerText = "התחבר";
+                title.innerText = "התחברות";
+                toggleText.innerText = "אין לך חשבון?";
+            }
+            document.getElementById('authError').classList.add('hidden');
+        }
+
+        async function performAuth() {
+            const username = document.getElementById('authUsername').value.trim();
+            const password = document.getElementById('authPassword').value.trim();
+            const errorEl = document.getElementById('authError');
+            errorEl.classList.add('hidden');
+
+            if (!username || !password) {
+                errorEl.innerText = "אנא הכנס שם משתמש וסיסמה";
+                errorEl.classList.remove('hidden');
+                return;
+            }
+
+            const endpoint = isRegisterMode ? "/auth/register" : "/auth/login";
+            try {
+                const resp = await fetch(`${API_BASE}${endpoint}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+                const data = await resp.json();
+                if (!resp.ok) {
+                    errorEl.innerText = data.detail || "שגיאה";
+                    errorEl.classList.remove('hidden');
+                    return;
+                }
+                if (isRegisterMode) {
+                    // Auto-login after register
+                    const loginResp = await fetch(`${API_BASE}/auth/login`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ username, password })
+                    });
+                    const loginData = await loginResp.json();
+                    if (loginResp.ok && loginData.token) {
+                        authToken = loginData.token;
+                        localStorage.setItem("study_sync_token", authToken);
+                    }
+                } else {
+                    authToken = data.token;
+                    localStorage.setItem("study_sync_token", authToken);
+                }
+                closeAuthModal();
+                await fetchCurrentUser();
+            } catch (e) {
+                errorEl.innerText = "שגיאת תקשורת";
+                errorEl.classList.remove('hidden');
+            }
+        }
+
+        async function logout() {
+            if (authToken) {
+                await fetch(`${API_BASE}/auth/logout`, {
+                    method: 'POST',
+                    headers: { 'X-Token': authToken }
+                });
+            }
+            authToken = "";
+            currentUser = null;
+            userCourses = [];
+            localStorage.removeItem("study_sync_token");
+            renderAuthHeader();
+            document.getElementById('userPanel').classList.add('hidden');
+            addChatMessage('assistant', 'התנתקת בהצלחה. התחבר כדי שאדע אילו קורסים אתה לומד.');
+        }
+
+        async function fetchCurrentUser() {
+            if (!authToken) return;
+            try {
+                const resp = await fetch(`${API_BASE}/auth/me`, {
+                    headers: { 'X-Token': authToken }
+                });
+                if (resp.ok) {
+                    const data = await resp.json();
+                    currentUser = data.user;
+                    userCourses = currentUser.courses || [];
+                    renderAuthHeader();
+                    renderUserPanel();
+                    addChatMessage('assistant', `שלום ${currentUser.username}! ראיתי שאתה רשום ל-${userCourses.length} קורסים.`);
+                } else {
+                    // Token expired
+                    authToken = "";
+                    localStorage.removeItem("study_sync_token");
+                    renderAuthHeader();
+                }
+            } catch (e) {
+                console.error("fetch user error", e);
+            }
+        }
+
+        function renderAuthHeader() {
+            const container = document.getElementById('authHeader');
+            if (currentUser) {
+                container.innerHTML = `
+                    <span class="text-sm opacity-90">שלום, <strong>${escapeHtml(currentUser.username)}</strong></span>
+                    <button onclick="logout()" class="bg-green-700 border border-green-500 text-white px-4 py-2 rounded-lg font-bold hover:bg-green-600 transition text-sm">התנתק</button>
+                `;
+            } else {
+                container.innerHTML = `
+                    <button onclick="openAuthModal()" class="bg-white text-green-800 px-4 py-2 rounded-lg font-bold hover:bg-green-100 transition text-sm">התחברות / הרשמה</button>
+                `;
+            }
+        }
+
+        // ---------------------------------------------------------------
+        // User Courses Panel
+        // ---------------------------------------------------------------
+        function renderUserPanel() {
+            const panel = document.getElementById('userPanel');
+            if (!currentUser) {
+                panel.classList.add('hidden');
+                return;
+            }
+            panel.classList.remove('hidden');
+            document.getElementById('welcomeUser').innerText = `משתמש: ${currentUser.username}`;
+            renderCoursesList();
+        }
+
+        function renderCoursesList() {
+            const list = document.getElementById('myCoursesList');
+            if (userCourses.length === 0) {
+                list.innerHTML = '<span class="text-gray-400 text-sm">עדיין לא רשמת קורסים. הוסף קורס למטה.</span>';
+                return;
+            }
+            list.innerHTML = userCourses.map(c => `
+                <div class="bg-green-50 border border-green-200 px-3 py-2 rounded-lg flex items-center gap-2">
+                    <span class="font-semibold text-green-900 text-sm">${escapeHtml(c.course_name)}</span>
+                    <span class="text-xs text-green-700 bg-green-100 px-2 py-0.5 rounded">${escapeHtml(c.course_num)}</span>
+                    <button onclick="removeCourse('${escapeHtml(c.course_num)}')" class="text-red-400 hover:text-red-600 text-xs mr-1" title="הסר">&times;</button>
+                </div>
+            `).join('');
+        }
+
+        async function addCourse() {
+            const nameInput = document.getElementById('newCourseName');
+            const numInput = document.getElementById('newCourseNum');
+            const msg = document.getElementById('courseMsg');
+            const name = nameInput.value.trim();
+            const num = numInput.value.trim();
+
+            if (!name || !num) {
+                msg.innerText = "אנא הכנס שם קורס וקוד קורס";
+                msg.className = "text-sm mt-2 text-red-600";
+                msg.classList.remove('hidden');
+                return;
+            }
+
+            try {
+                const resp = await fetch(`${API_BASE}/my_courses`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'X-Token': authToken },
+                    body: JSON.stringify({ course_name: name, course_num: num })
+                });
+                const data = await resp.json();
+                if (resp.ok) {
+                    userCourses = data.courses;
+                    renderCoursesList();
+                    nameInput.value = "";
+                    numInput.value = "";
+                    msg.innerText = "הקורס נוסף בהצלחה!";
+                    msg.className = "text-sm mt-2 text-green-600";
+                    msg.classList.remove('hidden');
+                } else {
+                    msg.innerText = data.detail || "שגיאה בהוספת קורס";
+                    msg.className = "text-sm mt-2 text-red-600";
+                    msg.classList.remove('hidden');
+                }
+            } catch (e) {
+                msg.innerText = "שגיאת תקשורת";
+                msg.className = "text-sm mt-2 text-red-600";
+                msg.classList.remove('hidden');
+            }
+        }
+
+        async function removeCourse(courseNum) {
+            try {
+                const resp = await fetch(`${API_BASE}/my_courses/${encodeURIComponent(courseNum)}`, {
+                    method: 'DELETE',
+                    headers: { 'X-Token': authToken }
+                });
+                const data = await resp.json();
+                if (resp.ok) {
+                    userCourses = data.courses;
+                    renderCoursesList();
+                }
+            } catch (e) {
+                console.error("remove course error", e);
+            }
+        }
 
         // ---------------------------------------------------------------
         // Tabs
@@ -200,11 +500,19 @@
 
             const container = document.getElementById('buttonsContainer');
             const listDiv = document.getElementById('lectureList');
+            const missingSection = document.getElementById('missingCoursesSection');
             container.innerHTML = '';
+            missingSection.classList.add('hidden');
 
             try {
-                const response = await fetch(`${API_BASE}/get_missed_class_all`);
+                const headers = authToken ? { 'X-Token': authToken } : {};
+                const response = await fetch(`${API_BASE}/get_missed_class_all`, { headers });
                 const lectures = await response.json();
+
+                // Determine user course names for missing-course detection
+                const userCourseNames = new Set(userCourses.map(c => c.course_name));
+                const userCourseNums = {};
+                userCourses.forEach(c => { userCourseNums[c.course_name] = c.course_num; });
 
                 const filtered = lectures.filter(l => {
                     const lDate = new Date(l.lecture_date);
@@ -257,7 +565,53 @@
                     });
                     container.appendChild(section);
                 }
-            } catch (e) { alert("שגיאה בתקשורת עם השרת."); }
+
+                // Detect missing courses for logged-in users
+                if (currentUser && userCourses.length > 0) {
+                    const foundCourseNames = new Set(Object.keys(grouped));
+                    const missing = userCourses.filter(c => !foundCourseNames.has(c.course_name));
+                    if (missing.length > 0) {
+                        renderMissingCourses(missing);
+                    }
+                }
+            } catch (e) {
+                alert("שגיאה בתקשורת עם השרת.");
+            }
+        }
+
+        function renderMissingCourses(missing) {
+            const section = document.getElementById('missingCoursesSection');
+            const list = document.getElementById('missingCoursesList');
+            list.innerHTML = missing.map(c => `
+                <button onclick="scrapeCourse('${escapeHtml(c.course_num)}', '${escapeHtml(c.course_name)}')" class="bg-white border border-orange-300 text-orange-700 px-4 py-2 rounded-lg hover:bg-orange-100 transition text-sm font-semibold">
+                    🔍 ${escapeHtml(c.course_name)} (${escapeHtml(c.course_num)})
+                </button>
+            `).join('');
+            section.classList.remove('hidden');
+        }
+
+        async function scrapeCourse(courseNum, courseName) {
+            const loading = document.getElementById('scrapeLoading');
+            loading.classList.remove('hidden');
+            try {
+                const resp = await fetch(`${API_BASE}/scrape_course`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ course_num: courseNum })
+                });
+                const data = await resp.json();
+                if (resp.ok && data.result && data.result.found) {
+                    alert(`הקורס ${courseName} נסרק בהצלחה! נמצאו ${data.result.topics.length} נושאים.`);
+                    // Reload lectures to see if data appears (lectures are generated separately,
+                    // but for now we show the syllabus topics as a preview)
+                } else {
+                    alert(`לא נמצא סילבוס לקורס ${courseName}. ייתכן שהקורס לא זמין או שהקוד שגוי.`);
+                }
+            } catch (e) {
+                alert("שגיאה בסריקת הקורס.");
+            } finally {
+                loading.classList.add('hidden');
+            }
         }
 
         function escapeHtml(text) {
@@ -312,7 +666,7 @@
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        student_name: "סטודנט",
+                        student_name: currentUser ? currentUser.username : "סטודנט",
                         course_name: currentCourse,
                         course_num: "89-110",
                         absence_start: startDateVal,

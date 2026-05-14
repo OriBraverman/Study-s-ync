@@ -5,11 +5,19 @@ Endpoints:
   GET  /                      — serve the main HTML UI
   GET  /health                — liveness check
   GET  /courses               — list courses that have syllabuses
+  POST /auth/register        — register a new user
+  POST /auth/login           — login and receive token
+  POST /auth/logout          — invalidate token
+  GET  /auth/me              — get current user info
+  GET  /my_courses           — list user's registered courses
+  POST /my_courses           — add a course to user
+  DELETE /my_courses/{course_num} — remove a course from user
   POST /generate_bootcamp    — run the full LangGraph pipeline (Planner Agent)
   POST /generate_visualizer  — generate an interactive React visualizer (Visualizer Agent)
   POST /generate_test        — generate a practice test for a topic (Tester Agent)
-  GET  /get_missed_class_all — list all lectures from the database
+  GET  /get_missed_class_all — list all lectures from the database (optionally filtered by user courses)
   GET  /get_missed_class/{course_name}/{date} — get a specific lecture
+  POST /scrape_course        — trigger scraping for a specific course
   POST /chat                 — AI tutor chat
 
 Run with:
@@ -20,7 +28,7 @@ import os
 from datetime import date, datetime
 from pathlib import Path
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Header
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
@@ -36,6 +44,15 @@ from src.schemas.models import (
 from src.orchestration.graph import run_pipeline
 from src.agents.visualizer.agent import generate_visualizer
 from src.agents.tester.agent import generate_test
+from src.api.users import (
+    create_user,
+    authenticate_user,
+    logout_user,
+    get_user_by_token,
+    add_user_course,
+    remove_user_course,
+    get_user_courses,
+)
 
 # Ensure mock mode is on by default so the API works without an OpenAI key
 os.environ.setdefault("USE_MOCK_LLM", "true")
@@ -47,7 +64,7 @@ os.environ.setdefault("USE_MOCK_LLM", "true")
 app = FastAPI(
     title="Study[S]ync API",
     description="BIU Academic Vest Recovery Bootcamp Generator",
-    version="1.2.0",
+    version="1.3.0",
 )
 
 app.add_middleware(
@@ -167,8 +184,117 @@ class ChatRequest(BaseModel):
     history: list = []
 
 
+class RegisterRequest(BaseModel):
+    username: str
+    password: str
+
+
+class LoginRequest(BaseModel):
+    username: str
+    password: str
+
+
+class AddCourseRequest(BaseModel):
+    course_name: str
+    course_num: str
+
+
+class ScrapeRequest(BaseModel):
+    course_num: str
+
+
 # ---------------------------------------------------------------------------
-# Endpoints
+# Auth endpoints
+# ---------------------------------------------------------------------------
+
+@app.post("/auth/register")
+def register(request: RegisterRequest):
+    """Register a new user."""
+    try:
+        user = create_user(request.username, request.password)
+        return {"success": True, "user": user}
+    except ValueError as exc:
+        raise HTTPException(status_code=409, detail=str(exc))
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail=f"Registration failed: {exc}")
+
+
+@app.post("/auth/login")
+def login(request: LoginRequest):
+    """Login and receive a token."""
+    token = authenticate_user(request.username, request.password)
+    if not token:
+        raise HTTPException(status_code=401, detail="Invalid username or password")
+    return {"success": True, "token": token}
+
+
+@app.post("/auth/logout")
+def logout(x_token: str = Header(default="")):
+    """Invalidate the current token."""
+    logout_user(x_token)
+    return {"success": True}
+
+
+@app.get("/auth/me")
+def get_me(x_token: str = Header(default="")):
+    """Get current user info."""
+    user = get_user_by_token(x_token)
+    if not user:
+        raise HTTPException(status_code=401, detail="Invalid or expired token")
+    return {
+        "success": True,
+        "user": {
+            "id": user["id"],
+            "username": user["username"],
+            "courses": user.get("courses", []),
+        },
+    }
+
+
+# ---------------------------------------------------------------------------
+# User course management
+# ---------------------------------------------------------------------------
+
+@app.get("/my_courses")
+def list_my_courses(x_token: str = Header(default="")):
+    """List the courses registered by the current user."""
+    try:
+        courses = get_user_courses(x_token)
+        return {"success": True, "courses": courses}
+    except PermissionError as exc:
+        raise HTTPException(status_code=401, detail=str(exc))
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail=str(exc))
+
+
+@app.post("/my_courses")
+def add_my_course(request: AddCourseRequest, x_token: str = Header(default="")):
+    """Add a course to the current user's list."""
+    try:
+        result = add_user_course(x_token, request.course_name, request.course_num)
+        return {"success": True, "courses": result["courses"]}
+    except PermissionError as exc:
+        raise HTTPException(status_code=401, detail=str(exc))
+    except ValueError as exc:
+        raise HTTPException(status_code=409, detail=str(exc))
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail=str(exc))
+
+
+@app.delete("/my_courses/{course_num}")
+def delete_my_course(course_num: str, x_token: str = Header(default="")):
+    """Remove a course from the current user's list."""
+    try:
+        result = remove_user_course(x_token, course_num)
+        return {"success": True, "courses": result["courses"]}
+    except PermissionError as exc:
+        raise HTTPException(status_code=401, detail=str(exc))
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail=str(exc))
+
+
+# ---------------------------------------------------------------------------
+# Core endpoints
 # ---------------------------------------------------------------------------
 
 @app.get("/")
@@ -186,7 +312,7 @@ def health_check():
     return {
         "status": "ok",
         "service": "Study[S]ync API",
-        "version": "1.2.0",
+        "version": "1.3.0",
         "mock_mode": os.getenv("USE_MOCK_LLM", "true").lower() == "true",
     }
 
@@ -352,10 +478,14 @@ async def generate_test_endpoint(
 # ---------------------------------------------------------------------------
 
 @app.get("/get_missed_class_all")
-def get_all_lectures():
-    """Return all lectures from the lectures database."""
+def get_all_lectures(x_token: str = Header(default="")):
+    """Return all lectures from the lectures database, optionally filtered by user courses."""
     try:
         lectures = _load_lectures()
+        user = get_user_by_token(x_token)
+        if user and user.get("courses"):
+            user_course_names = {c["course_name"] for c in user["courses"]}
+            lectures = [l for l in lectures if l.get("course_name") in user_course_names]
         return lectures
     except FileNotFoundError:
         raise HTTPException(status_code=503, detail="Lectures database not found.")
@@ -380,6 +510,20 @@ def get_missed_class(course_name: str, date: str):
         raise
     except Exception as exc:
         raise HTTPException(status_code=500, detail=f"Error loading lecture: {exc}")
+
+
+@app.post("/scrape_course")
+async def scrape_course(request: ScrapeRequest):
+    """
+    Trigger scraping for a specific course number.
+    Returns the scraped syllabus data.
+    """
+    try:
+        from src.scraper.syllabus_scraper import get_course_syllabus
+        result = get_course_syllabus(request.course_num, headless=True)
+        return {"success": True, "result": result}
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail=f"Scraping failed: {exc}")
 
 
 @app.post("/chat")
