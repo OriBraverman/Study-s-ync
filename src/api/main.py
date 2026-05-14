@@ -35,7 +35,7 @@ from src.schemas.models import (
 )
 from src.orchestration.graph import run_pipeline
 from src.agents.visualizer.agent import generate_visualizer
-from src.agents.tester.agent import generate_test
+from src.agents.tester.agent import generate_test, chat_with_tester
 
 # Ensure mock mode is on by default so the API works without an OpenAI key
 os.environ.setdefault("USE_MOCK_LLM", "true")
@@ -165,6 +165,12 @@ class GenerateBootcampRequest(BaseModel):
 class ChatRequest(BaseModel):
     user_message: str
     history: list = []
+
+
+class TesterChatRequest(BaseModel):
+    topic: str
+    topic_content: str
+    messages: list  # [{"role": "user"|"assistant", "content": "..."}]
 
 
 # ---------------------------------------------------------------------------
@@ -380,6 +386,35 @@ def get_missed_class(course_name: str, date: str):
         raise
     except Exception as exc:
         raise HTTPException(status_code=500, detail=f"Error loading lecture: {exc}")
+
+
+@app.post("/tester/chat")
+def tester_chat(request: TesterChatRequest):
+    """
+    Conversational comprehension-checking endpoint powered by chat_with_tester.
+
+    The UI sends the full conversation history plus the topic and its content.
+    Returns the assistant's next message.
+
+    Request body:
+        topic         — study topic name (e.g., "Recursion")
+        topic_content — raw study material injected into the system prompt
+        messages      — full conversation so far: [{"role": "user"|"assistant", "content": "..."}]
+
+    Response:
+        {"reply": "<assistant message>"}
+    """
+    try:
+        reply = chat_with_tester(
+            topic=request.topic,
+            topic_content=request.topic_content,
+            messages=request.messages,
+        )
+        return {"reply": reply}
+    except ValueError as exc:
+        raise HTTPException(status_code=503, detail=str(exc))
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail=f"Tester chat error: {exc}")
 
 
 @app.post("/chat")
