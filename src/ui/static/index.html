@@ -782,49 +782,26 @@
                     </div>
                 `;
 
-                // Build a self-contained HTML document with the React component INLINE
-                // We must use DOM API (not string concatenation) because reactCode
-                // may contain a closing script tag which would break HTML parsing.
-                let htmlDoc = v.html_wrapper || '';
-                htmlDoc = htmlDoc.replace(/^### HTML Wrapper \(index\.html\)\n?/i, '');
+                // Build the iframe content using the original HTML wrapper.
+                // We use DOMParser to safely replace src="index.jsx" with inline code,
+                // then set iframe.srcdoc (avoids closing-script-tag parsing issues).
+                let htmlContent = v.html_wrapper || '';
+                htmlContent = htmlContent.replace(/^### HTML Wrapper \(index\.html\)\n?/i, '');
+
+                const parser = new DOMParser();
+                const iframeDoc = parser.parseFromString(htmlContent, 'text/html');
+
+                // Replace <script src="index.jsx"> with inline react code
+                iframeDoc.querySelectorAll('script[src="index.jsx"]').forEach(script => {
+                    script.removeAttribute('src');
+                    script.textContent = v.react_code || '';
+                });
+
+                const serializer = new XMLSerializer();
+                const finalHtml = serializer.serializeToString(iframeDoc);
 
                 const iframe = document.getElementById(iframeId);
-                const doc = iframe.contentDocument || iframe.contentWindow.document;
-                doc.open();
-                doc.write('<!DOCTYPE html><html><head></head><body></body></html>');
-                doc.close();
-
-                // Now build the DOM programmatically to avoid script tag escaping issues
-                const head = doc.head;
-                const body = doc.body;
-
-                // Clear any existing content
-                body.innerHTML = '';
-
-                // Add React scripts
-                const reactScript = doc.createElement('script');
-                reactScript.src = 'https://unpkg.com/react@18/umd/react.development.js';
-                reactScript.crossOrigin = true;
-                head.appendChild(reactScript);
-
-                const reactDomScript = doc.createElement('script');
-                reactDomScript.src = 'https://unpkg.com/react-dom@18/umd/react-dom.development.js';
-                reactDomScript.crossOrigin = true;
-                head.appendChild(reactDomScript);
-
-                const babelScript = doc.createElement('script');
-                babelScript.src = 'https://unpkg.com/@babel/standalone/babel.min.js';
-                head.appendChild(babelScript);
-
-                const rootDiv = doc.createElement('div');
-                rootDiv.id = 'root';
-                body.appendChild(rootDiv);
-
-                // Add the React component code via DOM (safe from script tag injection)
-                const componentScript = doc.createElement('script');
-                componentScript.type = 'text/babel';
-                componentScript.textContent = (v.react_code || '') + '\n\nReactDOM.createRoot(document.getElementById("root")).render(<App />);';
-                body.appendChild(componentScript);
+                iframe.srcdoc = finalHtml;
             } catch (e) {
                 console.error(e);
                 resultDiv.innerHTML = '<p class="text-red-500 text-center py-10 font-medium">שגיאה ביצירת הסימולציה</p>';
