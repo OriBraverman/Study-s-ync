@@ -784,7 +784,7 @@
 
                 // Build a self-contained HTML document with the React component INLINE
                 // We must use DOM API (not string concatenation) because reactCode
-                // may contain `</script>` which would break HTML parsing.
+                // may contain a closing script tag which would break HTML parsing.
                 let htmlDoc = v.html_wrapper || '';
                 htmlDoc = htmlDoc.replace(/^### HTML Wrapper \(index\.html\)\n?/i, '');
 
@@ -794,7 +794,7 @@
                 doc.write('<!DOCTYPE html><html><head></head><body></body></html>');
                 doc.close();
 
-                // Now build the DOM programmatically to avoid </script> escaping issues
+                // Now build the DOM programmatically to avoid script tag escaping issues
                 const head = doc.head;
                 const body = doc.body;
 
@@ -820,7 +820,7 @@
                 rootDiv.id = 'root';
                 body.appendChild(rootDiv);
 
-                // Add the React component code via DOM (safe from </script> injection)
+                // Add the React component code via DOM (safe from script tag injection)
                 const componentScript = doc.createElement('script');
                 componentScript.type = 'text/babel';
                 componentScript.textContent = (v.react_code || '') + '\n\nReactDOM.createRoot(document.getElementById("root")).render(<App />);';
