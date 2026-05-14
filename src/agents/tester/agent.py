@@ -351,12 +351,16 @@ def chat_with_tester(
     model = os.getenv("OPENROUTER_MODEL", "anthropic/claude-sonnet-4-5")
     system_prompt = _build_chat_system_prompt(topic, topic_content)
 
-    response = client.chat.completions.create(
-        model=model,
-        messages=[{"role": "system", "content": system_prompt}, *messages],
-        temperature=0.4,
-    )
-    return response.choices[0].message.content.strip()
+    try:
+        response = client.chat.completions.create(
+            model=model,
+            messages=[{"role": "system", "content": system_prompt}, *messages],
+            temperature=0.4,
+        )
+        return response.choices[0].message.content.strip()
+    except Exception as e:
+        # If the API call fails (credits, rate limit, etc.), fall back to mock
+        return _mock_chat_response(topic, messages)
 
 
 if __name__ == "__main__":
