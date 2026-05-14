@@ -304,7 +304,7 @@ def ingest_syllabuses(store: VectorStoreManager) -> dict:
 
 def main():
     print("=" * 60)
-    print("ArmorAgent — Ingestion Pipeline")
+    print("Study[S]ync — Ingestion Pipeline")
     print("=" * 60)
     print(f"ChromaDB path : {CHROMA_DB_PATH}")
     print(f"Syllabus JSON : {SYLLABUS_PATH}")

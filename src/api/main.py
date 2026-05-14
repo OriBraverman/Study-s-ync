@@ -1,25 +1,35 @@
 """
-ArmorAgent FastAPI Backend
+Study[S]ync FastAPI Backend
 
 Endpoints:
   GET  /health            — liveness check
   GET  /courses           — list courses that have syllabuses
-  POST /generate_bootcamp — run the full LangGraph pipeline
+  POST /generate_bootcamp — run the full LangGraph pipeline (Planner Agent)
+  POST /generate_visualizer — generate an interactive React visualizer (Visualizer Agent)
+  POST /generate_test     — generate a practice test for a topic (Tester Agent)
 
 Run with:
     uvicorn src.api.main:app --reload --port 8000
 """
 import json
 import os
-from datetime import date
+from datetime import date, datetime
 from pathlib import Path
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
-from src.schemas.models import BootcampPlanSchema, StudentInputSchema
+from src.schemas.models import (
+    BootcampPlanSchema,
+    StudentInputSchema,
+    TestSchema,
+    VisualizerRequestSchema,
+    VisualizerOutputSchema,
+)
 from src.orchestration.graph import run_pipeline
+from src.agents.visualizer.agent import generate_visualizer
+from src.agents.tester.agent import generate_test
 
 # Ensure mock mode is on by default so the API works without an OpenAI key
 os.environ.setdefault("USE_MOCK_LLM", "true")
@@ -29,9 +39,9 @@ os.environ.setdefault("USE_MOCK_LLM", "true")
 # ---------------------------------------------------------------------------
 
 app = FastAPI(
-    title="ArmorAgent API",
+    title="Study[S]ync API",
     description="BIU Academic Vest Recovery Bootcamp Generator",
-    version="1.0.0",
+    version="1.1.0",
 )
 
 app.add_middleware(
@@ -82,7 +92,7 @@ def _load_courses() -> list:
 
 
 # ---------------------------------------------------------------------------
-# Request model
+# Request models
 # ---------------------------------------------------------------------------
 
 class GenerateBootcampRequest(BaseModel):
@@ -102,8 +112,8 @@ def health_check():
     """Returns a simple alive signal and current configuration."""
     return {
         "status": "ok",
-        "service": "ArmorAgent API",
-        "version": "1.0.0",
+        "service": "Study[S]ync API",
+        "version": "1.1.0",
         "mock_mode": os.getenv("USE_MOCK_LLM", "true").lower() == "true",
     }
 
@@ -129,7 +139,7 @@ def list_courses():
 @app.post("/generate_bootcamp", response_model=dict)
 async def generate_bootcamp(request: GenerateBootcampRequest):
     """
-    Run the full ArmorAgent pipeline for the given student and absence window.
+    Run the full Study[S]ync pipeline for the given student and absence window.
 
     Returns:
         {
@@ -163,4 +173,102 @@ async def generate_bootcamp(request: GenerateBootcampRequest):
         "success": True,
         "bootcamp_plan": plan_dict,
         "pruning_stats": plan_dict.get("pruning_stats", {}),
+    }
+
+
+@app.post("/generate_visualizer", response_model=dict)
+async def generate_visualizer_endpoint(request: VisualizerRequestSchema):
+    """
+    Generate an interactive React visualizer for a given topic.
+
+    Returns:
+        {
+            "success": true,
+            "visualizer": { ...VisualizerOutputSchema... }
+        }
+    """
+    try:
+        raw_markdown = generate_visualizer(
+            topic=request.topic,
+            concept_type=request.concept_type,
+        )
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail=f"Visualizer generation failed: {exc}")
+
+    # Parse the markdown output into structured fields (best-effort)
+    explanation = ""
+    react_code = ""
+    html_wrapper = ""
+
+    lines = raw_markdown.splitlines()
+    current_section = None
+
+    for line in lines:
+        lower = line.lower()
+        if "react code" in lower or line.strip().startswith("```jsx"):
+            current_section = "react"
+            if line.strip().startswith("```"):
+                continue
+        elif "html wrapper" in lower or line.strip().startswith("```html"):
+            current_section = "html"
+            if line.strip().startswith("```"):
+                continue
+        elif line.strip() == "```":
+            current_section = None
+            continue
+
+        if current_section == "react":
+            react_code += line + "\n"
+        elif current_section == "html":
+            html_wrapper += line + "\n"
+        elif not current_section and line.strip() and not line.startswith("#"):
+            explanation += line + "\n"
+
+    output = VisualizerOutputSchema(
+        topic=request.topic,
+        concept_type=request.concept_type,
+        explanation=explanation.strip(),
+        react_code=react_code.strip(),
+        html_wrapper=html_wrapper.strip(),
+        generated_at=datetime.utcnow().isoformat() + "Z",
+    )
+
+    return {
+        "success": True,
+        "visualizer": output.model_dump(mode="json"),
+    }
+
+
+@app.post("/generate_test", response_model=dict)
+async def generate_test_endpoint(
+    topic: str,
+    num_questions: int = 3,
+    difficulty: str = None,
+):
+    """
+    Generate a practice test for a given topic.
+
+    Args:
+        topic: The study task topic (e.g., "Loops", "Recursion", "Sorting").
+        num_questions: Number of questions to generate (default 3).
+        difficulty: Optional difficulty filter ("easy", "medium", "hard").
+
+    Returns:
+        {
+            "success": true,
+            "test": { ...TestSchema... }
+        }
+    """
+    try:
+        test: TestSchema = generate_test(
+            topic=topic,
+            num_questions=num_questions,
+            difficulty=difficulty,
+        )
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail=f"Test generation failed: {exc}")
+
+    return {
+        "success": True,
+        "test": test.model_dump(mode="json"),
     }

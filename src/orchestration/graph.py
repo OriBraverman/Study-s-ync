@@ -1,19 +1,29 @@
 """
-ArmorAgent LangGraph Pipeline
-Orchestrates: Analyzer -> PruningRouter -> Retriever -> Planner
+Study[S]ync LangGraph Pipeline
 
-State flows through four nodes:
+This module orchestrates the internal flow of the **Planner Agent**:
+  Analyzer -> PruningRouter -> Retriever -> Planner
+
+The three main agents in the system are:
+1. **Planner Agent** — this pipeline (creates the study plan)
+2. **Visualizer Agent** — generates interactive React simulations (optional, per topic)
+3. **Tester Agent** — generates practice tests and quizzes (optional, per topic)
+
+State flows through four nodes inside the Planner Agent:
   analyzer       : StudentInputSchema  -> MissedTopicsSchema
   pruning_router : MissedTopicsSchema  -> PrunedTopicsSchema
   retriever      : PrunedTopicsSchema  -> List[RetrievedChunk]
   planner        : everything          -> BootcampPlanSchema
+
+After the Planner produces a BootcampPlanSchema, the Visualizer and Tester
+agents can be triggered on-demand for individual StudyTaskSchema topics.
 """
 from typing import List, Optional, TypedDict
 
 from langgraph.graph import END, StateGraph
 
 from src.agents.analyzer import analyze_missed_topics
-from src.agents.planner import generate_bootcamp_plan
+from src.agents.planner_core import generate_bootcamp_plan
 from src.agents.pruning_router import prune_topics
 from src.agents.retriever import retrieve_for_topics
 from src.schemas.models import (
@@ -39,7 +49,7 @@ class AgentState(TypedDict):
 
 
 # ---------------------------------------------------------------------------
-# Node implementations
+# Node implementations (Planner Agent internal steps)
 # ---------------------------------------------------------------------------
 
 def analyzer_node(state: AgentState) -> AgentState:
@@ -160,7 +170,7 @@ def build_graph() -> StateGraph:
 
 def run_pipeline(student_input: StudentInputSchema) -> BootcampPlanSchema:
     """
-    Run the full ArmorAgent pipeline end-to-end.
+    Run the full Study[S]ync Planner Agent pipeline end-to-end.
 
     Args:
         student_input: validated StudentInputSchema

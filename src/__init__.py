@@ -1,1 +1,1 @@
-"""ArmorAgent source package."""
+"""Study[S]ync source package."""

@@ -1,10 +1,11 @@
 """
-ArmorAgent Pydantic v2 Data Models
+Study[S]ync Pydantic v2 Data Models
 All schemas used across the multi-agent pipeline.
 """
-from pydantic import BaseModel, Field
-from typing import List, Optional
 from datetime import date
+from typing import List, Optional
+
+from pydantic import BaseModel, Field
 
 
 class StudentInputSchema(BaseModel):
@@ -83,3 +84,46 @@ class BootcampPlanSchema(BaseModel):
     study_tasks: List[StudyTaskSchema]
     pruning_stats: PruningStats
     sources_used: List[str]
+
+
+# ---------------------------------------------------------------------------
+# Visualizer Agent Schemas (Phase 5)
+# ---------------------------------------------------------------------------
+
+class VisualizerRequestSchema(BaseModel):
+    topic: str
+    concept_type: Optional[str] = Field(
+        default=None,
+        description="Optional hint for the visualizer agent, e.g. 'sorting', 'cpu_pipeline', 'graph'",
+    )
+
+
+class VisualizerOutputSchema(BaseModel):
+    topic: str
+    concept_type: Optional[str] = None
+    explanation: str
+    react_code: str
+    html_wrapper: str
+    generated_at: str
+
+
+# ---------------------------------------------------------------------------
+# Tester Agent Schemas
+# ---------------------------------------------------------------------------
+
+class QuestionSchema(BaseModel):
+    question_type: str  # "multiple_choice" | "short_answer" | "code_tracing"
+    question_text: str
+    options: List[str] = []
+    correct_answer: str
+    explanation: str
+    difficulty: str  # "easy" | "medium" | "hard"
+    topic: str
+
+
+class TestSchema(BaseModel):
+    topic: str
+    questions: List[QuestionSchema]
+    total_questions: int
+    estimated_minutes: int
+    generated_at: str

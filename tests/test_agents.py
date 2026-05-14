@@ -21,7 +21,7 @@ from src.agents.pruning_router import (
     normalize_topic,
     prune_topics,
 )
-from src.agents.planner import create_mock_bootcamp_plan
+from src.agents.planner_core import create_mock_bootcamp_plan
 
 
 # ---------------------------------------------------------------------------

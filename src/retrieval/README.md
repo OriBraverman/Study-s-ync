@@ -1,15 +1,23 @@
-# Retrieval Module (Planned)
+# Retrieval Module
 
-This folder will hold retrieval logic over local course materials.
+This folder holds retrieval logic over local course materials.
 
-## Planned Responsibilities
+## Implemented Responsibilities
 
-- Document chunking and embedding.
-- Vector index management (ChromaDB or FAISS).
-- Search API that returns ranked passages with metadata.
-- Citation extraction support for downstream planner output.
+- `vector_store.py` — ChromaDB `VectorStoreManager` wrapper.
+  - Persistent client with default embedding function (`all-MiniLM-L6-v2`).
+  - Batch upsert, query with cosine distance, and collection reset.
+- `ingest.py` — ingestion pipeline.
+  - Loads `data/raw/syllabuses.json` and splits into course-level + topic-level documents.
+  - Ingests inline mock CS drive documents and optional `.txt` files from `data/mock_cs_drive/`.
 
 ## Data Contract
 
-- Input: pruned topic list.
-- Output: ranked documents/passages with course and source metadata.
+- Input: pruned topic list (`PrunedTopicsSchema`).
+- Output: ranked documents/passages with course and source metadata (`List[RetrievedChunk]`).
+
+## Run
+
+```powershell
+python src/retrieval/ingest.py
+```

@@ -1,14 +1,23 @@
-# Schemas Module (Planned)
+# Schemas Module
 
-This folder will contain Pydantic schemas for strict component communication.
+This folder contains Pydantic schemas for strict component communication.
 
-## Planned Core Schemas
+## Implemented Core Schemas
 
+- `StudentInputSchema`
+- `WeeklyTopic`
 - `MissedTopicsSchema`
+- `PruningStats`
 - `PrunedTopicsSchema`
-- `RetrievedSourceSchema`
-- `StudyPlanSchema`
+- `Citation`
+- `RetrievedChunk`
+- `StudyTaskSchema`
+- `BootcampPlanSchema`
 
 ## Goal
 
 Ensure predictable, typed outputs between agents and reduce hallucinated structure.
+
+## Future
+
+- Phase 5: add `VisualizerOutputSchema`, `VisualizerRequestSchema` for the Visualizer Agent integration.

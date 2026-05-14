@@ -1,5 +1,5 @@
 """
-ArmorAgent Streamlit Frontend
+Study[S]ync Streamlit Frontend
 
 Run with:
     streamlit run src/ui/app.py --server.port 8501
@@ -18,7 +18,7 @@ API_BASE = "http://localhost:8000"
 # Page config
 # ---------------------------------------------------------------------------
 st.set_page_config(
-    page_title="ArmorAgent — BIU Recovery Bootcamp",
+    page_title="Study[S]ync — BIU Recovery Bootcamp",
     page_icon="🛡️",
     layout="wide",
     initial_sidebar_state="expanded",
@@ -76,7 +76,7 @@ with st.sidebar:
         "https://upload.wikimedia.org/wikipedia/he/thumb/8/82/BIU_Logo.svg/200px-BIU_Logo.svg.png",
         width=80,
     )
-    st.title("🛡️ ArmorAgent")
+    st.title("🛡️ Study[S]ync")
     st.caption("Academic Recovery Bootcamp Generator")
     st.markdown("---")
 
@@ -91,7 +91,7 @@ with st.sidebar:
         """
 **How it works:**
 1. Enter your course & absence dates
-2. ArmorAgent analyses which topics you missed
+2. Study[S]ync analyses which topics you missed
 3. Smart pruning removes duplicates & admin entries
 4. Vector retrieval finds relevant study material
 5. A personalised bootcamp plan is generated
@@ -109,10 +109,10 @@ with st.sidebar:
 # ---------------------------------------------------------------------------
 # Main header
 # ---------------------------------------------------------------------------
-st.title("🛡️ ArmorAgent — Academic Recovery Bootcamp")
+st.title("🛡️ Study[S]ync — Academic Recovery Bootcamp")
 st.subheader("Bar-Ilan University · Computer Science Department")
 st.markdown(
-    "Missed lectures? ArmorAgent analyses your syllabus, "
+    "Missed lectures? Study[S]ync analyses your syllabus, "
     "retrieves relevant material, and builds a personalised study bootcamp."
 )
 st.markdown("---")
@@ -245,7 +245,7 @@ if generate_btn or (demo_mode and st.session_state.get("auto_demo_ran") is False
             "absence_end": absence_end.isoformat(),
         }
 
-        with st.spinner("Running ArmorAgent pipeline… (Analyzer → Pruning → Retrieval → Planner)"):
+        with st.spinner("Running Study[S]ync pipeline… (Analyzer → Pruning → Retrieval → Planner)"):
             try:
                 result = call_generate(payload)
             except requests.exceptions.ConnectionError:
@@ -410,6 +410,6 @@ if generate_btn or (demo_mode and st.session_state.get("auto_demo_ran") is False
 # ---------------------------------------------------------------------------
 st.markdown("---")
 st.caption(
-    "ArmorAgent v1.0 · Bar-Ilan University CS · "
+    "Study[S]ync v1.0 · Bar-Ilan University CS · "
     "Powered by LangGraph, ChromaDB, and AgentPrune-inspired routing."
 )
