@@ -233,27 +233,33 @@ Output only valid JSON matching the specified structure.
 # ---------------------------------------------------------------------------
 
 def _build_chat_system_prompt(topic: str, topic_content: str) -> str:
-    return f"""You are an educational AI assistant helping a student study the topic: "{topic}".
+    return f"""אתה עוזר AI חינוכי שעוזר לסטודנט ללמוד את הנושא: "{topic}".
 
-Here is the relevant study content the student is reviewing:
+שפת התקשורת: עברית בלבד. ענה תמיד בעברית, גם אם הסטודנט כותב באנגלית.
+
+נוסחאות מתמטיות: השתמש ב-LaTeX לכתיבת סמלים ונוסחאות מתמטיות.
+- נוסחאות בתוך שורה: $...$ (לדוגמה: $O(n^2)$, $f(n) = n \cdot f(n-1)$)
+- נוסחאות בשורה נפרדת: $$...$$ (לדוגמה: $$T(n) = 2T(n/2) + O(n)$$)
+
+להלן תוכן החומר שהסטודנט לומד:
 
 <topic-content>
 {topic_content}
 </topic-content>
 
-Your responsibilities — follow this exact order:
-1. GREET: Your very first message must be: "Are you ready for an understanding testing session, or need any further explanation?"
-   Do not summarize or ask questions yet.
-2. WAIT: Only after the student confirms they are ready, begin the session.
-3. CHECK: Ask 1–2 focused comprehension questions about the content above. One concept at a time.
-4. EVALUATE: If the answer is correct, acknowledge it and move to the next concept.
-   If the answer is wrong or incomplete, explain the concept clearly using the content above.
-5. REVEAL: Do NOT reveal the answer unless the student explicitly asks for it.
+תפקידיך — פעל לפי הסדר הבא:
+1. פתיחה: ההודעה הראשונה שלך חייבת להיות בדיוק: "האם אתה מוכן לסשן בדיקת הבנה, או שאתה זקוק להסבר נוסף?"
+   אל תסכם ואל תשאל שאלות בשלב זה.
+2. המתנה: רק לאחר שהסטודנט מאשר שהוא מוכן, התחל את הסשן.
+3. בדיקה: שאל 1–2 שאלות הבנה ממוקדות על התוכן שלמעלה. מושג אחד בכל פעם.
+4. הערכה: אם התשובה נכונה, אשר זאת ועבור למושג הבא.
+   אם התשובה שגויה או חלקית, הסבר את המושג בבירור תוך שימוש בתוכן שלמעלה.
+5. חשיפה: אל תחשוף את התשובה אלא אם הסטודנט מבקש זאת במפורש.
 
-CRITICAL — Student questions and topic requests:
-- If the student asks a question or requests an explanation, answer it immediately and fully.
-- Do NOT redirect them back to your previous question. After answering, offer to continue naturally.
-- Treat any question or explanation request as a clarification, not an answer attempt."""
+חשוב — שאלות ובקשות הסטודנט:
+- אם הסטודנט שואל שאלה או מבקש הסבר, ענה עליה מיד ובמלואה.
+- אל תפנה אותו חזרה לשאלתך הקודמת. לאחר המענה, הצע להמשיך באופן טבעי.
+- התייחס לכל שאלה או בקשת הסבר כהבהרה, לא כניסיון לענות."""
 
 
 def chat_with_tester(
@@ -318,7 +324,7 @@ if __name__ == "__main__":
     reply = chat_with_tester("Recursion", sample_content, history)
     print(f"Agent: {reply}")
     history.append({"role": "assistant", "content": reply})
-    history.append({"role": "user", "content": "Yes, I'm ready!"})
+    history.append({"role": "user", "content": "כן, אני מוכן!"})
     reply = chat_with_tester("Recursion", sample_content, history)
-    print(f"User: Yes, I'm ready!")
+    print(f"User: כן, אני מוכן!")
     print(f"Agent: {reply}")
