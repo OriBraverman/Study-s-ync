@@ -1,68 +1,60 @@
-# Project: ArmorAgent (BIU Academic Vest Sync)
 
-## The Token-Efficient Recovery Bootcamp for BIU CS Students
+# 🚀 Project Plan: Academic Bridge AI (Hackathon MVP)
 
-### 1. Project Overview
+## 📋 General Overview
+Building a personalized learning platform for engineering students to close academic gaps.
+**Demo Focus:** Computer Architecture - Pipelining and Data Hazards in MIPS processors.
 
-ArmorAgent is a multi-agent system designed to automatically close knowledge gaps for students who missed classes due to reserve duty. Instead of the student manually searching Bar-e-learn (Moodle) and the CS student drives, the system:
+---
 
-1. Takes the student's missed dates and specific courses as input.
-2. Cross-references the official syllabus to identify exactly which topics were missed.
-3. Retrieves only the relevant lecture summaries and past exercises from the BIU CS Drive.
-4. Generates a prioritized, accelerated "Bootcamp" study plan.
+## 🛠 Milestones & Task Breakdown
 
-### 2. Academic & Research Alignment (For the Judges)
+### Phase 1: Infrastructure & Setup 
+- [ ] **Repository Setup:** Initialize GitHub Repo, select Tech Stack (React/Next.js + Tailwind CSS).
+- [ ] **Mock Database:** Create `data.json` containing mappings between dates, syllabus topics, and content.
+- [ ] **Environment Setup:** Configure environment variables and connect API keys for AI (Gemini/OpenAI).
 
-* **Social Impact (20-25% of score):** Directly supports reservists and other students utilizing the BIU Academic Vest (מעטפת אקדמית) program.
-* **AgentPrune Integration (Dr. Ofir Lindenbaum):** We will implement a custom "Router/Pruning Node" between agents. It mathematically calculates if the retrieved documents map to the missed dates. If not, the communication edge is pruned, preventing token bloat and saving API costs. This mirrors the AgentPrune framework which achieves a 28.1% token reduction.
+### Phase 2: Core Components Development (Frontend) 
+- [ ] **Landing Page:** Build a simple input form for course selection and missed dates.
+- [ ] **Learning Dashboard:** Layout the learning page including text summaries, simulation area, and chat panel.
+- [ ] **Simulation Component:** Build the visual Pipelining component.
+    - [ ] Display the 5 stages: IF, ID, EX, MEM, WB.
+    - [ ] Implement "Step-by-step" command execution and highlight conflicts (Hazards) in red.
 
+### Phase 3: AI Teacher Integration (Backend/AI) 
+- [ ] **System Prompt Engineering:** Define the AI Teacher prompt (patient, asking guiding questions, guiding toward solutions without giving immediate answers).
+- [ ] **Chat Interface:** Build the chat UI that communicates with the API and displays message history.
+- [ ] **Context Injection:** Inject the current simulation state into the prompt so the bot understands which Hazard the student is viewing.
 
-* **Traceability (Dr. Yanai Elazar):** The system uses strict Agentic RAG. Every generated study task must include a strict citation back to the source PDF (e.g., "Source: Intro to CS, Lecture 4, Slide 12"), preventing hallucinated study material. This is inspired by the OLMoTrace architecture for tracing outputs to verbatim matches.
+### Phase 4: Integration & Polishing 
+- [ ] **Full Flow Integration:** Connect the input form to the learning screen and sync data between the simulation and the chat.
+- [ ] **UI/UX Polish:** Add subtle animations for Pipeline transitions and improve overall UI aesthetics.
+- [ ] **Final Bug Fixes:** Test edge cases and prepare the environment for the final demo.
 
+---
 
+##  System Architecture (High-Level)
 
-### 3. Architecture & Tech Stack
+| Component | Responsibility |
+| :--- | :--- |
+| **Frontend (React)** | State management for the simulation, interactive UI, and chat handling. |
+| **Mock DB (JSON)** | Mapping `Date -> Topic` (e.g., May 14th -> Data Hazards). |
+| **AI Controller** | Mediating between user actions in the simulation and the LLM. |
 
-* **Orchestration Framework:** LangGraph (Recommended for strict control over the pruning router) or CrewAI (Faster setup, but less control over token flow).
-* **LLMs:** GPT-4o-mini (for the cheap Pruning/Router agent) and Claude 3.5 Sonnet / GPT-4o (for the heavy Synthesis/Planning agent).
-* **Backend:** Python + FastAPI.
-* **Frontend:** Streamlit or React/Next.js (Keep it simple, focus on the backend logic).
-* **Data Storage:** Local ChromaDB or FAISS for the vector database.
+---
 
-### 4. Step-by-Step Execution Checklist
+## Demo Scenario (The "Happy Path")
+1. **Input:** Student selects "Computer Architecture" and the date Pipelining was taught.
+2. **Content:** System displays a brief explanation of Data Dependency.
+3. **Interaction:** Student runs commands in the simulation and sees a Hazard caused by register access before writing.
+4. **AI:** The bot initiates a conversation: "What do you think happened here that caused a delay? Is there a way to pass the information faster?"
+5. **Outcome:** Student proposes a solution, the bot confirms and explains the Forwarding principle.
 
-#### Phase 1: Pre-Hackathon Preparation (Start Now)
+---
 
-* [x] **Repository Setup:** Initialize GitHub repo, set up Python virtual environment, and install dependencies (`langchain`, `langgraph`, `fastapi`, `pydantic`).
-* [x] **Data Scraping (Crucial):** Do NOT try to bypass the Bar-e-learn SSO login during the hackathon. Download 3-4 course syllabuses (e.g., Intro to CS, Data Structures) and 10-15 PDFs from the BIU CS Summaries Drive locally.
-* [ ] **Data Processing:** Write a Python script to chunk these PDFs and load them into a local Vector Database.
-* [ ] **Define Pydantic Schemas:** Write strict JSON output schemas for what the agents will pass to each other (e.g., `MissedTopicsSchema`, `StudyPlanSchema`).
-
-#### Phase 2: Agent Engineering (Core Logic)
-
-* [ ] **Agent 1: The Syllabus Analyzer.**
-*Role:* Takes missed dates, reads the syllabus, and outputs a list of missed concepts (e.g., "O(n) complexity", "Linked Lists").
-* [ ] **Agent 2: The Pruning Router (The Winning Feature).**
-*Role:* Intercepts Agent 1's output. If Agent 1 hallucinates a topic not in the course, or adds unnecessary fluff, this node prunes the payload to absolute minimum tokens before passing it to Agent 3.
-
-
-* [ ] **Agent 3: The Retrieval Agent.**
-*Role:* Takes the pruned topic list and queries the Vector DB of the CS Drive to find the exact PDF summaries and exercises matching the concepts.
-* [ ] **Agent 4: The Bootcamp Planner.**
-*Role:* Synthesizes the retrieved files into a day-by-day markdown study schedule.
-
-#### Phase 3: The 24-Hour Hackathon Sprint
-
-* [ ] **Hour 1-4:** Connect the pre-built Vector DB to the LangGraph/CrewAI pipeline.
-* [ ] **Hour 4-10:** Refine the prompts. Force the LLM to output exact source file names for every claim it makes to ensure zero hallucinations.
-* [ ] **Hour 10-16:** Connect the backend to the frontend UI. The UI should have a simple form: "Course Name", "Start Date of Absence", "End Date of Absence".
-* [ ] **Hour 16-20:** Polish the "Pruning" logs. You want to visually show the judges a dashboard or console printout proving that your system recognized redundant data and pruned it to save tokens.
-* [ ] **Hour 20-24:** Build the presentation deck.
-
-### 5. Pitch Guidance & Narrative
-
-When presenting to the judges, structure your pitch like this:
-
-1. **The Hook:** "Thousands of BIU students do reserve duty. The Academic Vest gives them time, but not a strategy to catch up. They drown in the CS Drive."
-2. **The Solution:** "We built ArmorAgent, a localized multi-agent system that builds personalized recovery bootcamps based strictly on Bar-Ilan syllabuses."
-3. **The Tech Flex:** "Standard agent systems waste money talking to each other. Inspired by recent BIU research on AgentPrune, we built a token-pruning router that mathematically cuts redundant context, making our system 28.1% cheaper to run than standard AutoGen/CrewAI setups. Furthermore, every study task is strictly traced back to its source document, ensuring zero hallucinations."
+##  Out of Scope (For Future Versions)
+- [ ] User Login and authentication system.
+- [ ] PDF Syllabus scanning (Mock data usage only).
+- [ ] Developing simulations for additional courses beyond Architecture.
+GITHUB_PLANNING_EN.md
+הפריט GITHUB_PLANNING_EN.md מוצג.
