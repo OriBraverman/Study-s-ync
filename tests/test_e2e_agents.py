@@ -297,3 +297,95 @@ class TestFullUserJourney:
             "history": []
         })
         assert chat_resp.status_code in [200, 503]  # 503 if no LLM running
+
+
+# ---------------------------------------------------------------------------
+# Demo User — Danny Israely
+# ---------------------------------------------------------------------------
+
+class TestDemoUser:
+    _demo_token = "21575b2934a50e7402008e11aa1f5c88"
+
+    def test_demo_user_exists(self):
+        """The pre-seeded demo user should be valid and return user info."""
+        resp = client.get("/auth/me", headers={"X-Token": self._demo_token})
+        assert resp.status_code == 200
+        data = resp.json()
+        assert data["success"] is True
+        assert data["user"]["username"] == "Danny Israely"
+        assert len(data["user"]["courses"]) == 3
+
+    def test_demo_user_courses_have_name_and_num(self):
+        resp = client.get("/auth/me", headers={"X-Token": self._demo_token})
+        courses = resp.json()["user"]["courses"]
+        for c in courses:
+            assert "course_name" in c
+            assert "course_num" in c
+            assert len(c["course_num"]) > 0
+
+    def test_lectures_filtered_by_demo_courses(self):
+        """When Danny's token is sent, /get_missed_class_all should return only his courses."""
+        all_resp = client.get("/get_missed_class_all")
+        all_lectures = all_resp.json()
+
+        filtered_resp = client.get("/get_missed_class_all", headers={"X-Token": self._demo_token})
+        filtered = filtered_resp.json()
+
+        assert isinstance(filtered, list)
+        # All filtered lectures must belong to one of Danny's 3 courses
+        demo_names = {c["course_name"] for c in client.get("/auth/me", headers={"X-Token": self._demo_token}).json()["user"]["courses"]}
+        for lec in filtered:
+            assert lec["course_name"] in demo_names
+
+    def test_demo_user_can_add_and_remove_course(self):
+        """Demo user should be able to manage courses."""
+        resp = client.post("/my_courses", headers={"X-Token": self._demo_token, "Content-Type": "application/json"},
+                           json={"course_name": "Test Temp", "course_num": "89-999"})
+        assert resp.status_code == 200
+        data = resp.json()
+        assert any(c["course_num"] == "89-999" for c in data["courses"])
+
+        # Cleanup
+        client.delete("/my_courses/89-999", headers={"X-Token": self._demo_token})
+
+
+# ---------------------------------------------------------------------------
+# Visualizer — HTML wrapper quality
+# ---------------------------------------------------------------------------
+
+class TestVisualizerHtmlWrapper:
+    def test_html_wrapper_contains_react_code_inline(self):
+        """The HTML wrapper should contain enough JS to render the component."""
+        resp = client.post("/generate_visualizer", json={"topic": "Quick Sort"})
+        assert resp.status_code == 200
+        viz = resp.json()["visualizer"]
+        html = viz["html_wrapper"]
+        # Should reference React or contain a component definition
+        assert len(html) > 100
+        assert "html" in html.lower() or "react" in html.lower() or "script" in html.lower()
+
+    def test_visualizer_explanation_is_not_empty(self):
+        resp = client.post("/generate_visualizer", json={"topic": "Merge Sort"})
+        viz = resp.json()["visualizer"]
+        assert len(viz["explanation"]) > 0
+
+
+# ---------------------------------------------------------------------------
+# Tester — Edge cases
+# ---------------------------------------------------------------------------
+
+class TestTesterEdgeCases:
+    def test_test_with_hebrew_topic(self):
+        """Tester should handle Hebrew topic strings."""
+        resp = client.post("/generate_test?topic=%D7%90%D7%9C%D7%92%D7%95%D7%A8%D7%99%D7%AA%D7%9E%D7%99%D7%9D&num_questions=1")
+        assert resp.status_code == 200
+        data = resp.json()
+        assert data["success"] is True
+        assert "questions" in data["test"]
+
+    def test_test_with_difficulty(self):
+        resp = client.post("/generate_test?topic=Binary+Search&num_questions=1&difficulty=hard")
+        assert resp.status_code == 200
+        data = resp.json()
+        # In mock mode difficulty is ignored, just verify question exists
+        assert data["test"]["questions"][0]["difficulty"] in ["easy", "medium", "hard"]
