@@ -364,7 +364,11 @@ def serve_index():
     """Serve the main HTML UI."""
     index_path = STATIC_DIR / "index.html"
     if index_path.exists():
-        return FileResponse(str(index_path))
+        response = FileResponse(str(index_path))
+        response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+        response.headers["Pragma"] = "no-cache"
+        response.headers["Expires"] = "0"
+        return response
     raise HTTPException(status_code=404, detail="Frontend not built.")
 
 
