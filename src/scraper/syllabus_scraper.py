@@ -62,49 +62,224 @@ def wait_for_search_form(driver, timeout=60):
 
     raise TimeoutError("Search form did not load in time")
 
+def _extract_schedule_section(text):
+    """Find the schedule/topics section in the syllabus text."""
+    start_markers = [
+        r'תכנית\s*הלימודים',
+        r'נושאי\s*הקורס',
+        r'Lessons?\s*plan',
+        r'Schedule',
+        r'Topics',
+        r'סילבוס',
+        r'Syllabus',
+    ]
+
+    lines = text.split('\n')
+    start_idx = None
+    for i, line in enumerate(lines):
+        for marker in start_markers:
+            if re.search(marker, line, re.IGNORECASE):
+                start_idx = i
+                break
+        if start_idx is not None:
+            break
+
+    if start_idx is None:
+        return text
+
+    end_markers = [
+        'מטרות הקורס',
+        'ציון סופי',
+        'דרישות הקורס',
+        'ביבליוגרפיה',
+        'Learning objectives',
+        'Final grade',
+        'Course requirements',
+        'Bibliography',
+        '* There may be changes',
+        '** ייתכנו שינויים בסילבוס',
+    ]
+
+    end_idx = len(lines)
+    for i in range(start_idx + 1, len(lines)):
+        stripped = lines[i].strip()
+        for em in end_markers:
+            if stripped.startswith(em):
+                end_idx = i
+                break
+        if end_idx < len(lines):
+            break
+
+    return '\n'.join(lines[start_idx:end_idx])
+
+
 def extract_weekly_topics(syllabus_text):
     """
     Heuristically extract weekly topics from the syllabus text.
-    Looks for patterns like 'שבוע 1', 'מפגש 1', 'Week 1' or lists of topics.
+    Handles both list formats ("1. Topic") and table formats where
+    lesson numbers are followed by dates and multi-line topics.
     """
     topics = []
-    
-    # Try to find a section that looks like a schedule
-    schedule_patterns = [
-        r'(?:תכנית|נושאי) ה(?:לימודים|קורס)(.+?)(?=\n\n|\Z)',
-        r'(?:Schedule|Topics)(.+?)(?=\n\n|\Z)',
-        r'(?:סילבוס|Syllabus)(.+?)(?=\n\n|\Z)'
-    ]
-    
-    schedule_text = syllabus_text
-    for pattern in schedule_patterns:
-        match = re.search(pattern, syllabus_text, re.DOTALL | re.IGNORECASE)
-        if match:
-            schedule_text = match.group(1)
+
+    schedule_text = _extract_schedule_section(syllabus_text)
+
+    # Known junk / table-header lines to skip
+    skip_lines = {
+        'lesson no.', 'topic', 'active learning', 'required reading', 'assessment',
+        'נושא', 'למידה פעילה', 'קריאה נדרשת', 'הערכה', "מס'", 'השיעור',
+        'abacus outline lessons plan (including active learning):',
+        'abacus outline',
+        'additional topics', 'if time permits',
+    }
+
+    # Section headers that end the schedule
+    end_headers = {
+        'מטרות הקורס / תוצרי הלמידה',
+        'learning objectives',
+        'ציון סופי',
+        'final grade',
+        'דרישות הקורס',
+        'course requirements',
+        'ביבליוגרפיה',
+        'bibliography',
+        '* there may be changes in the syllabus depending on learning progress and effectiveness',
+        '** ייתכנו שינויים בסילבוס בהתאם לקצב ההתקדמות ואפקטיביות הלמידה',
+        'correctness of functional programs',
+        'axiomatic semantics',
+        'formal verification',
+        'primitive recursive functions',
+    }
+
+    lines = [line.strip() for line in schedule_text.split('\n')]
+
+    i = 0
+    while i < len(lines):
+        line = lines[i]
+        if not line:
+            i += 1
+            continue
+
+        lower = line.lower()
+        if lower in skip_lines:
+            i += 1
+            continue
+
+        # End of schedule section
+        if lower in end_headers or any(line.startswith(h) for h in end_headers if len(h) > 10):
             break
 
-    # Look for numbered weeks or lines
-    lines = schedule_text.split('\n')
-    current_topic = None
-    
-    for line in lines:
-        line = line.strip()
-        if not line:
-            continue
-            
-        # Match 'Week X', 'שבוע X', '1.', etc.
+        # Pattern A: explicit week/lesson label
         week_match = re.match(r'^(?:שבוע|מפגש|Week|Lesson)\s*(\d+)[:.-]?\s*(.*)', line, re.IGNORECASE)
         if week_match:
             week_num = week_match.group(1)
             topic_desc = week_match.group(2).strip()
-            topics.append({"week": week_num, "topic": topic_desc})
-        elif re.match(r'^\d+[\s.)-]', line):
-            # Just a numbered list
-            parts = re.split(r'[\s.)-]', line, 1)
-            if len(parts) > 1:
-                topics.append({"week": parts[0], "topic": parts[1].strip()})
-    
-    return topics
+            if topic_desc:
+                topics.append({"week": week_num, "topic": topic_desc})
+            else:
+                i += 1
+                parts = []
+                while i < len(lines) and lines[i] and not re.match(r'^(?:שבוע|מפגש|Week|Lesson)\s*\d+', lines[i], re.IGNORECASE):
+                    if lines[i].lower() in skip_lines or lines[i].lower() in end_headers:
+                        break
+                    if re.match(r'^\d{1,2}$', lines[i]):
+                        i -= 1
+                        break
+                    parts.append(lines[i])
+                    i += 1
+                if parts:
+                    topics.append({"week": week_num, "topic": " ".join(parts)})
+            i += 1
+            continue
+
+        # Pattern B: standalone number 1-30 that looks like a lesson number
+        if re.match(r'^\d{1,2}$', line) and 1 <= int(line) <= 30:
+            week_num = line
+            i += 1
+
+            # Skip empty lines
+            while i < len(lines) and not lines[i]:
+                i += 1
+
+            # Skip date line (DD.MM.YY or DD/MM/YY)
+            if i < len(lines) and re.match(r'^\d{1,2}[./]\d{1,2}[./]\d{2,4}$', lines[i]):
+                i += 1
+                while i < len(lines) and not lines[i]:
+                    i += 1
+
+            # Collect topic lines
+            parts = []
+            while i < len(lines):
+                curr = lines[i]
+                if not curr:
+                    i += 1
+                    continue
+
+                # Stop at next standalone lesson number
+                if re.match(r'^\d{1,2}$', curr) and 1 <= int(curr) <= 30:
+                    i -= 1
+                    break
+
+                # Stop at explicit week labels
+                if re.match(r'^(?:שבוע|מפגש|Week|Lesson)\s*\d+', curr, re.IGNORECASE):
+                    i -= 1
+                    break
+
+                # Stop at section headers
+                if curr.lower() in end_headers or any(curr.startswith(h) for h in end_headers if len(h) > 10):
+                    i -= 1
+                    break
+
+                # Skip table column headers
+                if curr.lower() in skip_lines:
+                    i += 1
+                    continue
+
+                # Skip inline dates
+                if re.match(r'^\d{1,2}[./]\d{1,2}[./]\d{2,4}$', curr):
+                    i += 1
+                    continue
+
+                # Heuristic: stop at lines that look like reading assignments / assessments
+                if re.match(r'^(Chapter|Chapters|Home\s+assignment|Home\s+work|Cornell|MIT |Notes\s+on)', curr, re.IGNORECASE):
+                    i -= 1
+                    break
+
+                parts.append(curr)
+                i += 1
+
+            if parts:
+                topic_text = " ".join(parts)
+                topic_text = re.sub(r'\s+', ' ', topic_text).strip()
+                # Filter junk
+                if (len(topic_text) > 2 and
+                    not topic_text.startswith('**') and
+                    topic_text not in ('למידה בקבוצות/ מרצה אורח.ת',)):
+                    topics.append({"week": week_num, "topic": topic_text})
+            i += 1
+            continue
+
+        # Pattern C: numbered list with topic on same line (old behavior preserved)
+        list_match = re.match(r'^(\d+)[\s.)-](?!.*\d{1,2}[./]\d{1,2}[./]\d{2,4})(.+)', line)
+        if list_match:
+            week_num = list_match.group(1)
+            topic_desc = list_match.group(2).strip()
+            if topic_desc and topic_desc not in ('למידה בקבוצות/ מרצה אורח.ת',):
+                topics.append({"week": week_num, "topic": topic_desc})
+            i += 1
+            continue
+
+        i += 1
+
+    # Deduplicate consecutive identical entries
+    seen = set()
+    deduped = []
+    for t in topics:
+        key = (t['week'], t['topic'])
+        if key not in seen and t['topic']:
+            seen.add(key)
+            deduped.append(t)
+
+    return deduped
 
 def get_course_syllabus(course_num, headless=True):
     """
