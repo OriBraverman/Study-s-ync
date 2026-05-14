@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>study[s]ync | השלמת פערים אקדמיים</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            options: {
+                skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;700&display=swap');
+
+        body {
+            font-family: 'Assistant', sans-serif;
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-900 text-right">
+
+    <header class="bg-green-800 text-white p-4 shadow-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-bold tracking-tight">study<span class="text-green-300">[</span>s<span class="text-green-300">]</span>ync</h1>
+            <span class="text-sm opacity-80 italic">מעטפת אקדמית לסטודנטים</span>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-6">
+        <div class="bg-white p-6 rounded-xl shadow-md border border-gray-100 mb-6">
+            <div class="flex flex-wrap md:flex-nowrap gap-4 items-end justify-center">
+                <div class="w-full md:w-64">
+                    <label class="block text-sm font-bold text-gray-700 mb-1">מתאריך</label>
+                    <input id="startDate" type="date" class="border p-2 rounded-lg w-full focus:ring-2 focus:ring-green-500 outline-none border-gray-300">
+                </div>
+                <div class="w-full md:w-64">
+                    <label class="block text-sm font-bold text-gray-700 mb-1">עד תאריך</label>
+                    <input id="endDate" type="date" class="border p-2 rounded-lg w-full focus:ring-2 focus:ring-green-500 outline-none border-gray-300">
+                </div>
+                <button onclick="loadLessonRange()" class="bg-green-600 text-white px-8 py-2 rounded-lg font-bold hover:bg-green-700 transition shadow-md h-[42px] whitespace-nowrap">הצג את כל ההרצאות בטווח</button>
+            </div>
+        </div>
+
+        <div id="lectureList" class="hidden mb-6 p-6 bg-white rounded-xl border border-gray-200 shadow-sm animate-fade-in">
+            <h3 class="font-bold text-gray-800 mb-4 text-xl border-b pb-2">📚 פירוט הרצאות לפי קורסים:</h3>
+            <div id="buttonsContainer" class="space-y-6"></div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="md:col-span-2 bg-white p-8 rounded-xl shadow-md border border-gray-100 min-h-[600px]">
+                <div id="welcomeMessage" class="text-center mt-20 text-gray-400">
+                    <p class="text-5xl mb-4">📖</p>
+                    <p class="text-xl">בחר טווח תאריכים והרצאה להצגת החומר</p>
+                </div>
+                <div id="lessonContent" class="hidden animate-fade-in">
+                    <h2 id="lessonTopic" class="text-3xl font-bold mb-4 text-green-900 border-b-4 border-green-100 pb-2"></h2>
+                    <div id="textContent" class="leading-relaxed text-lg whitespace-pre-line text-gray-800"></div>
+                </div>
+            </div>
+
+            <div class="bg-white flex flex-col h-[650px] rounded-xl shadow-xl border border-gray-100 overflow-hidden">
+                <div class="bg-green-800 p-4 font-bold text-white text-center shadow-inner">מורה פרטי AI 🤖</div>
+                <div id="chatBox" class="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50 flex flex-col">
+                    <div class="bg-white border border-green-100 p-4 rounded-2xl rounded-tr-none shadow-sm text-gray-700 self-start max-w-[85%] italic">
+                        שלום! בחר טווח תאריכים כדי לראות מה הפסדת.
+                    </div>
+                </div>
+                <div class="p-4 border-t bg-white flex gap-2">
+                    <input id="userInput" type="text" placeholder="שאל אותי משהו..." class="flex-1 border border-gray-300 p-3 rounded-xl outline-none focus:ring-2 focus:ring-green-500 bg-gray-50 text-right">
+                    <button onclick="sendMessage()" class="bg-green-600 text-white px-4 rounded-xl hover:bg-green-700 transition">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" /></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const API_BASE = "";
+        let chatHistory = [];
+
+        async function loadLessonRange() {
+            const startDateVal = document.getElementById('startDate').value;
+            const endDateVal = document.getElementById('endDate').value;
+
+            if (!startDateVal || !endDateVal) return alert("אנא בחר טווח תאריכים");
+
+            const start = new Date(startDateVal);
+            start.setHours(0, 0, 0, 0);
+            const end = new Date(endDateVal);
+            end.setHours(23, 59, 59, 999);
+
+            const container = document.getElementById('buttonsContainer');
+            const listDiv = document.getElementById('lectureList');
+            container.innerHTML = '';
+
+            try {
+                const response = await fetch(`${API_BASE}/get_missed_class_all`);
+                const lectures = await response.json();
+
+                const filtered = lectures.filter(l => {
+                    const lDate = new Date(l.lecture_date);
+                    return lDate >= start && lDate <= end;
+                });
+
+                if (filtered.length === 0) {
+                    alert("לא נמצאו הרצאות בטווח הזה (נסה שנת 2022)");
+                    listDiv.classList.add('hidden');
+                    return;
+                }
+
+                const grouped = {};
+                filtered.forEach(l => {
+                    if (!grouped[l.course_name]) grouped[l.course_name] = [];
+                    grouped[l.course_name].push(l);
+                });
+
+                listDiv.classList.remove('hidden');
+                for (const courseName in grouped) {
+                    const section = document.createElement('div');
+                    section.className = "border-r-4 border-green-600 pr-4 py-2 bg-gray-50/50 rounded-lg mb-4";
+                    section.innerHTML = `
+                            <h4 class="text-xl font-bold text-green-800 mb-3">${courseName}</h4>
+                            <div class="flex flex-wrap gap-3 mt-2"></div>
+                        `;
+                    const btnsContainer = section.querySelector('div');
+
+                    grouped[courseName].forEach(lecture => {
+                        const btn = document.createElement('button');
+                        btn.className = "bg-white border border-green-500 text-green-700 px-4 py-2 rounded-lg hover:bg-green-500 hover:text-white transition shadow-sm font-semibold text-sm";
+                        btn.innerText = `${lecture.lecture_date}: ${lecture.topic}`;
+                        btn.onclick = () => displaySpecificLecture(lecture);
+                        btnsContainer.appendChild(btn);
+                    });
+                    container.appendChild(section);
+                }
+            } catch (e) { alert("שגיאה בתקשורת עם השרת."); }
+        }
+        function displaySpecificLecture(lecture) {
+            try {
+                document.getElementById('welcomeMessage').classList.add('hidden');
+                document.getElementById('lessonContent').classList.remove('hidden');
+                document.getElementById('lessonTopic').innerText = lecture.topic;
+
+                const pattern = "\\";
+                const citeRegex = new RegExp(pattern, "g");
+                let cleanContent = lecture.content.replace(citeRegex, "");
+
+                document.getElementById('textContent').innerText = cleanContent;
+
+                document.getElementById('chatBox').innerHTML = '';
+                let firstQuestion = lecture.ai_questions.replace("שאל את הסטודנט ", "");
+                addChatMessage('assistant', firstQuestion);
+                chatHistory = [{ role: "assistant", content: firstQuestion }];
+
+                if (window.MathJax && window.MathJax.typesetPromise) {
+                    MathJax.typesetPromise();
+                } else if (window.MathJax && window.MathJax.typeset) {
+                    window.MathJax.typeset();
+                }
+            } catch (e) {
+                console.error("שגיאה בהצגת ההרצאה:", e);
+            }
+        }
+
+        async function sendMessage() {
+            const input = document.getElementById('userInput');
+            const message = input.value;
+            if (!message) return;
+
+            addChatMessage('user', message);
+            input.value = '';
+            const loadingId = addChatMessage('assistant', 'חושב...');
+
+            try {
+                const response = await fetch(`${API_BASE}/chat`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ user_message: message, history: chatHistory })
+                });
+                const data = await response.json();
+                updateChatMessage(loadingId, data.reply);
+                chatHistory.push({ role: "user", content: message }, { role: "assistant", content: data.reply });
+                if (window.MathJax) MathJax.typeset();
+            } catch (e) { updateChatMessage(loadingId, "שגיאת חיבור."); }
+        }
+
+        function addChatMessage(role, text) {
+            const chatBox = document.getElementById('chatBox');
+            const id = Date.now();
+            const div = document.createElement('div');
+            div.id = id;
+            div.className = role === 'user'
+                ? 'bg-green-600 text-white p-3 rounded-2xl rounded-tl-none self-end ml-auto max-w-[85%] shadow-sm text-right'
+                : 'bg-white border border-gray-200 p-3 rounded-2xl rounded-tr-none self-start mr-auto max-w-[85%] shadow-sm text-gray-800 text-right';
+            div.innerText = text;
+            chatBox.appendChild(div);
+            chatBox.scrollTop = chatBox.scrollHeight;
+            return id;
+        }
+
+        function updateChatMessage(id, text) {
+            const el = document.getElementById(id);
+            if (el) el.innerText = text;
+        }
+    </script>
+</body>
+</html>
