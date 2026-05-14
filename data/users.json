@@ -1,0 +1,25 @@
+[
+  {
+    "id": "a1b2c3d4e5f67890",
+    "username": "Danny Israely",
+    "salt": "2c730888940838b58f6c03f9eeaacf2d",
+    "password_hash": "e050ec579b3b198958b0e151329fc23bf0674f4b4cd6f94601c30e87e9b22476",
+    "courses": [
+      {
+        "course_name": "מבוא למדעי המחשב",
+        "course_num": "89-110"
+      },
+      {
+        "course_name": "אלגוריתמים ומבני נתונים 1",
+        "course_num": "89-210"
+      },
+      {
+        "course_name": "מבוא להסתברות ולסטטיסטיקה",
+        "course_num": "89-230"
+      }
+    ],
+    "created_at": 1778773795.0410037,
+    "token": "21575b2934a50e7402008e11aa1f5c88",
+    "token_issued_at": 1778773795.0410037
+  }
+]

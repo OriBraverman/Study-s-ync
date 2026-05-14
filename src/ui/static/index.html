@@ -63,6 +63,7 @@
                 <span class="text-sm opacity-80 italic">מעטפת אקדמית לסטודנטים</span>
             </div>
             <div id="authHeader" class="flex items-center gap-3">
+                <button onclick="demoLoginDanny()" class="bg-green-300 text-green-900 px-4 py-2 rounded-lg font-bold hover:bg-green-200 transition text-sm">👤 Demo: Danny Israely</button>
                 <button onclick="openAuthModal()" class="bg-white text-green-800 px-4 py-2 rounded-lg font-bold hover:bg-green-100 transition text-sm">התחברות / הרשמה</button>
             </div>
         </div>
@@ -258,6 +259,19 @@
         function openAuthModal() {
             document.getElementById('authModal').classList.remove('hidden');
             document.getElementById('authError').classList.add('hidden');
+        }
+
+        async function demoLoginDanny() {
+            // Pre-set demo token for Danny Israely (matches data/users.json)
+            authToken = "21575b2934a50e7402008e11aa1f5c88";
+            localStorage.setItem("study_sync_token", authToken);
+            await fetchCurrentUser();
+
+            // Pre-fill dates for a realistic demo absence (e.g., missed 2 weeks in Oct-Nov 2025)
+            document.getElementById('startDate').value = "2025-10-20";
+            document.getElementById('endDate').value = "2025-11-05";
+
+            addChatMessage('assistant', "👋 ברוכים הבאים לדמו! התחברת כ-Danny Israely. בחרתי עבורך טווח תאריכים של שבועיים (20/10 - 05/11) כדי להדגים את הפלט. לחץ על 'הצג את כל ההרצאות בטווח' כדי להתחיל.");
         }
 
         function closeAuthModal() {
