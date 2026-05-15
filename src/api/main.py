@@ -517,6 +517,10 @@ async def generate_visualizer_endpoint(request: VisualizerRequestSchema):
 
     # Build a standard HTML wrapper ourselves so we don't rely on the LLM
     # to inline the React code correctly.
+    # The wrapper has a single <script type="text/babel"> placeholder; the
+    # render call is appended to react_code so both share the same Babel
+    # eval scope (Babel standalone wraps each script in "use strict", which
+    # prevents const declarations from leaking across script blocks).
     standard_html_wrapper = (
         '<!DOCTYPE html>\n'
         '<html lang="en">\n'
@@ -530,13 +534,6 @@ async def generate_visualizer_endpoint(request: VisualizerRequestSchema):
         '<body>\n'
         '  <div id="root"></div>\n'
         '  <script type="text/babel" src="index.jsx"></script>\n'
-        '  <script type="text/babel">\n'
-        '    ReactDOM.createRoot(document.getElementById(\'root\')).render(\n'
-        '      <React.StrictMode>\n'
-        '        <App />\n'
-        '      </React.StrictMode>\n'
-        '    );\n'
-        '  </script>\n'
         '</body>\n'
         '</html>'
     )
@@ -550,9 +547,15 @@ async def generate_visualizer_endpoint(request: VisualizerRequestSchema):
         r'(?:const|function)\s+((?!ReactDOM\b|React\b)[A-Z][A-Za-z0-9_]*)\s*[=\(]',
         react_code,
     )
-    if component_match:
-        component_name = component_match.group(1)
-        standard_html_wrapper = standard_html_wrapper.replace('<App />', f'<{component_name} />')
+    component_name = component_match.group(1) if component_match else "App"
+
+    # Append the render call to react_code so it runs in the same Babel script scope.
+    # Skip if the LLM already included a render call.
+    if 'ReactDOM.createRoot' not in react_code and 'ReactDOM.render' not in react_code:
+        react_code += (
+            f'\n\nReactDOM.createRoot(document.getElementById("root")).render('
+            f'<React.StrictMode><{component_name} /></React.StrictMode>);'
+        )
 
     output = VisualizerOutputSchema(
         topic=request.topic,

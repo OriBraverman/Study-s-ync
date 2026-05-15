@@ -275,8 +275,10 @@ def _mock_chat_response(topic: str, messages: List[dict]) -> str:
     if not messages:
         return "האם אתה מוכן לסשן בדיקת הבנה, או שאתה זקוק להסבר נוסף?"
 
-    test = generate_test(topic, num_questions=3)
-    questions = test.questions
+    # Use MOCK_QUESTIONS directly to avoid calling generate_test, which
+    # can infinitely recurse when USE_MOCK_LLM=false and no OPENAI_API_KEY.
+    mock_key = _topic_to_key(topic)
+    questions = MOCK_QUESTIONS.get(mock_key, MOCK_QUESTIONS["loops"])[:3]
     if not questions:
         return f"אין שאלות זמינות לנושא {topic}."
     n = len(questions)
@@ -360,9 +362,11 @@ def chat_with_tester(
             max_tokens=2048,
         )
         return response.choices[0].message.content.strip()
-    except Exception as e:
-        # If the API call fails (credits, rate limit, etc.), fall back to mock
-        return _mock_chat_response(topic, messages)
+    except Exception:
+        try:
+            return _mock_chat_response(topic, messages)
+        except Exception:
+            return "האם אתה מוכן לסשן בדיקת הבנה, או שאתה זקוק להסבר נוסף?" if not messages else "שגיאה בחיבור ל-AI. אנא נסה שוב מאוחר יותר."
 
 
 if __name__ == "__main__":

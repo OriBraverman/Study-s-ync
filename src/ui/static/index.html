@@ -829,19 +829,10 @@
                 );
 
                 const iframe = document.getElementById(iframeId);
-                const doc = iframe.contentDocument || iframe.contentWindow.document;
-                doc.open();
-                // Write the HTML into the iframe document.
-                // We split the write into chunks around <\/script> tags so the
-                // host page parser never sees a premature closing script tag.
-                const parts = (htmlContent || '<p style="text-align:center;padding:40px;">No preview available</p>').split('<\/script>');
-                for (let i = 0; i < parts.length; i++) {
-                    doc.write(parts[i]);
-                    if (i < parts.length - 1) {
-                        doc.write('</scr' + 'ipt>');
-                    }
-                }
-                doc.close();
+                // srcdoc is the reliable modern approach: the browser creates
+                // a proper document loading cycle so CDN scripts are fetched
+                // and Babel transpiles all <script type="text/babel"> tags.
+                iframe.srcdoc = htmlContent || '<p style="text-align:center;padding:40px;">No preview available</p>';
             } catch (e) {
                 console.error(e);
                 resultDiv.innerHTML = '<p class="text-red-500 text-center py-10 font-medium">שגיאה ביצירת הסימולציה</p>';
