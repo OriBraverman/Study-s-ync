@@ -878,7 +878,7 @@
                 updateTesterMessage(loadingId, reply);
                 if (data.reply) testerHistory = [{ role: 'assistant', content: data.reply }];
             } catch (e) {
-                updateTesterMessage(loadingId, 'שגיאה בחיבור לבוחן — ודא ש-OPENROUTER_API_KEY מוגדר');
+                updateTesterMessage(loadingId, 'שגיאה בחיבור לבוחן — ודא ש-GEMINI_API_KEY מוגדר');
             }
         }
 

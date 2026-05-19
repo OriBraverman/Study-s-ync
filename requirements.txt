@@ -1,12 +1,12 @@
 langchain
-langchain-openai
+langchain-google-genai
+google-generativeai
 langchain-community
 langgraph
 fastapi
 pydantic
 uvicorn
 chromadb
-openai
 pypdf
 python-dotenv
 selenium

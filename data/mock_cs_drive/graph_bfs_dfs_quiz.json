@@ -1,0 +1,56 @@
+{
+  "quiz_id": "graph-bfs-dfs-001",
+  "topic": "Graph Algorithms: BFS and DFS",
+  "total_questions": 5,
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "question": "What data structure is primarily used to implement Breadth-First Search (BFS)?",
+      "options": [
+        { "label": "A", "text": "Stack" },
+        { "label": "B", "text": "Queue" },
+        { "label": "C", "text": "Priority Queue" },
+        { "label": "D", "text": "Hash Table" }
+      ],
+      "correct_answer": "B"
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "question": "What is the time complexity of both BFS and DFS on a graph with V vertices and E edges?",
+      "options": [
+        { "label": "A", "text": "O(V * E)" },
+        { "label": "B", "text": "O(V^2)" },
+        { "label": "C", "text": "O(V + E)" },
+        { "label": "D", "text": "O(E log V)" }
+      ],
+      "correct_answer": "C"
+    },
+    {
+      "id": "q3",
+      "type": "multiple_choice",
+      "question": "Which of the following problems is BEST suited for Depth-First Search (DFS)?",
+      "options": [
+        { "label": "A", "text": "Finding the shortest path in an unweighted graph" },
+        { "label": "B", "text": "Detecting cycles in a directed graph" },
+        { "label": "C", "text": "Finding the minimum number of moves in a puzzle" },
+        { "label": "D", "text": "Level-order traversal of a binary tree" }
+      ],
+      "correct_answer": "B"
+    },
+    {
+      "id": "q4",
+      "type": "short_answer",
+      "question": "Explain the main difference between how BFS and DFS explore a graph, specifically regarding the order in which nodes are visited.",
+      "ideal_answer": "BFS explores the graph layer by layer, visiting all neighbors of the current node before moving to the next level, using a queue (FIFO). DFS explores as far as possible along each branch before backtracking, using a stack (LIFO) or recursion, diving deep into the graph before exploring alternative paths."
+    },
+    {
+      "id": "q5",
+      "type": "code_tracing",
+      "question": "What is the final output of the following Python DFS traversal when starting from node 'A'?",
+      "code_snippet": "graph = {\n  'A': ['B', 'C'],\n  'B': ['D', 'E'],\n  'C': ['F'],\n  'D': [],\n  'E': ['F'],\n  'F': []\n}\nvisited = set()\nresult = []\n\ndef dfs(node):\n    if node not in visited:\n        visited.add(node)\n        result.append(node)\n        for neighbor in graph[node]:\n            dfs(neighbor)\n\ndfs('A')\nprint(result)",
+      "answer": "['A', 'B', 'D', 'E', 'F', 'C']"
+    }
+  ]
+}

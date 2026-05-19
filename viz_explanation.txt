@@ -1,0 +1,3 @@
+Bubble Sort is a simple sorting algorithm that repeatedly steps through the list, compares adjacent elements, and swaps them if they are in the wrong order. The pass through the list is repeated until the list is sorted. Let's create an interactive React visualizer to help you understand how Bubble Sort works!
+Bubble Sort is a fantastic starting point for understanding sorting algorithms. By visualizing each step, you'll gain insight into how elements are compared and swapped to achieve a sorted array. Let's dive into the code and see Bubble Sort in action!
+Enjoy exploring Bubble Sort with this interactive visualizer! You can control the sorting process, adjust the speed, and reset the array to see the algorithm in action repeatedly. Happy learning!
