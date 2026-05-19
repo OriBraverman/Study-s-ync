@@ -1,9 +1,0 @@
-Data Structures – Linked Lists and Their Operations
-
-A linked list is a linear data structure in which elements, called nodes, are stored in non-contiguous memory locations. Each node contains two fields: a data field holding the stored value and a pointer (or reference) field pointing to the next node in the sequence. The list is accessed through a head pointer that refers to the first node; the last node's pointer is set to None to signal the end.
-
-Linked lists come in several variants. A singly linked list supports traversal in one direction only. A doubly linked list adds a previous pointer, enabling bidirectional traversal and O(1) deletion of a known node. A circular linked list connects the tail back to the head, useful for applications such as round-robin scheduling.
-
-Core operations and their time complexities: insertion at the head is O(1) because only the head pointer is updated. Insertion at the tail requires traversal to the last node — O(n) for singly linked lists, O(1) if a tail pointer is maintained. Searching for an element is O(n) in the worst case. Deletion of a node by value is O(n) for the search and O(1) for the pointer update.
-
-Compared to arrays, linked lists offer dynamic sizing and O(1) insertions at the head without shifting elements. However, they lack O(1) random access — retrieving the k-th element always requires traversal from the head — and carry memory overhead from storing pointers. Common interview problems involving linked lists include reversal, cycle detection (Floyd's tortoise-and-hare algorithm), finding the middle node, and merging two sorted lists.
