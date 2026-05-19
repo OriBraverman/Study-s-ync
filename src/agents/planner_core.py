@@ -245,11 +245,11 @@ def create_llm_bootcamp_plan(
     api_key: str,
 ) -> BootcampPlanSchema:
     """
-    Generate a bootcamp plan using GPT-4o-mini via LangChain.
+    Generate a bootcamp plan using Gemini via LangChain.
     Falls back to mock plan if the API call fails.
     """
     try:
-        from langchain_openai import ChatOpenAI
+        from langchain_google_genai import ChatGoogleGenerativeAI
         from langchain_core.messages import HumanMessage, SystemMessage
     except ImportError:
         return create_mock_bootcamp_plan(student_name, pruned_schema, retrieved_chunks)
@@ -316,7 +316,7 @@ Rules:
 - Output ONLY the JSON object, no other text
 """
 
-    llm = ChatOpenAI(model="gpt-4o-mini", api_key=api_key, temperature=0.3, max_tokens=8192)
+    llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash", google_api_key=api_key, temperature=0.3, max_tokens=8192)
 
     try:
         response = llm.invoke(
@@ -405,9 +405,9 @@ def generate_bootcamp_plan(
     if use_mock:
         return create_mock_bootcamp_plan(student_name, pruned_schema, retrieved_chunks)
 
-    api_key = os.getenv("OPENAI_API_KEY", "")
+    api_key = os.getenv("GEMINI_API_KEY", "")
     if not api_key:
-        print("[WARN] USE_MOCK_LLM=false but OPENAI_API_KEY is not set. Using mock planner.")
+        print("[WARN] GEMINI_API_KEY not set. Using mock planner.")
         return create_mock_bootcamp_plan(student_name, pruned_schema, retrieved_chunks)
 
     return create_llm_bootcamp_plan(student_name, pruned_schema, retrieved_chunks, api_key)

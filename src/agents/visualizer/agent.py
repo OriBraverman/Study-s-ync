@@ -164,7 +164,7 @@ def generate_visualizer(
     Args:
         topic: The study task topic (e.g., "Bubble Sort", "Pipeline Hazards").
         concept_type: Optional hint (e.g., "sorting", "cpu_pipeline", "graph").
-        api_key: OpenAI API key. If None, reads from OPENAI_API_KEY env var.
+        api_key: Gemini API key. If None, reads from GEMINI_API_KEY env var.
 
     Returns:
         Markdown string containing the React code and HTML wrapper.
@@ -174,17 +174,16 @@ def generate_visualizer(
     if use_mock:
         return MOCK_RESPONSE
 
-    key = api_key or os.getenv("OPENAI_API_KEY", "")
+    key = api_key or os.getenv("GEMINI_API_KEY", "")
     if not key:
         return MOCK_RESPONSE
 
     try:
-        from openai import OpenAI
+        from langchain_google_genai import ChatGoogleGenerativeAI
     except ImportError:
         return MOCK_RESPONSE
 
-    base_url = os.getenv("OPENAI_BASE_URL")
-    client = OpenAI(api_key=key, base_url=base_url) if base_url else OpenAI(api_key=key)
+    client = ChatGoogleGenerativeAI(model="gemini-2.5-flash", google_api_key=key)
 
     user_prompt = f"""
 Topic: {topic}
@@ -195,16 +194,11 @@ Follow the output structure exactly.
 """
 
     try:
-        response = client.chat.completions.create(
-            model="gpt-4o",
-            messages=[
-                {"role": "system", "content": SYSTEM_PROMPT},
-                {"role": "user", "content": user_prompt},
-            ],
-            temperature=0.2,
-            max_tokens=4096,
-        )
-        return response.choices[0].message.content
+        response = client.invoke([
+            ("system", SYSTEM_PROMPT),
+            ("human", user_prompt)
+        ])
+        return response.content
     except Exception as e:
         return f"Error connecting to visualizer agent: {str(e)}"
 

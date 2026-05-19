@@ -60,7 +60,7 @@ from src.api.users import (
 )
 
 # Only default to mock mode when no API key is configured.
-if not os.getenv("OPENAI_API_KEY") and not os.getenv("OPENROUTER_API_KEY"):
+if not os.getenv("GEMINI_API_KEY"):
     os.environ.setdefault("USE_MOCK_LLM", "true")
 else:
     os.environ.setdefault("USE_MOCK_LLM", "false")
@@ -693,28 +693,25 @@ async def scrape_course(request: ScrapeRequest):
 def chat_with_tutor(request: ChatRequest):
     """
     AI tutor chat endpoint.
-    Uses an OpenAI-compatible API (default: localhost:8080).
-    Set OPENAI_BASE_URL and OPENAI_API_KEY env vars to override.
+    Uses Google Gemini.
+    Set GEMINI_API_KEY env var.
     """
     system_prompt = _load_tutor_prompt()
-    messages = [{"role": "system", "content": system_prompt}]
-    messages.extend(request.history)
-    messages.append({"role": "user", "content": request.user_message})
+    messages = [("system", system_prompt)]
+    for m in request.history:
+        role = "human" if m.get("role") == "user" else "ai"
+        messages.append((role, m.get("content")))
+    messages.append(("human", request.user_message))
 
-    base_url = os.getenv("OPENAI_BASE_URL", "http://localhost:8080/v1")
-    api_key = os.getenv("OPENAI_API_KEY", "none")
-    model = os.getenv("TUTOR_MODEL", "ibm-granite/granite-3.3-8b-instruct-GGUF")
+    api_key = os.getenv("GEMINI_API_KEY", "")
+    model = os.getenv("TUTOR_MODEL", "gemini-2.5-flash")
 
     try:
-        from openai import OpenAI
-        client = OpenAI(base_url=base_url, api_key=api_key)
-        response = client.chat.completions.create(
-            model=model,
-            messages=messages,
-            temperature=0.7,
-            max_tokens=2048,
-        )
-        ai_reply = response.choices[0].message.content
+        from langchain_google_genai import ChatGoogleGenerativeAI
+        client = ChatGoogleGenerativeAI(model=model, google_api_key=api_key)
+        response = client.invoke(messages)
+        ai_reply = response.content
         return {"reply": ai_reply}
     except Exception as exc:
         raise HTTPException(status_code=503, detail=f"AI tutor error: {exc}")
+# trigger reload
