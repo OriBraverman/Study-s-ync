@@ -1,0 +1,114 @@
+[
+    {
+        "page_number": 1,
+        "content": "Dynamic Programming\nApril 2025\nAlgorithms and DS I: Dynamic Programming\n1\nPrepared by Shmuel Wimer\nInstructed by Deganit Armon and Shmuel Wimer"
+    },
+    {
+        "page_number": 2,
+        "content": "Rod Cutting Optimization\nApril 2025\nAlgorithms and DS I: Dynamic Programming\n2"
+    },
+    {
+        "page_number": 3,
+        "content": "Very inefficient! CUT-ROD calls itself recursively again and again with same parameter values.\nApril 2025\nAlgorithms and DS I: Dynamic Programming\n3"
+    },
+    {
+        "page_number": 4,
+        "content": "April 2025\nAlgorithms and DS I: Dynamic Programming\n4\nSame sub-problems solved many times!"
+    },
+    {
+        "page_number": 5,
+        "content": "April 2025\nAlgorithms and DS I: Dynamic Programming\n5\nRepetitions of same sub-problems can be avoided by memoization."
+    },
+    {
+        "page_number": 6,
+        "content": "Top-down Solution by Dynamic Programming\nApril 2025\nAlgorithms and DS I: Dynamic Programming\n6"
+    },
+    {
+        "page_number": 7,
+        "content": "April 2025\nAlgorithms and DS I: Dynamic Programming\n7"
+    },
+    {
+        "page_number": 8,
+        "content": "Bottom-up Solution by Dynamic Programming\nApril 2025\nAlgorithms and DS I: Dynamic Programming\n8"
+    },
+    {
+        "page_number": 9,
+        "content": "Cut Retrieval of Optimal Solution\nApril 2025\nAlgorithms and DS I: Dynamic Programming\n9"
+    },
+    {
+        "page_number": 10,
+        "content": "Max revenue cuts is retrieved by backward traversal\nApril 2025\nAlgorithms and DS I: Dynamic Programming\n10"
+    },
+    {
+        "page_number": 11,
+        "content": "Optimal Matrix-Chain Multiplication\nApril 2025\nAlgorithms and DS I: Dynamic Programming\n11"
+    },
+    {
+        "page_number": 12,
+        "content": "April 2025\nAlgorithms and DS I: Dynamic Programming\n12"
+    },
+    {
+        "page_number": 13,
+        "content": "April 2025\nAlgorithms and DS I: Dynamic Programming\n13"
+    },
+    {
+        "page_number": 14,
+        "content": "April 2025\nAlgorithms and DS I: Dynamic Programming\n14"
+    },
+    {
+        "page_number": 15,
+        "content": "April 2025\nAlgorithms and DS I: Dynamic Programming\n15"
+    },
+    {
+        "page_number": 16,
+        "content": "April 2025\nAlgorithms and DS I: Dynamic Programming\n16"
+    },
+    {
+        "page_number": 17,
+        "content": "Retrieval of Optimal Parenthesization\nApril 2025\nAlgorithms and DS I: Dynamic Programming\n17"
+    },
+    {
+        "page_number": 18,
+        "content": "April 2025\nAlgorithms and DS I: Dynamic Programming\n18"
+    },
+    {
+        "page_number": 19,
+        "content": "April 2025\nAlgorithms and DS I: Dynamic Programming\n19\nDynamic Programming comprises: \nOptimal sub-structures\nOverlapping sub-problems\nReconstruction of optimal solution\nMemoization"
+    },
+    {
+        "page_number": 20,
+        "content": "Longest Common Subsequence (LCS)\nApril 2025\nAlgorithms and DS I: Dynamic Programming\n20"
+    },
+    {
+        "page_number": 21,
+        "content": "April 2025\nAlgorithms and DS I: Dynamic Programming\n21"
+    },
+    {
+        "page_number": 22,
+        "content": "April 2025\nAlgorithms and DS I: Dynamic Programming\n22"
+    },
+    {
+        "page_number": 23,
+        "content": "April 2025\nAlgorithms and DS I: Dynamic Programming\n23"
+    },
+    {
+        "page_number": 24,
+        "content": "April 2025\nAlgorithms and DS I: Dynamic Programming\n24"
+    },
+    {
+        "page_number": 25,
+        "content": "April 2025\nAlgorithms and DS I: Dynamic Programming\n25"
+    },
+    {
+        "page_number": 26,
+        "content": "April 2025\nAlgorithms and DS I: Dynamic Programming\n26"
+    },
+    {
+        "page_number": 27,
+        "content": "LCS Retrieval\nApril 2025\nAlgorithms and DS I: Dynamic Programming\n27"
+    },
+    {
+        "page_number": 28,
+        "content": "B\nApril 2025\nAlgorithms and DS I: Dynamic Programming\n28"
+    }
+]

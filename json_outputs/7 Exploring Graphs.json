@@ -1,0 +1,154 @@
+[
+    {
+        "page_number": 1,
+        "content": "Exploring Graphs\nMarch 2022\nAlgorithms and DS I: Exploring Graphs\n1\nPrepared by Shmuel Wimer\nInstructed by Deganit Armon and Shmuel Wimer"
+    },
+    {
+        "page_number": 2,
+        "content": "Definitions\nMarch 2022\nAlgorithms and DS I: Exploring Graphs\n2"
+    },
+    {
+        "page_number": 3,
+        "content": "March 2022\nAlgorithms and DS I: Exploring Graphs\n3"
+    },
+    {
+        "page_number": 4,
+        "content": "March 2022\nAlgorithms and DS I: Exploring Graphs\n4"
+    },
+    {
+        "page_number": 5,
+        "content": "March 2022\nAlgorithms and DS I: Exploring Graphs\n5"
+    },
+    {
+        "page_number": 6,
+        "content": "Shortest-Path Algorithms\nMarch 2022\nAlgorithms and DS I: Exploring Graphs\n6"
+    },
+    {
+        "page_number": 7,
+        "content": "March 2022\nAlgorithms and DS I: Exploring Graphs\n7"
+    },
+    {
+        "page_number": 8,
+        "content": "March 2022\nAlgorithms and DS I: Exploring Graphs\n8"
+    },
+    {
+        "page_number": 9,
+        "content": "March 2022\nAlgorithms and DS I: Exploring Graphs\n9"
+    },
+    {
+        "page_number": 10,
+        "content": "March 2022\nAlgorithms and DS I: Exploring Graphs\n10"
+    },
+    {
+        "page_number": 11,
+        "content": "March 2022\nAlgorithms and DS I: Exploring Graphs\n11"
+    },
+    {
+        "page_number": 12,
+        "content": "March 2022\nAlgorithms and DS I: Exploring Graphs\n12"
+    },
+    {
+        "page_number": 13,
+        "content": "March 2022\nAlgorithms and DS I: Exploring Graphs\n13"
+    },
+    {
+        "page_number": 14,
+        "content": "March 2022\nAlgorithms and DS I: Exploring Graphs\n14"
+    },
+    {
+        "page_number": 15,
+        "content": "March 2022\nAlgorithms and DS I: Exploring Graphs\n15\nDepth First Search\nSpanning tree can be found differently by Depth-First Search (DFS, J. Hopcroft and R. Tarjan 1973)."
+    },
+    {
+        "page_number": 16,
+        "content": "March 2022\nAlgorithms and DS I: Exploring Graphs\n16"
+    },
+    {
+        "page_number": 17,
+        "content": "March 2022\nAlgorithms and DS I: Exploring Graphs\n17"
+    },
+    {
+        "page_number": 18,
+        "content": "March 2022\nAlgorithms and DS I: Exploring Graphs\n18\nSince the loop is conditioned by 1 or 2, 1 cannot occur infinite times. \nSo, 2 occur infinitely, ⇒ a cyclic backtracking."
+    },
+    {
+        "page_number": 19,
+        "content": "March 2022\nAlgorithms and DS I: Exploring Graphs\n19"
+    },
+    {
+        "page_number": 20,
+        "content": "March 2022\nAlgorithms and DS I: Exploring Graphs\n20"
+    },
+    {
+        "page_number": 21,
+        "content": "March 2022\nAlgorithms and DS I: Exploring Graphs\n21"
+    },
+    {
+        "page_number": 22,
+        "content": "March 2022\nAlgorithms and DS I: Exploring Graphs\n22"
+    },
+    {
+        "page_number": 23,
+        "content": "March 2022\nAlgorithms and DS I: Exploring Graphs\n23"
+    },
+    {
+        "page_number": 24,
+        "content": "March 2022\nAlgorithms and DS I: Exploring Graphs\n24\nTopological Sort"
+    },
+    {
+        "page_number": 25,
+        "content": "March 2022\nAlgorithms and DS I: Exploring Graphs\n25"
+    },
+    {
+        "page_number": 26,
+        "content": "March 2022\nAlgorithms and DS I: Exploring Graphs\n26"
+    },
+    {
+        "page_number": 27,
+        "content": "March 2022\nAlgorithms and DS I: Exploring Graphs\n27"
+    },
+    {
+        "page_number": 28,
+        "content": "March 2022\nAlgorithms and DS I: Exploring Graphs\n28"
+    },
+    {
+        "page_number": 29,
+        "content": "March 2022\nAlgorithms and DS I: Exploring Graphs\n29"
+    },
+    {
+        "page_number": 30,
+        "content": "March 2022\nAlgorithms and DS I: Exploring Graphs\n30"
+    },
+    {
+        "page_number": 31,
+        "content": "March 2022\nAlgorithms and DS I: Exploring Graphs\n31\nStrongly Connected Components"
+    },
+    {
+        "page_number": 32,
+        "content": "March 2022\nAlgorithms and DS I: Exploring Graphs\n32"
+    },
+    {
+        "page_number": 33,
+        "content": "March 2022\nAlgorithms and DS I: Exploring Graphs\n33"
+    },
+    {
+        "page_number": 34,
+        "content": "March 2022\nAlgorithms and DS I: Exploring Graphs\n34"
+    },
+    {
+        "page_number": 35,
+        "content": "March 2022\nAlgorithms and DS I: Exploring Graphs\n35"
+    },
+    {
+        "page_number": 36,
+        "content": "March 2022\nAlgorithms and DS I: Exploring Graphs\n36"
+    },
+    {
+        "page_number": 37,
+        "content": "March 2022\nAlgorithms and DS I: Exploring Graphs\n37"
+    },
+    {
+        "page_number": 38,
+        "content": "March 2022\nAlgorithms and DS I: Exploring Graphs\n38"
+    }
+]

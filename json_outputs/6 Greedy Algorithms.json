@@ -1,0 +1,102 @@
+[
+    {
+        "page_number": 1,
+        "content": "Greedy Algorithms\nMarch 2022\nAlgorithms and DS I: Greedy Algorithms\n1\nPrepared by Shmuel Wimer\nInstructed by Deganit Armon and Shmuel Wimer"
+    },
+    {
+        "page_number": 2,
+        "content": "Overview\nDynamic programming (DP) finds optimal solution with memoization and back traversal.\nOnly at termination the entire solution is disclosed.\nGreedy algorithms take at each step the best decision with no later regrets, simpler DP.\nGreedy paradigm may result in non-optimal solution.\nFor some problems greedy algorithm yields optimal solution though.\nMarch 2022\nAlgorithms and DS I: Greedy Algorithms\n2"
+    },
+    {
+        "page_number": 3,
+        "content": "Activity Selection Problem\nMarch 2022\nAlgorithms and DS I: Greedy Algorithms\n3"
+    },
+    {
+        "page_number": 4,
+        "content": "March 2022\nAlgorithms and DS I: Greedy Algorithms\n4"
+    },
+    {
+        "page_number": 5,
+        "content": "March 2022\nAlgorithms and DS I: Greedy Algorithms\n5"
+    },
+    {
+        "page_number": 6,
+        "content": "March 2022\nAlgorithms and DS I: Greedy Algorithms\n6"
+    },
+    {
+        "page_number": 7,
+        "content": "March 2022\nAlgorithms and DS I: Greedy Algorithms\n7"
+    },
+    {
+        "page_number": 8,
+        "content": "Elements of Greedy Strategy\nGreedy-choice property makes currently best choice without considering sub-problems results, leaving only one sub-problem.\nMust prove that greedy choice yields a globally optimal solution.  (Unlike DP where choice at each step depends on sub-problems solutions.)\nLike DP, problem exhibits optimal sub-structure if its optimal solution contains optimal solutions to sub-problems.\nMarch 2022\nAlgorithms and DS I: Greedy Algorithms\n8"
+    },
+    {
+        "page_number": 9,
+        "content": "The Knapsack Problem\nMarch 2022\nAlgorithms and DS I: Greedy Algorithms\n9"
+    },
+    {
+        "page_number": 10,
+        "content": "March 2022\nAlgorithms and DS I: Greedy Algorithms\n10"
+    },
+    {
+        "page_number": 11,
+        "content": "March 2022\nAlgorithms and DS I: Greedy Algorithms\n11"
+    },
+    {
+        "page_number": 12,
+        "content": "March 2022\nAlgorithms and DS I: Greedy Algorithms\n12"
+    },
+    {
+        "page_number": 13,
+        "content": "March 2022\nAlgorithms and DS I: Greedy Algorithms\n13"
+    },
+    {
+        "page_number": 14,
+        "content": "Huffman Codes\nMarch 2022\nAlgorithms and DS I: Greedy Algorithms\n14"
+    },
+    {
+        "page_number": 15,
+        "content": "March 2022\nAlgorithms and DS I: Greedy Algorithms\n15"
+    },
+    {
+        "page_number": 16,
+        "content": "March 2022\nAlgorithms and DS I: Greedy Algorithms\n16"
+    },
+    {
+        "page_number": 17,
+        "content": "March 2022\nAlgorithms and DS I: Greedy Algorithms\n17"
+    },
+    {
+        "page_number": 18,
+        "content": "March 2022\nAlgorithms and DS I: Greedy Algorithms\n18"
+    },
+    {
+        "page_number": 19,
+        "content": "March 2022\nAlgorithms and DS I: Greedy Algorithms\n19"
+    },
+    {
+        "page_number": 20,
+        "content": "March 2022\nAlgorithms and DS I: Greedy Algorithms\n20"
+    },
+    {
+        "page_number": 21,
+        "content": "March 2022\nAlgorithms and DS I: Greedy Algorithms\n21"
+    },
+    {
+        "page_number": 22,
+        "content": "March 2022\nAlgorithms and DS I: Greedy Algorithms\n22"
+    },
+    {
+        "page_number": 23,
+        "content": "March 2022\nAlgorithms and DS I: Greedy Algorithms\n23"
+    },
+    {
+        "page_number": 24,
+        "content": "March 2022\nAlgorithms and DS I: Greedy Algorithms\n24"
+    },
+    {
+        "page_number": 25,
+        "content": "March 2022\nAlgorithms and DS I: Greedy Algorithms\n25"
+    }
+]

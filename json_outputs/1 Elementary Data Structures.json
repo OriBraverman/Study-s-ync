@@ -1,0 +1,86 @@
+[
+    {
+        "page_number": 1,
+        "content": "Elementary Data Structures\nMarch 2022\nAlgorithms and DS I: Elementary DS\n1\nPrepared by Shmuel Wimer\nInstructed by Deganit Armon and Shmuel Wimer"
+    },
+    {
+        "page_number": 2,
+        "content": "Arrays\nMarch 2022\nAlgorithms and DS I: Elementary DS\n2"
+    },
+    {
+        "page_number": 3,
+        "content": "March 2022\nAlgorithms and DS I: Elementary DS\n3\nCV\nCV\nCV"
+    },
+    {
+        "page_number": 4,
+        "content": "March 2022\nAlgorithms and DS I: Elementary DS\n4"
+    },
+    {
+        "page_number": 5,
+        "content": "Runtime Analysis\nMarch 2022\nAlgorithms and DS I: Elementary DS\n5"
+    },
+    {
+        "page_number": 6,
+        "content": "March 2022\nAlgorithms and DS I: Elementary DS\n6"
+    },
+    {
+        "page_number": 7,
+        "content": "Stacks\nDynamic set where elements are deleted in last-in, first-out (LIFO).\nINSERT operation is called PUSH, DELETE operation is called POP.\nMarch 2022\nAlgorithms and DS I: Elementary DS\n7"
+    },
+    {
+        "page_number": 8,
+        "content": "March 2022\nAlgorithms and DS I: Elementary DS\n8"
+    },
+    {
+        "page_number": 9,
+        "content": "Queues\nDynamic set. Elements deleted in a first-in, first-out (FIFO).\nINSERT called ENQUEUE, DELETE is called DEQUEUE. (code CLRS 10.1)\nQueue has head and tail. Insertion is made to tail, deletion to head.\nMarch 2022\nAlgorithms and DS I: Elementary DS\n9"
+    },
+    {
+        "page_number": 10,
+        "content": "Linked Lists\nData structure where objects ordered linearly. \nUnlike arrays which size is predefined, linked lists size change dynamically by using pointers (memory  addresses) attached to objects.\nMarch 2022\nAlgorithms and DS I: Elementary DS\n10"
+    },
+    {
+        "page_number": 11,
+        "content": "March 2022\nAlgorithms and DS I: Elementary DS\n11"
+    },
+    {
+        "page_number": 12,
+        "content": "Rooted Trees Representation\nLinked lists representation is generalized for rooted trees.\nMarch 2022\nAlgorithms and DS I: Elementary DS\n12"
+    },
+    {
+        "page_number": 13,
+        "content": "Three pointers at node are sufficient so all children can be reached in time linear in the number of children.\nMarch 2022\nAlgorithms and DS I: Elementary DS\n13"
+    },
+    {
+        "page_number": 14,
+        "content": "Heaps\nMarch 2022\nAlgorithms and DS I: Elementary DS\n14"
+    },
+    {
+        "page_number": 15,
+        "content": "March 2022\nAlgorithms and DS I: Elementary DS\n15"
+    },
+    {
+        "page_number": 16,
+        "content": "March 2022\nAlgorithms and DS I: Elementary DS\n16"
+    },
+    {
+        "page_number": 17,
+        "content": "March 2022\nAlgorithms and DS I: Elementary DS\n17"
+    },
+    {
+        "page_number": 18,
+        "content": "March 2022\nAlgorithms and DS I: Elementary DS\n18"
+    },
+    {
+        "page_number": 19,
+        "content": "March 2022\nAlgorithms and DS I: Elementary DS\n19"
+    },
+    {
+        "page_number": 20,
+        "content": "March 2022\nAlgorithms and DS I: Elementary DS\n20"
+    },
+    {
+        "page_number": 21,
+        "content": "Heap Sort\nMarch 2022\nAlgorithms and DS I: Elementary DS\n21"
+    }
+]
