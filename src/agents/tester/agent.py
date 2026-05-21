@@ -55,6 +55,26 @@ Output JSON Structure:
 # ---------------------------------------------------------------------------
 
 MOCK_QUESTIONS = {
+    "functions": [
+        QuestionSchema(
+            question_type="multiple_choice",
+            question_text="What is the output of the following Python code?\ndef double_val(x):\n    x = x * 2\n\nval = 5\ndouble_val(val)\nprint(val)",
+            options=["A. 5", "B. 10", "C. None", "D. Error"],
+            correct_answer="A. 5",
+            explanation="In Python, arguments are passed by assignment. Since integers are immutable, the variable 'val' outside the function remains unchanged (5).",
+            difficulty="easy",
+            topic="Functions",
+        ),
+        QuestionSchema(
+            question_type="code_tracing",
+            question_text="Trace this function execution:\ndef add_suffix(s):\n    return s + '!'\n\ndef greet(name):\n    return 'Hello ' + add_suffix(name)\n\nprint(greet('student'))",
+            options=["A. Hello student", "B. Hello student!", "C. Hello !", "D. Error"],
+            correct_answer="B. Hello student!",
+            explanation="greet('student') calls add_suffix('student') which returns 'student!'. greet then returns 'Hello ' + 'student!' which is 'Hello student!'.",
+            difficulty="easy",
+            topic="Functions",
+        ),
+    ],
     "loops": [
         QuestionSchema(
             question_type="multiple_choice",
@@ -131,6 +151,8 @@ def _topic_to_key(topic: str) -> str:
         return "sorting"
     if any(k in t for k in ["graph", "גרף", "bfs", "dfs"]):
         return "graphs"
+    if any(k in t for k in ["function", "פונקצי", "def "]):
+        return "functions"
     return "loops"  # default fallback
 
 
@@ -169,24 +191,70 @@ def generate_test(
             generated_at=datetime.utcnow().isoformat() + "Z",
         )
 
-    key = api_key or os.getenv("OPENAI_API_KEY", "")
-    if not key:
-        return generate_test(topic, num_questions, difficulty)  # fallback to mock
-
-    try:
-        from openai import OpenAI
-    except ImportError:
-        return generate_test(topic, num_questions, difficulty)  # fallback to mock
-
-    client = OpenAI(api_key=key)
-
-    user_prompt = f"""
+    # Real LLM generation with Gemini
+    gemini_key = api_key or os.getenv("GEMINI_API_KEY", "")
+    if gemini_key:
+        try:
+            from langchain_google_genai import ChatGoogleGenerativeAI
+            model_name = os.getenv("TUTOR_MODEL", "gemini-2.5-flash")
+            client = ChatGoogleGenerativeAI(model=model_name, google_api_key=gemini_key, temperature=0.3)
+            user_prompt = f"""
 Generate {num_questions} practice questions for the topic: {topic}.
 Difficulty preference: {difficulty or "mixed"}.
 Output only valid JSON matching the specified structure.
 """
+            response = client.invoke([
+                ("system", SYSTEM_PROMPT),
+                ("human", user_prompt)
+            ])
+            raw = response.content.strip()
+            if raw.startswith("```"):
+                lines = raw.split("\n")
+                if lines[0].startswith("```"):
+                    lines = lines[1:]
+                if lines[-1].startswith("```"):
+                    lines = lines[:-1]
+                raw = "\n".join(lines).strip()
+
+            import json
+            data = json.loads(raw)
+            questions = []
+            for q in data.get("questions", []):
+                questions.append(
+                    QuestionSchema(
+                        question_type=q.get("question_type", "multiple_choice"),
+                        question_text=q.get("question_text", ""),
+                        options=q.get("options", []),
+                        correct_answer=q.get("correct_answer", ""),
+                        explanation=q.get("explanation", ""),
+                        difficulty=q.get("difficulty", "medium"),
+                        topic=topic,
+                    )
+                )
+            return TestSchema(
+                topic=topic,
+                questions=questions,
+                total_questions=len(questions),
+                estimated_minutes=len(questions) * 5,
+                generated_at=datetime.utcnow().isoformat() + "Z",
+            )
+        except Exception:
+            pass
+
+    # Fallback to OpenRouter (original behavior)
+    openrouter_key = api_key or os.getenv("OPENROUTER_API_KEY", "") or os.getenv("OPENAI_API_KEY", "")
+    if not openrouter_key:
+        # Final fallback to mock if no keys are found
+        return generate_test(topic, num_questions, difficulty, api_key=None)
 
     try:
+        from openai import OpenAI
+        client = OpenAI(api_key=openrouter_key)
+        user_prompt = f"""
+Generate {num_questions} practice questions for the topic: {topic}.
+Difficulty preference: {difficulty or "mixed"}.
+Output only valid JSON matching the specified structure.
+"""
         response = client.chat.completions.create(
             model="gpt-4o-mini",
             messages=[
@@ -197,7 +265,6 @@ Output only valid JSON matching the specified structure.
             max_tokens=4096,
         )
         raw = response.choices[0].message.content.strip()
-        # Strip markdown fences if present
         if raw.startswith("```"):
             raw = "\n".join(raw.split("\n")[1:])
         if raw.endswith("```"):
@@ -226,7 +293,8 @@ Output only valid JSON matching the specified structure.
             generated_at=datetime.utcnow().isoformat() + "Z",
         )
     except Exception:
-        return generate_test(topic, num_questions, difficulty)  # fallback to mock
+        # Fallback to mock
+        return generate_test(topic, num_questions, difficulty, api_key=None)
 
 
 # ---------------------------------------------------------------------------
@@ -330,43 +398,66 @@ def chat_with_tester(
         topic: The study topic (e.g., "Recursion", "BFS").
         topic_content: The raw study material/notes for the topic (injected into system prompt).
         messages: Conversation history as [{"role": "user"|"assistant", "content": "..."}].
-        api_key: OpenRouter API key. Falls back to OPENROUTER_API_KEY env var.
+        api_key: API key. Falls back to GEMINI_API_KEY or OPENROUTER_API_KEY.
 
     Returns:
         The assistant's next message as a plain string.
-
-    Raises:
-        ValueError: If no API key is available.
     """
-    key = api_key or os.getenv("OPENROUTER_API_KEY", "")
     use_mock = os.getenv("USE_MOCK_LLM", "true").lower() == "true"
-    if not key:
-        if use_mock:
-            return _mock_chat_response(topic, messages)  # topic_content unused in mock; real LLM injects it
-        raise ValueError("OPENROUTER_API_KEY is required for chat_with_tester")
+    gemini_key = api_key or os.getenv("GEMINI_API_KEY", "")
+    openrouter_key = api_key or os.getenv("OPENROUTER_API_KEY", "")
 
-    from openai import OpenAI
+    # If mock mode is forced, or if no API keys are configured, fallback to mock response
+    if use_mock or (not gemini_key and not openrouter_key):
+        return _mock_chat_response(topic, messages)
 
-    client = OpenAI(
-        base_url="https://openrouter.ai/api/v1",
-        api_key=key,
-    )
-    model = os.getenv("OPENROUTER_MODEL", "anthropic/claude-sonnet-4-5")
-    system_prompt = _build_chat_system_prompt(topic, topic_content)
-
-    try:
-        response = client.chat.completions.create(
-            model=model,
-            messages=[{"role": "system", "content": system_prompt}, *messages],
-            temperature=0.4,
-            max_tokens=2048,
-        )
-        return response.choices[0].message.content.strip()
-    except Exception:
+    # Prefer Gemini API
+    if gemini_key:
         try:
-            return _mock_chat_response(topic, messages)
+            from langchain_google_genai import ChatGoogleGenerativeAI
+            from langchain_core.messages import HumanMessage, AIMessage, SystemMessage
+
+            system_prompt = _build_chat_system_prompt(topic, topic_content)
+            formatted_messages = [SystemMessage(content=system_prompt)]
+            for msg in messages:
+                role = msg.get("role")
+                content = msg.get("content", "")
+                if role == "user":
+                    formatted_messages.append(HumanMessage(content=content))
+                elif role == "assistant":
+                    formatted_messages.append(AIMessage(content=content))
+
+            model_name = os.getenv("TUTOR_MODEL", "gemini-2.5-flash")
+            client = ChatGoogleGenerativeAI(model=model_name, google_api_key=gemini_key, temperature=0.4)
+            response = client.invoke(formatted_messages)
+            return response.content.strip()
         except Exception:
-            return "האם אתה מוכן לסשן בדיקת הבנה, או שאתה זקוק להסבר נוסף?" if not messages else "שגיאה בחיבור ל-AI. אנא נסה שוב מאוחר יותר."
+            if not openrouter_key:
+                return _mock_chat_response(topic, messages)
+
+    # Fallback to OpenRouter
+    if openrouter_key:
+        from openai import OpenAI
+
+        client = OpenAI(
+            base_url="https://openrouter.ai/api/v1",
+            api_key=openrouter_key,
+        )
+        model = os.getenv("OPENROUTER_MODEL", "anthropic/claude-sonnet-4-5")
+        system_prompt = _build_chat_system_prompt(topic, topic_content)
+
+        try:
+            response = client.chat.completions.create(
+                model=model,
+                messages=[{"role": "system", "content": system_prompt}, *messages],
+                temperature=0.4,
+                max_tokens=2048,
+            )
+            return response.choices[0].message.content.strip()
+        except Exception:
+            return _mock_chat_response(topic, messages)
+
+    return _mock_chat_response(topic, messages)
 
 
 if __name__ == "__main__":

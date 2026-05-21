@@ -689,6 +689,19 @@ async def scrape_course(request: ScrapeRequest):
         raise HTTPException(status_code=500, detail=f"Scraping failed: {exc}")
 
 
+@app.post("/sync_lectures_from_drive")
+def sync_lectures():
+    """
+    Trigger dynamic synchronization of lectures from the Google CS Drive!
+    """
+    try:
+        from src.retrieval.drive_syncer import sync_lectures_from_drive
+        res = sync_lectures_from_drive()
+        return res
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail=str(exc))
+
+
 @app.post("/chat")
 def chat_with_tutor(request: ChatRequest):
     """

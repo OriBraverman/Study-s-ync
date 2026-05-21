@@ -1,0 +1,6 @@
+Course Num: 89-230
+Course Name: הרצאה
+Found: True
+Syllabus Text Length: 2229
+Topics:
+[]

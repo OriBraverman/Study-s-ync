@@ -1,0 +1,19 @@
+Lecture 4: Sorting Lower Bounds & Linear-Time Sorting
+
+Key Concepts:
+1. Comparison-based Sorting Lower Bound: In the decision-tree model, any comparison-based sort requires Omega(n log n) comparisons in the worst case because a binary tree with >= n! leaves must have height >= log(n!) = Omega(n log n).
+2. Linear-Time Non-Comparison Sorting:
+   - Counting Sort: Assumes keys are integers in the range [0..k]. Uses temporary and output arrays to place elements directly in sorted order. Stable, runs in O(n+k) time.
+   - Radix Sort: Sorts multi-digit numbers digit-by-digit starting from Least Significant Digit (LSD) to Most Significant Digit (MSD). Requires a stable sorting helper (like Counting Sort). Runs in O(d(n+k)) time.
+   - Bucket Sort: Assumes input is uniformly distributed in the interval [0, 1). Divides the interval into n equal-sized buckets, distributes keys, sorts each bucket, and concatenates. Runs in linear average-case time Theta(n).
+
+--- VERIFIED PDF SOURCE CHUNKS ---
+
+
+--- דוגמה שנסרקה מתוך סיכומי ה-CS Drive ---
+• page 77: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | being correct. The trick is fairly simple: if we run Verify-Binary-MM-Basic
+• page 78: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | Let T (n) denote the runtime of a quicksort algorithm on an array of size
+• page 79: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | bution where the probability of success is p ≥ 1/2, and so the expected num-
+• page 80: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | there are j − i + 1 elements in this range and the distribution is uniform,
+• page 81: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | the i’th bucket is Bi = [ i−1
+• page 82: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | have E[ni] = n · p = n · 1

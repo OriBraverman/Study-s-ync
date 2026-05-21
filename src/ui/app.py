@@ -106,6 +106,29 @@ with st.sidebar:
     st.markdown("---")
     demo_mode = st.checkbox("Demo Mode (pre-fill sample data)", value=False)
 
+    st.markdown("---")
+    st.markdown("### 🔄 CS Drive Sync")
+    st.caption("Sync the latest academic lectures directly from Google CS Drive.")
+    sync_btn = st.button("Sync Lectures from Drive", disabled=not api_ok, use_container_width=True)
+    if sync_btn:
+        with st.spinner("Syncing and indexing lectures from Google CS Drive..."):
+            try:
+                resp = requests.post(f"{API_BASE}/sync_lectures_from_drive", timeout=120)
+                if resp.status_code == 200:
+                    data = resp.json()
+                    st.success(
+                        f"Successfully synced!\n\n"
+                        f"- **Document:** {data.get('document_name')}\n"
+                        f"- **Pages parsed:** {data.get('total_pages')}\n"
+                        f"- **Lectures updated:** {data.get('lectures_count')}\n"
+                        f"- **Source:** {data.get('source')}"
+                    )
+                    st.cache_data.clear()
+                else:
+                    st.error(f"Sync failed: {resp.text}")
+            except Exception as e:
+                st.error(f"Network error: {e}")
+
 # ---------------------------------------------------------------------------
 # Main header
 # ---------------------------------------------------------------------------
@@ -267,17 +290,36 @@ if generate_btn or (demo_mode and st.session_state.get("auto_demo_ran") is False
 
         st.success("Bootcamp plan generated!", icon="✅")
 
-        # ----------------------------------------------------------------
-        # Executive Summary
-        # ----------------------------------------------------------------
-        st.markdown("---")
-        st.subheader("Executive Summary")
-        st.info(plan.get("executive_summary", ""), icon="🎯")
+        tasks = plan.get("study_tasks", [])
+        if not tasks:
+            # Display highly polished, glassmorphic celebratory card in Hebrew
+            st.markdown(
+                f"""
+                <div style="background-color: rgba(16, 185, 129, 0.05); border: 1px solid rgba(16, 185, 129, 0.2); padding: 32px; border-radius: 16px; text-align: center; margin: 20px auto; max-width: 600px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);">
+                    <div style="font-size: 3rem; margin-bottom: 16px;">🎉</div>
+                    <h3 style="color: #065f46; font-size: 1.5rem; font-weight: bold; margin-bottom: 12px; font-family: system-ui, -apple-system, sans-serif;">אין צורך בתוכנית שיקום!</h3>
+                    <p style="color: #047857; font-size: 1rem; line-height: 1.6; margin-bottom: 8px; font-family: system-ui, -apple-system, sans-serif;">
+                        לא נמצאו נושאים שהפסדת בטווח התאריכים שהגדרת עבור הקורס <strong>{plan.get('course_name', '')}</strong>.
+                    </p>
+                    <p style="color: #065f46; font-size: 0.9rem; line-height: 1.6; margin-bottom: 0; font-family: system-ui, -apple-system, sans-serif; opacity: 0.85;">
+                        ייתכן שכל המפגשים בתאריכים אלו היו מנהלתיים (מבחנים, חגים, חזרות וכו') או שלא התקיימו שיעורים כלל בתקופה זו.
+                    </p>
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
+        else:
+            # ----------------------------------------------------------------
+            # Executive Summary
+            # ----------------------------------------------------------------
+            st.markdown("---")
+            st.subheader("Executive Summary")
+            st.info(plan.get("executive_summary", ""), icon="🎯")
 
-        meta_col1, meta_col2, meta_col3 = st.columns(3)
-        meta_col1.metric("Total Study Days", plan.get("total_days", 0))
-        meta_col2.metric("Total Hours", f"{plan.get('total_hours', 0):.1f} hrs")
-        meta_col3.metric("Topics Covered", len(plan.get("study_tasks", [])))
+            meta_col1, meta_col2, meta_col3 = st.columns(3)
+            meta_col1.metric("Total Study Days", plan.get("total_days", 0))
+            meta_col2.metric("Total Hours", f"{plan.get('total_hours', 0):.1f} hrs")
+            meta_col3.metric("Topics Covered", len(tasks))
 
         # ----------------------------------------------------------------
         # Pruning Dashboard
@@ -330,18 +372,9 @@ if generate_btn or (demo_mode and st.session_state.get("auto_demo_ran") is False
         # ----------------------------------------------------------------
         # Day-by-day study tasks
         # ----------------------------------------------------------------
-        st.markdown("---")
-        st.subheader("Day-by-Day Study Plan")
-
-        tasks = plan.get("study_tasks", [])
-        if not tasks:
-            st.info(
-                "No study tasks were generated. "
-                "This may happen if all missed topics were pruned as administrative entries "
-                "or if no topics could be mapped to your absence dates.",
-                icon="ℹ️",
-            )
-        else:
+        if tasks:
+            st.markdown("---")
+            st.subheader("Day-by-Day Study Plan")
             current_day = None
             for task in tasks:
                 task_day = task.get("day", 1)
@@ -385,8 +418,8 @@ if generate_btn or (demo_mode and st.session_state.get("auto_demo_ran") is False
                                 else "📚 Reference"
                             )
                             st.markdown(
-                                f"  - {badge} **{cit.get('source_name', '')}** "
-                                f"(relevance: {score_pct}%)"
+                                 f"  - {badge} **{cit.get('source_name', '')}** "
+                                 f"(relevance: {score_pct}%)"
                             )
 
         # ----------------------------------------------------------------

@@ -1,0 +1,19 @@
+Lecture 3: Binary Search Trees & AVL Trees
+
+Key Concepts:
+1. Binary Search Tree (BST) Property: For any node x, keys in its left subtree are <= x.key, and keys in its right subtree are >= x.key.
+2. Inorder Tree Walk: Prints BST keys in sorted order. Time complexity is Theta(n).
+3. BST Queries (Search, Min, Max, Successor, Predecessor): All query operations run in O(h) time, where h is the height of the tree.
+   - Successor: The node with the smallest key greater than x.key. If right subtree exists, it's the minimum of that subtree. Otherwise, it's the lowest ancestor whose left child is also an ancestor.
+4. BST Insert/Delete: Operates in O(h) time. Deletion has three cases: node has no children, node has one child, or node has two children (replaced by its successor).
+5. AVL Trees: Height-balanced BST. For every node, the height difference between left and right subtrees is at most 1. Height is strictly bounded at h < 1.44 log2(n) = O(log n).
+6. Rotations: O(1) operations (Left Rotate, Right Rotate) used to restore AVL balance after insertion or deletion.
+
+--- VERIFIED PDF SOURCE CHUNKS ---
+
+
+--- דוגמה שנסרקה מתוך סיכומי ה-CS Drive ---
+• page 13: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | 2 Dynamic Programming
+• page 14: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | Saving space. The approach of the above algorithm is a top-down
+• page 15: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | Naive algorithm. It is a good practice (which we require) to first consider
+• page 16: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | Formally, let f(i) be the value of a maximum independent subsequence

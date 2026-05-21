@@ -1,0 +1,22 @@
+Lecture 6: Greedy Algorithms & Activity Selection
+
+Key Concepts:
+1. Greedy Choice Property: A globally optimal solution can be arrived at by making locally optimal (greedy) choices without looking ahead or recalculating past decisions.
+2. Activity Selection Problem: Select the maximum number of mutually compatible activities in a single shared resource. Greedy strategy: sort activities by finish time, always choose the earliest finishing compatible activity. Runs in O(n log n) time and is proven optimal.
+3. Optimal Substructure: Required for both DP and Greedy algorithms. The optimal solution contains optimal solutions to subproblems.
+4. Knapsack Problems Comparison:
+   - Fractional Knapsack: Can take fractions of items. Greedy strategy based on highest value-per-weight ratio yields optimal solution in O(n log n).
+   - 0-1 Knapsack: Items must be taken whole. Greedy strategy fails. Requires Dynamic Programming with running time O(n W).
+
+--- VERIFIED PDF SOURCE CHUNKS ---
+
+
+--- דוגמה שנסרקה מתוך סיכומי ה-CS Drive ---
+• page 27: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | 3 Greedy Algorithms
+• page 28: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | the correctness of greedy algorithms. But this example does capture the
+• page 29: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | σ c(σ)
+• page 30: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | Optimal prefix-free code. Suppose we are given a very large file, and
+• page 31: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | σ fσ
+• page 32: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | COST (T ) − COST (T ′) =
+• page 33: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | Lemma 3 (Optimal substructure property). Let Σ be an alphabet of size
+• page 34: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | is straightforward we will not require it for proving correctness of greedy

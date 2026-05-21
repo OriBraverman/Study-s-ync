@@ -1,0 +1,30 @@
+Lecture 7: Graph Exploration & Shortest Paths
+
+Key Concepts:
+1. Graph Representations: Adjacency List (space O(V+E), efficient for sparse graphs) vs Adjacency Matrix (space O(V^2), O(1) edge check).
+2. Search Algorithms:
+   - Breadth-First Search (BFS): Explores nodes level-by-level using a Queue. Computes single-source shortest paths on unweighted graphs in O(V+E).
+   - Depth-First Search (DFS): Explores recursively along branches, records discovery/finish times. Used for topological sort and cycle detection.
+3. Single-Source Shortest Paths:
+   - Dijkstra's Algorithm: Requires non-negative edge weights. Greedy strategy using a Min-Priority Queue. Runs in O(E log V) time with binary heaps.
+   - Bellman-Ford Algorithm: Handles negative weights, detects negative weight cycles. Runs in O(V E) time by relaxing all edges V-1 times.
+4. All-Pairs Shortest Paths:
+   - Floyd-Warshall Algorithm: Dynamic programming bottom-up algorithm. Runs in Theta(V^3) time using three nested loops.
+
+--- VERIFIED PDF SOURCE CHUNKS ---
+
+
+--- דוגמה שנסרקה מתוך סיכומי ה-CS Drive ---
+• page 43: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | 6 Shortest Paths
+• page 44: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | shortest path from s to v.
+• page 45: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | to a shortest path from s to the vertex. Constructing this tree is fairly
+• page 46: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | The challenge with this recursive formulation is that if the graph contains
+• page 47: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | algorithm is to have d[u] = δ(s, u) at the end of the execution by decreasing
+• page 48: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | Relax((u, v), w)
+• page 49: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | 6.3 Bellman-Ford’s Algorithm
+• page 50: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | covered all possible shortest paths and we can stop.
+• page 51: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | 6.5 Properties of Shortest Paths and Relaxations
+• page 52: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | to a relaxation on edge (u, v), then after this relaxation we always have
+• page 53: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | the source s, and at each iteration the algorithm applies a greedy choice
+• page 54: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | Dijkstra(G = (V, E), w, s)
+• page 55: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | Invariant 6. Whenever Dijkstra’s algorithm reaches Line 4, for every u ∈ S

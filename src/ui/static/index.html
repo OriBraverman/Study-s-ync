@@ -276,6 +276,10 @@
                     <input id="endDate" type="date" class="border p-2.5 rounded-xl w-full focus:ring-2 focus:ring-emerald-500 outline-none border-gray-200 bg-gray-50/50 transition hover:border-emerald-300">
                 </div>
                 <button onclick="loadLessonRange()" class="btn-primary text-white px-8 py-2.5 rounded-xl font-bold shadow-lg h-[46px] whitespace-nowrap">הצג את כל ההרצאות בטווח</button>
+                <button onclick="syncLecturesFromCSDrive()" id="syncDriveBtn" class="bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-700 hover:to-indigo-600 text-white px-6 py-2.5 rounded-xl font-bold shadow-lg hover:shadow-indigo-500/20 hover:scale-105 active:scale-95 transition-all duration-200 h-[46px] whitespace-nowrap flex items-center gap-2">
+                    <span id="syncBtnIcon" class="inline-block">🔄</span>
+                    <span id="syncBtnText">סנכרן מ-CS Drive</span>
+                </button>
             </div>
         </div>
 
@@ -293,25 +297,6 @@
             </div>
         </div>
 
-        <!-- Planner -->
-        <div id="plannerSection" class="hidden mb-6 bg-gradient-to-l from-emerald-50 to-white p-6 rounded-2xl border border-emerald-200 shadow-md animate-fade-in">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center gap-3">
-                    <div class="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center text-2xl">🎯</div>
-                    <div>
-                        <h3 class="font-bold text-emerald-900 text-xl">תוכנית שיקום אקדמי</h3>
-                        <p class="text-sm text-gray-500">תוכנית לימודים מותאמת אישית להרצאות שהפסדת</p>
-                    </div>
-                </div>
-                <button onclick="generateBootcamp()" class="btn-primary text-white px-6 py-3 rounded-xl font-bold shadow-lg whitespace-nowrap">
-                    צור תוכנית לימודים
-                </button>
-            </div>
-            <div id="plannerLoading" class="hidden mt-5 text-center text-gray-500 bg-white/60 rounded-xl py-4">
-                <span class="inline-block animate-spin rounded-full h-6 w-6 border-b-2 border-emerald-600 mr-2"></span>
-                מכין את התוכנית...
-            </div>
-        </div>
 
         <!-- Lectures List -->
         <div id="lectureList" class="hidden mb-6 p-6 glass rounded-2xl border border-gray-200 shadow-md animate-fade-in">
@@ -332,7 +317,7 @@
                     <button onclick="switchTab('lesson')" id="tab-lesson" class="px-5 py-3 tab-active transition text-sm md:text-base">📖 תוכן</button>
                     <button onclick="switchTab('plan')" id="tab-plan" class="px-5 py-3 tab-inactive transition text-sm md:text-base">🎯 תוכנית</button>
                     <button onclick="switchTab('viz')" id="tab-viz" class="px-5 py-3 tab-inactive transition text-sm md:text-base">🧮 סימולציה</button>
-                    <button onclick="currentTopic ? generateTest(currentTopic) : switchTab('test')" id="tab-test" class="px-5 py-3 tab-inactive transition text-sm md:text-base">📝 בוחן</button>
+                    <button onclick="switchTab('test')" id="tab-test" class="px-5 py-3 tab-inactive transition text-sm md:text-base">📝 בוחן</button>
                 </div>
 
                 <!-- Welcome -->
@@ -358,9 +343,23 @@
                         <div id="planSummary" class="mt-3 text-gray-600"></div>
                     </div>
                     <div id="planTasks" class="space-y-4">
-                        <div class="text-center py-10 text-gray-400">
-                            <p class="text-lg font-medium">אין תוכנית להצגה</p>
-                            <p class="text-sm mt-1">לחץ על "צור תוכנית לימודים" כדי ליצור תוכנית שיקום אקדמי.</p>
+                        <div id="planGeneratorCard" class="bg-gradient-to-br from-emerald-50/80 to-white/95 p-8 rounded-2xl border border-emerald-100 shadow-md text-center max-w-xl mx-auto my-6 backdrop-blur-md animate-fade-in">
+                            <div class="w-16 h-16 bg-emerald-100/80 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-4 shadow-inner">📅</div>
+                            <h3 class="text-xl font-bold text-emerald-950 mb-2">צור תוכנית שיקום אקדמי</h3>
+                            <p class="text-sm text-emerald-700/90 mb-6">בנה תוכנית למידה מותאמת אישית לטווח התאריכים שהפסדת</p>
+                            
+                            <div class="flex flex-col gap-4 max-w-xs mx-auto">
+                                <div id="planGeneratorContext" class="text-right">
+                                    <!-- populated dynamically -->
+                                </div>
+                                <button onclick="generateBootcamp()" class="bg-gradient-to-l from-emerald-600 to-emerald-500 hover:from-emerald-700 hover:to-emerald-600 text-white font-bold px-6 py-3.5 rounded-xl transition-all transform hover:scale-[1.02] active:scale-[0.98] shadow-md flex items-center justify-center gap-2 mt-2">
+                                    <span>✨ צור תוכנית לימודים</span>
+                                </button>
+                            </div>
+                            <div id="tabPlannerLoading" class="hidden mt-5 text-center text-gray-500 bg-white/60 rounded-xl py-3 border border-emerald-100/50 animate-pulse">
+                                <span class="inline-block animate-spin rounded-full h-5 w-5 border-b-2 border-emerald-600 mr-2 align-middle"></span>
+                                <span class="text-sm font-medium align-middle">מכין את תוכנית הלימודים...</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -429,7 +428,11 @@
         let testerHistory = [];
         let currentCourse = "";
         let currentTopic = "";
+        let lastGeneratedPlanCourse = "";
         let currentLecture = null;
+        let lastGeneratedVizTopic = "";
+        let lastGeneratedTestTopic = "";
+        let loadedLectures = [];
         let authToken = localStorage.getItem("study_sync_token") || "";
         let currentUser = null;
         let isRegisterMode = false;
@@ -452,9 +455,9 @@
             authToken = "21575b2934a50e7402008e11aa1f5c88";
             localStorage.setItem("study_sync_token", authToken);
             await fetchCurrentUser();
-            document.getElementById('startDate').value = "2025-10-20";
-            document.getElementById('endDate').value = "2025-11-05";
-            addChatMessage('assistant', "👋 ברוכים הבאים לדמו! התחברת כ-Danny Israely. בחרתי עבורך טווח תאריכים של שבועיים (20/10 - 05/11). לחץ על 'הצג את כל ההרצאות בטווח' כדי להתחיל.");
+            document.getElementById('startDate').value = "2025-10-15";
+            document.getElementById('endDate').value = "2025-11-28";
+            addChatMessage('assistant', "👋 ברוכים הבאים לדמו! התחברת כ-Danny Israely. הגדרתי עבורך טווח תאריכים שמציג את 7 ההרצאות האמיתיות במבני נתונים (15/10 - 28/11). לחץ על 'הצג את כל ההרצאות בטווח' כדי להתחיל.");
         }
 
         function toggleAuthMode() {
@@ -496,7 +499,29 @@
             authToken = ""; currentUser = null; userCourses = [];
             localStorage.removeItem("study_sync_token");
             renderAuthHeader(); document.getElementById('userPanel').classList.add('hidden');
+            populateCourseDropdowns([]);
             addChatMessage('assistant', 'התנתקת בהצלחה. התחבר כדי שאדע אילו קורסים אתה לומד.');
+        }
+
+        function populateCourseDropdowns(coursesToDisplay) {
+            const dropdowns = ['tabPlannerCourseSelect'];
+            dropdowns.forEach(id => {
+                const selectEl = document.getElementById(id);
+                if (!selectEl) return;
+                selectEl.innerHTML = '';
+                if (!coursesToDisplay || coursesToDisplay.length === 0) {
+                    selectEl.innerHTML = '<option value="">אין קורסים זמינים</option>';
+                } else {
+                    coursesToDisplay.forEach(c => {
+                        const opt = document.createElement('option');
+                        opt.value = c.course_num || c.num;
+                        const name = c.course_name || c.name;
+                        const num = c.course_num || c.num;
+                        opt.text = `${name} (${num})`;
+                        selectEl.appendChild(opt);
+                    });
+                }
+            });
         }
 
         async function fetchCurrentUser() {
@@ -541,7 +566,9 @@
         function renderCoursesList() {
             const list = document.getElementById('myCoursesList');
             if (userCourses.length === 0) {
-                list.innerHTML = '<span class="text-gray-400 text-sm bg-gray-50 px-4 py-2 rounded-lg">עדיין לא רשמת קורסים. הוסף קורס למטה.</span>'; return;
+                list.innerHTML = '<span class="text-gray-400 text-sm bg-gray-50 px-4 py-2 rounded-lg">עדיין לא רשמת קורסים. הוסף קורס למטה.</span>';
+                populateCourseDropdowns([]);
+                return;
             }
             list.innerHTML = userCourses.map(c => `
                 <div class="bg-emerald-50 border border-emerald-200/60 px-4 py-2.5 rounded-xl flex items-center gap-2.5 shadow-sm hover:shadow-md transition">
@@ -550,6 +577,7 @@
                     <button onclick="removeCourse('${escapeHtml(c.course_num)}')" class="text-red-400 hover:text-red-600 text-sm mr-1 w-5 h-5 flex items-center justify-center rounded-full hover:bg-red-50 transition" title="הסר">&times;</button>
                 </div>
             `).join('');
+            populateCourseDropdowns(userCourses);
         }
 
         async function addCourse() {
@@ -584,6 +612,101 @@
             });
             document.getElementById(tabName === 'lesson' ? 'lessonContent' : tabName + 'Content').classList.remove('hidden');
             document.getElementById('tab-' + tabName).classList.remove('tab-inactive'); document.getElementById('tab-' + tabName).classList.add('tab-active');
+
+            if (tabName === 'plan') {
+                if (currentCourse && lastGeneratedPlanCourse !== currentCourse) {
+                    renderPlanGenerator();
+                    generateBootcamp();
+                } else {
+                    renderPlanGenerator();
+                }
+            }
+            if (tabName === 'viz' && currentTopic && lastGeneratedVizTopic !== currentTopic) {
+                generateVisualizer(currentTopic);
+            }
+            if (tabName === 'test' && currentTopic && lastGeneratedTestTopic !== currentTopic) {
+                generateTest(currentTopic);
+            }
+        }
+
+        function renderPlanGenerator() {
+            const contextDiv = document.getElementById('planGeneratorContext');
+            if (!contextDiv) return;
+            
+            if (currentCourse) {
+                let courseNum = "89-110";
+                if (currentUser && currentUser.courses) {
+                    const match = currentUser.courses.find(c => c.course_name === currentCourse);
+                    if (match) courseNum = match.course_num;
+                }
+                
+                contextDiv.innerHTML = `
+                    <div class="bg-emerald-50/50 border border-emerald-100 p-4 rounded-xl mb-2 text-center">
+                        <span class="text-xs font-bold text-emerald-800 block mb-1">הקורס הפעיל שאתה לומד כעת:</span>
+                        <span class="font-bold text-emerald-950 text-base block">${currentCourse} (${courseNum})</span>
+                        <input type="hidden" id="tabPlannerCourseSelect" value="${courseNum}">
+                        <button onclick="togglePlanCourseSelect(true)" class="text-xs text-emerald-600 hover:text-emerald-800 underline font-semibold mt-2 block mx-auto">בחר קורס אחר לתוכנית</button>
+                    </div>
+                `;
+            } else {
+                contextDiv.innerHTML = `
+                    <div class="flex flex-col gap-1.5">
+                        <label for="tabPlannerCourseSelect" class="text-xs font-bold text-emerald-800 mr-1">בחר קורס לתוכנית:</label>
+                        <select id="tabPlannerCourseSelect" class="w-full border border-emerald-200/80 rounded-xl px-4 py-2.5 text-sm bg-white outline-none focus:ring-2 focus:ring-emerald-500 text-gray-800 font-semibold shadow-sm transition">
+                            <!-- populated dynamically -->
+                        </select>
+                    </div>
+                `;
+                const selectEl = document.getElementById('tabPlannerCourseSelect');
+                if (selectEl && userCourses) {
+                    selectEl.innerHTML = '';
+                    if (userCourses.length === 0) {
+                        selectEl.innerHTML = '<option value="">אין קורסים זמינים</option>';
+                    } else {
+                        userCourses.forEach(c => {
+                            const opt = document.createElement('option');
+                            opt.value = c.course_num;
+                            opt.text = `${c.course_name} (${c.course_num})`;
+                            selectEl.appendChild(opt);
+                        });
+                    }
+                }
+            }
+        }
+
+        function togglePlanCourseSelect(showDropdown) {
+            const contextDiv = document.getElementById('planGeneratorContext');
+            if (!contextDiv) return;
+            if (showDropdown) {
+                contextDiv.innerHTML = `
+                    <div class="flex flex-col gap-1.5">
+                        <label for="tabPlannerCourseSelect" class="text-xs font-bold text-emerald-800 mr-1">בחר קורס לתוכנית:</label>
+                        <select id="tabPlannerCourseSelect" class="w-full border border-emerald-200/80 rounded-xl px-4 py-2.5 text-sm bg-white outline-none focus:ring-2 focus:ring-emerald-500 text-gray-800 font-semibold shadow-sm transition">
+                            <!-- populated dynamically -->
+                        </select>
+                    </div>
+                `;
+                const selectEl = document.getElementById('tabPlannerCourseSelect');
+                if (selectEl && userCourses) {
+                    selectEl.innerHTML = '';
+                    userCourses.forEach(c => {
+                        const opt = document.createElement('option');
+                        opt.value = c.course_num;
+                        opt.text = `${c.course_name} (${c.course_num})`;
+                        selectEl.appendChild(opt);
+                    });
+                    if (currentCourse) {
+                        for (let i = 0; i < selectEl.options.length; i++) {
+                            if (selectEl.options[i].text.includes(currentCourse)) {
+                                selectEl.selectedIndex = i;
+                                break;
+                            }
+                        }
+                    }
+                }
+            } else {
+                renderPlanGenerator();
+            }
         }
 
         // ================================================================
@@ -605,16 +728,29 @@
                 const headers = authToken ? { 'X-Token': authToken } : {};
                 const response = await fetch(`${API_BASE}/get_missed_class_all`, { headers });
                 const lectures = await response.json();
+                loadedLectures = lectures;
 
                 const filtered = lectures.filter(l => { const lDate = new Date(l.lecture_date); return lDate >= start && lDate <= end; });
                 if (filtered.length === 0) {
                     alert("לא נמצאו הרצאות בטווח הזה"); listDiv.classList.add('hidden');
-                    document.getElementById('plannerSection').classList.add('hidden'); return;
+                    return;
                 }
 
                 const grouped = {};
                 filtered.forEach(l => { if (!grouped[l.course_name]) grouped[l.course_name] = []; grouped[l.course_name].push(l); });
-                document.getElementById('plannerSection').classList.remove('hidden'); listDiv.classList.remove('hidden');
+                listDiv.classList.remove('hidden');
+
+                // Populate the planner course select dropdown dynamically based on grouped courses
+                const coursesToDisplay = [];
+                for (const courseName in grouped) {
+                    let courseNum = "89-110"; // fallback
+                    if (currentUser && currentUser.courses) {
+                        const match = currentUser.courses.find(c => c.course_name === courseName);
+                        if (match) courseNum = match.course_num;
+                    }
+                    coursesToDisplay.push({ name: courseName, num: courseNum });
+                }
+                populateCourseDropdowns(coursesToDisplay);
 
                 for (const courseName in grouped) {
                     const section = document.createElement('div');
@@ -629,12 +765,7 @@
                         btn.innerText = `${lecture.lecture_date}: ${lecture.topic}`;
                         btn.onclick = () => displaySpecificLecture(lecture);
 
-                        const actions = document.createElement('div'); actions.className = "flex gap-2 mt-0.5 mr-1";
-                        actions.innerHTML = `
-                            <button onclick="generateVisualizer('${escapeHtml(lecture.topic)}')" class="bg-sky-50 border border-sky-200 text-sky-700 px-3 py-1 rounded-lg text-xs hover:bg-sky-100 transition font-medium">🧮 סימולציה</button>
-                            <button onclick="generateTest('${escapeHtml(lecture.topic)}')" class="bg-purple-50 border border-purple-200 text-purple-700 px-3 py-1 rounded-lg text-xs hover:bg-purple-100 transition font-medium">📝 בוחן</button>
-                        `;
-                        wrapper.appendChild(btn); wrapper.appendChild(actions); btnsContainer.appendChild(wrapper);
+                        wrapper.appendChild(btn); btnsContainer.appendChild(wrapper);
                     });
                     container.appendChild(section);
                 }
@@ -669,6 +800,50 @@
             finally { loading.classList.add('hidden'); }
         }
 
+        async function syncLecturesFromCSDrive() {
+            const btn = document.getElementById('syncDriveBtn');
+            const icon = document.getElementById('syncBtnIcon');
+            const text = document.getElementById('syncBtnText');
+            
+            if (btn.disabled) return;
+            
+            // Set loading state
+            btn.disabled = true;
+            btn.classList.add('opacity-75', 'cursor-not-allowed');
+            icon.innerText = "⏳";
+            icon.classList.add('animate-spin');
+            text.innerText = "מסנכרן מ-CS Drive...";
+            
+            try {
+                const resp = await fetch(`${API_BASE}/sync_lectures_from_drive`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                const data = await resp.json();
+                
+                if (resp.ok) {
+                    alert(`הסתנכרן בהצלחה!\nקובץ: ${data.document_name}\nעמודים שנסרקו: ${data.total_pages}\nהרצאות שנוספו/עודכנו: ${data.lectures_count}\nמקור: ${data.source}`);
+                    // Reload the lesson timeline if dates are selected
+                    const startDateVal = document.getElementById('startDate').value;
+                    const endDateVal = document.getElementById('endDate').value;
+                    if (startDateVal && endDateVal) {
+                        await loadLessonRange();
+                    }
+                } else {
+                    alert(`שגיאה בסנכרון: ${data.detail || "שגיאה לא ידועה"}`);
+                }
+            } catch (e) {
+                alert("שגיאת תקשורת עם השרת בסנכרון ה-Drive.");
+            } finally {
+                // Restore button state
+                btn.disabled = false;
+                btn.classList.remove('opacity-75', 'cursor-not-allowed');
+                icon.innerText = "🔄";
+                icon.classList.remove('animate-spin');
+                text.innerText = "סנכרן מ-CS Drive";
+            }
+        }
+
         function escapeHtml(text) {
             // Escapes for BOTH safe HTML text AND JS string literals inside HTML attributes.
             // We use \' instead of &#39; because HTML attributes decode entities before JS runs.
@@ -689,7 +864,7 @@
                 document.getElementById('welcomeMessage').classList.add('hidden');
                 document.getElementById('lessonContent').classList.remove('hidden');
                 document.getElementById('lessonTopic').innerText = lecture.topic;
-                let cleanContent = lecture.content.replace(/\\/g, "");
+                let cleanContent = lecture.content;
                 document.getElementById('textContent').innerText = cleanContent;
                 switchTab('lesson');
                 document.getElementById('chatBox').innerHTML = '';
@@ -701,6 +876,31 @@
             } catch (e) { console.error("שגיאה בהצגת ההרצאה:", e); }
         }
 
+        function startLearningTask(topic) {
+            const cleanTopic = topic.trim().toLowerCase();
+            const match = loadedLectures.find(l => 
+                l.topic.trim().toLowerCase() === cleanTopic || 
+                cleanTopic.includes(l.topic.trim().toLowerCase()) || 
+                l.topic.trim().toLowerCase().includes(cleanTopic)
+            );
+            if (match) {
+                displaySpecificLecture(match);
+            } else {
+                currentTopic = topic;
+                currentLecture = null;
+                document.getElementById('welcomeMessage').classList.add('hidden');
+                document.getElementById('lessonContent').classList.remove('hidden');
+                document.getElementById('lessonTopic').innerText = topic;
+                document.getElementById('textContent').innerText = "למידה עצמית ותרגול עבור הנושא: " + topic;
+                switchTab('lesson');
+                
+                document.getElementById('chatBox').innerHTML = '';
+                let firstMsg = `שלום! הגעת לנושא ${topic}. כיצד תרצה שנתרגל או נלמד אותו היום?`;
+                addChatMessage('assistant', firstMsg);
+                chatHistory = [{ role: "assistant", content: firstMsg }];
+            }
+        }
+
         // ================================================================
         // Planner
         // ================================================================
@@ -708,30 +908,82 @@
             const startDateVal = document.getElementById('startDate').value;
             const endDateVal = document.getElementById('endDate').value;
             if (!startDateVal || !endDateVal) return alert("בחר תאריכים קודם");
-            if (!currentCourse) currentCourse = "קורס כללי";
-            document.getElementById('plannerLoading').classList.remove('hidden');
+            
+            // Check potential dropdown or hidden input in tab plan tasks generator card
+            const selectEl = document.getElementById('tabPlannerCourseSelect');
+            if (!selectEl) return alert("בחר קורס לתוכנית");
+            const selectedCourseNum = selectEl.value;
+            
+            let selectedCourseName = "קורס כללי";
+            if (selectEl.tagName === 'SELECT' && selectEl.selectedIndex >= 0) {
+                const optionText = selectEl.options[selectEl.selectedIndex].text;
+                const match = optionText.match(/^(.*?)\s*\(/);
+                if (match) {
+                    selectedCourseName = match[1].trim();
+                } else {
+                    selectedCourseName = optionText.trim();
+                }
+            } else if (selectEl.tagName === 'INPUT') {
+                selectedCourseName = currentCourse || "קורס כללי";
+            }
+            
+            const loader2 = document.getElementById('tabPlannerLoading');
+            if (loader2) loader2.classList.remove('hidden');
+            
             try {
                 const response = await fetch(`${API_BASE}/generate_bootcamp`, {
                     method: 'POST', headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ student_name: currentUser ? currentUser.username : "סטודנט", course_name: currentCourse, course_num: "89-110", absence_start: startDateVal, absence_end: endDateVal })
+                    body: JSON.stringify({ 
+                        student_name: currentUser ? currentUser.username : "סטודנט", 
+                        course_name: selectedCourseName, 
+                        course_num: selectedCourseNum, 
+                        absence_start: startDateVal, 
+                        absence_end: endDateVal 
+                    })
                 });
                 const data = await response.json();
                 if (data.success) { renderBootcampPlan(data.bootcamp_plan); switchTab('plan'); }
                 else { alert("שגיאה ביצירת התוכנית"); }
             } catch (e) { alert("שגיאת תקשורת עם Planner Agent"); }
-            finally { document.getElementById('plannerLoading').classList.add('hidden'); }
+            finally { 
+                if (loader2) loader2.classList.add('hidden');
+            }
         }
 
         function renderBootcampPlan(plan) {
+            lastGeneratedPlanCourse = plan.course_name;
+            const tasksDiv = document.getElementById('planTasks');
+            
+            if (!plan.study_tasks || plan.study_tasks.length === 0) {
+                document.getElementById('planSummary').innerHTML = '';
+                tasksDiv.innerHTML = `
+                    <div class="bg-gradient-to-br from-emerald-50/80 to-white/95 p-8 rounded-2xl border border-emerald-100 shadow-md text-center max-w-xl mx-auto my-6 backdrop-blur-md animate-fade-in">
+                        <div class="w-16 h-16 bg-emerald-100/80 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-4 shadow-inner">🎉</div>
+                        <h3 class="text-xl font-bold text-emerald-950 mb-2">אין צורך בתוכנית שיקום!</h3>
+                        <p class="text-sm text-emerald-800 leading-relaxed mb-6">
+                            לא נמצאו נושאים שהפסדת בטווח התאריכים שהגדרת עבור הקורס <strong>${plan.course_name}</strong>.<br>
+                            ייתכן שכל המפגשים בתאריכים אלו היו מנהלתיים (מבחנים, חגים, חזרות וכו') או שלא התקיימו שיעורים.
+                        </p>
+                        <button onclick="clearActivePlan()" class="bg-gradient-to-l from-emerald-600 to-emerald-500 hover:from-emerald-700 hover:to-emerald-600 text-white font-bold px-6 py-3.5 rounded-xl transition-all transform hover:scale-[1.02] active:scale-[0.98] shadow-md flex items-center justify-center gap-2 mt-2 mx-auto">
+                            <span>🔍 בחר קורס אחר</span>
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+            
             document.getElementById('planSummary').innerHTML = `
-                <div class="flex gap-3 text-sm flex-wrap">
-                    <span class="bg-emerald-100 text-emerald-800 px-4 py-1.5 rounded-full font-medium">📅 ${plan.total_days} ימים</span>
-                    <span class="bg-sky-100 text-sky-800 px-4 py-1.5 rounded-full font-medium">⏱️ ${plan.total_hours} שעות</span>
-                    <span class="bg-amber-100 text-amber-800 px-4 py-1.5 rounded-full font-medium">📚 ${plan.study_tasks.length} נושאים</span>
+                <div class="flex justify-between items-center mb-3">
+                    <div class="flex gap-3 text-sm flex-wrap">
+                        <span class="bg-emerald-100 text-emerald-800 px-4 py-1.5 rounded-full font-medium">📅 ${plan.total_days} ימים</span>
+                        <span class="bg-sky-100 text-sky-800 px-4 py-1.5 rounded-full font-medium">⏱️ ${plan.total_hours} שעות</span>
+                        <span class="bg-amber-100 text-amber-800 px-4 py-1.5 rounded-full font-medium">📚 ${plan.study_tasks.length} נושאים</span>
+                    </div>
+                    <button onclick="clearActivePlan()" class="text-xs text-emerald-600 hover:text-emerald-800 underline font-semibold transition">בחר קורס אחר</button>
                 </div>
                 <p class="mt-3 text-gray-600 leading-relaxed bg-white p-4 rounded-xl border border-gray-100 shadow-sm">${plan.executive_summary}</p>
             `;
-            const tasksDiv = document.getElementById('planTasks'); tasksDiv.innerHTML = '';
+            tasksDiv.innerHTML = '';
             plan.study_tasks.forEach(task => {
                 const div = document.createElement('div');
                 div.className = "border-r-4 border-emerald-500 bg-white p-5 rounded-xl shadow-sm hover:shadow-md transition";
@@ -753,19 +1005,49 @@
                             ${task.study_tips.map(t => `<li>${t}</li>`).join('')}
                         </ul>
                     </div>
-                    <div class="mt-4 flex gap-2">
-                        <button onclick="generateVisualizer('${escapeHtml(task.topic)}')" class="bg-sky-50 border border-sky-200 text-sky-700 px-3 py-1.5 rounded-lg text-xs hover:bg-sky-100 transition font-medium">🧮 סימולציה</button>
-                        <button onclick="generateTest('${escapeHtml(task.topic)}')" class="bg-purple-50 border border-purple-200 text-purple-700 px-3 py-1.5 rounded-lg text-xs hover:bg-purple-100 transition font-medium">📝 בוחן</button>
+                    <div class="mt-4">
+                        <button onclick="startLearningTask('${escapeHtml(task.topic)}')" class="w-full bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-700 hover:to-emerald-600 text-white py-2 rounded-xl text-sm font-bold shadow-md hover:shadow-emerald-500/10 hover:scale-[1.02] active:scale-95 transition-all duration-200 flex items-center justify-center gap-2">
+                            <span>📖 התחל ללמוד ותרגל</span>
+                        </button>
                     </div>
                 `;
                 tasksDiv.appendChild(div);
             });
         }
 
+        function clearActivePlan() {
+            lastGeneratedPlanCourse = "";
+            document.getElementById('planSummary').innerHTML = "";
+            const tasksDiv = document.getElementById('planTasks');
+            tasksDiv.innerHTML = `
+                <div id="planGeneratorCard" class="bg-gradient-to-br from-emerald-50/80 to-white/95 p-8 rounded-2xl border border-emerald-100 shadow-md text-center max-w-xl mx-auto my-6 backdrop-blur-md animate-fade-in">
+                    <div class="w-16 h-16 bg-emerald-100/80 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-4 shadow-inner">📅</div>
+                    <h3 class="text-xl font-bold text-emerald-950 mb-2">צור תוכנית שיקום אקדמי</h3>
+                    <p class="text-sm text-emerald-700/90 mb-6">בנה תוכנית למידה מותאמת אישית לטווח התאריכים שהפסדת</p>
+                    
+                    <div class="flex flex-col gap-4 max-w-xs mx-auto">
+                        <div id="planGeneratorContext" class="text-right">
+                            <!-- populated dynamically -->
+                        </div>
+                        <button onclick="generateBootcamp()" class="bg-gradient-to-l from-emerald-600 to-emerald-500 hover:from-emerald-700 hover:to-emerald-600 text-white font-bold px-6 py-3.5 rounded-xl transition-all transform hover:scale-[1.02] active:scale-[0.98] shadow-md flex items-center justify-center gap-2 mt-2">
+                            <span>✨ צור תוכנית לימודים</span>
+                        </button>
+                    </div>
+                    <div id="tabPlannerLoading" class="hidden mt-5 text-center text-gray-500 bg-white/60 rounded-xl py-3 border border-emerald-100/50 animate-pulse">
+                        <span class="inline-block animate-spin rounded-full h-5 w-5 border-b-2 border-emerald-600 mr-2 align-middle"></span>
+                        <span class="text-sm font-medium align-middle">מכין את תוכנית הלימודים...</span>
+                    </div>
+                </div>
+            `;
+            renderPlanGenerator();
+        }
+
         // ================================================================
         // Visualizer — Build an inline HTML document for the iframe
         // ================================================================
         async function generateVisualizer(topic) {
+            currentTopic = topic;
+            lastGeneratedVizTopic = topic;
             switchTab('viz');
             const resultDiv = document.getElementById('vizResult');
             resultDiv.innerHTML = `
@@ -835,6 +1117,7 @@
                 iframe.srcdoc = htmlContent || '<p style="text-align:center;padding:40px;">No preview available</p>';
             } catch (e) {
                 console.error(e);
+                lastGeneratedVizTopic = "";
                 resultDiv.innerHTML = '<p class="text-red-500 text-center py-10 font-medium">שגיאה ביצירת הסימולציה</p>';
             }
         }
@@ -859,6 +1142,8 @@
         // Tester Chat
         // ================================================================
         async function generateTest(topic) {
+            currentTopic = topic;
+            lastGeneratedTestTopic = topic;
             switchTab('test');
             document.getElementById('testerTopicTitle').innerText = topic || 'בחר הרצאה';
             document.getElementById('testerGoToContent').classList.add('hidden');
@@ -878,6 +1163,7 @@
                 updateTesterMessage(loadingId, reply);
                 if (data.reply) testerHistory = [{ role: 'assistant', content: data.reply }];
             } catch (e) {
+                lastGeneratedTestTopic = "";
                 updateTesterMessage(loadingId, 'שגיאה בחיבור לבוחן — ודא ש-GEMINI_API_KEY מוגדר');
             }
         }

@@ -8,126 +8,123 @@
     "ai_questions": "שאל את הסטודנט מהי דרישת הקדם של המשקלים באלגוריתם דייקסטרה, ואיך בחירת מבנה הנתונים לתור משפיעה על סיבוכיות זמן הריצה."
   },
   {
-    "course_name": "אלגוריתמים ומבני נתונים 1",
-    "lecture_number": 8,
-    "lecture_date": "2022-03-01",
-    "topic": "אלגוריתם בלמן-פורד",
-    "content": "אלגוריתם בלמן-פורד מיועד למקרים בהם ייתכנו משקלים שליליים בגרף[cite: 193]. במקרה שקיים מעגל שלילי שנגיש מצומת המקור, האלגוריתם לא יעצור, אלא יזהה את קיום המעגל השלילי[cite: 196]. אם אין מעגלים שליליים, האלגוריתם יסיים את פעולתו בזמן ריצה של $O(|V||E|)$[cite: 218].",
-    "ai_questions": "בסימולציה, בקש מהסטודנט להסביר כיצד אלגוריתם בלמן-פורד מתנהג כאשר הוא נתקל במעגל בעל משקל שלילי בגרף לעומת מצב שבו אין מעגלים כאלו."
-  },
-  {
-    "course_name": "אלגוריתמים ומבני נתונים 1",
-    "lecture_number": 8,
-    "lecture_date": "2022-03-01",
-    "topic": "אלגוריתם פלויד-וורשל",
-    "content": "אלגוריתם פלויד-וורשל נועד למצוא את המסלולים הקצרים ביותר בין כל הזוגות האפשריים בגרף[cite: 244]. האלגוריתם עובד בגישה הדומה לתכנות דינמי בצורה של בוטום-אפ[cite: 286, 287]. זמן הריצה של האלגוריתם נקבע על ידי שלוש לולאות מקוננות, ולכן הוא עומד על $\\Theta(n^3)$[cite: 297, 298].",
-    "ai_questions": "שאל את הסטודנט מהו ההבדל המרכזי במטרה של פלויד-וורשל לעומת דייקסטרה, ומה משפיע על סיבוכיות זמן הריצה שלו."
-  },
-  {
-    "course_name": "אלגוריתמים ומבני נתונים 1",
-    "lecture_number": 8,
-    "lecture_date": "2022-04-01",
-    "topic": "אלגוריתם פלויד-וורשל",
-    "content": "אלגוריתם פלויד-וורשל נועד למצוא את המסלולים הקצרים ביותר בין כל הזוגות האפשריים בגרף[cite: 244]. האלגוריתם עובד בגישה הדומה לתכנות דינמי בצורה של בוטום-אפ[cite: 286, 287]. זמן הריצה של האלגוריתם נקבע על ידי שלוש לולאות מקוננות, ולכן הוא עומד על $\\Theta(n^3)$[cite: 297, 298].",
-    "ai_questions": "שאל את הסטודנט מהו ההבדל המרכזי במטרה של פלויד-וורשל לעומת דייקסטרה, ומה משפיע על סיבוכיות זמן הריצה שלו."
-  },
-
-  {
     "course_name": "מבוא למדעי המחשב",
     "lecture_number": 1,
     "lecture_date": "2025-10-15",
     "topic": "מהו מדעי המחשב ומושג האלגוריתם",
-    "content": "בהרצאה הראשונה הצגנו את עולם מדעי המחשב ואת המושגים הבסיסיים. מדעי המחשב עוסקים בלימוד של חישוביות, אלגוריתמים ומבני נתונים. אלגוריתם הוא רצף של הוראות ברורות שפותרות בעיה נתונה[cite: 1]. דנו במושג היעילות (Efficiency) ובחשיבות של ניתוח סיבוכיות. הדגמנו דוגמאות פשוטות כמו חיפוש בערימה של כרטיסים וחישוב סכום סדרה."
-  ,"ai_questions": "שאל את הסטודנט מהו ההבדל בין תוכנית לאלגוריתם, ולמה סיבוכיות זמן ריצה חשובה יותר מסיבוכיות מקום במקרים רבים."
+    "content": "בהרצאה הראשונה הצגנו את עולם מדעי המחשב ואת המושגים הבסיסיים. מדעי המחשב עוסקים בלימוד של חישוביות, אלגוריתמים ומבני נתונים. אלגוריתם הוא רצף של הוראות ברורות שפותרות בעיה נתונה[cite: 1]. דנו במושג היעילות (Efficiency) ובחשיבות של ניתוח סיבוכיות. הדגמנו דוגמאות פשוטות כמו חיפוש בערימה של כרטיסים וחישוב סכום סדרה.",
+    "ai_questions": "שאל את הסטודנט מהו ההבדל בין תוכנית לאלגוריתם, ולמה סיבוכיות זמן ריצה חשובה יותר מסיבוכיות מקום במקרים רבים."
   },
   {
     "course_name": "מבוא למדעי המחשב",
     "lecture_number": 2,
     "lecture_date": "2025-10-22",
     "topic": "מבוא לפייתון - משתנים, טיפוסים וביטויים",
-    "content": "הקדשנו את ההרצאה ליסודות שפת פייתון. למדנו על משתנים (Variables), טיפוסי נתונים עיקריים כמו int, float, str, bool, ועל פעולות בין-טיפוסיות. דנו בהמרות טיפוסים (Type Casting) ובביטויים חשבוניים ולוגיים[cite: 12]. הדגמנו את השימוש בפונקציות מובנות כמו print, input, len, type. עבדנו על תרגילים ראשונים הדורשים קליטת נתונים מהמשתמש וביצוע חישובים פשוטים."
-  ,"ai_questions": "שאל את הסטודנט מה ההבדל בין = לבין == בפייתון, ומתי כדאי להשתמש ב-type() לבדיקת טיפוס משתנה."
+    "content": "הקדשנו את ההרצאה ליסודות שפת פייתון. למדנו על משתנים (Variables), טיפוסי נתונים עיקריים כמו int, float, str, bool, ועל פעולות בין-טיפוסיות. דנו בהמרות טיפוסים (Type Casting) ובביטויים חשבוניים ולוגיים[cite: 12]. הדגמנו את השימוש בפונקציות מובנות כמו print, input, len, type. עבדנו על תרגילים ראשונים הדורשים קליטת נתונים מהמשתמש וביצוע חישובים פשוטים.",
+    "ai_questions": "שאל את הסטודנט מה ההבדל בין = לבין == בפייתון, ומתי כדאי להשתמש ב-type() לבדיקת טיפוס משתנה."
   },
   {
     "course_name": "מבוא למדעי המחשב",
     "lecture_number": 3,
     "lecture_date": "2025-10-29",
     "topic": "מבנים תנאיים ולולאות",
-    "content": "הרצאה זו עסקה במבני בקרה (Control Structures). למדנו על משפטי if, elif, else ועל לולאות while ו-for. דנו בהבדלים בין לולאת while (מספר איטרציות לא ידוע מראש) לבין for (מספר איטרציות ידוע או על אוסף)[cite: 25]. הדגמנו שימוש ב-range() ועבדנו על תרגילים הכוללים חישוב סכומים, מציאת מספרים ראשוניים והדפסת דפוסים."
-  ,"ai_questions": "שאל את הסטודנט מתי עדיף להשתמש ב-while ומתי ב-for, והאם אפשר להחליף תמיד לולאת for ב-while או להיפך."
+    "content": "הרצאה זו עסקה במבני בקרה (Control Structures). למדנו על משפטי if, elif, else ועל לולאות while ו-for. דנו בהבדלים בין לולאת while (מספר איטרציות לא ידוע מראש) לבין for (מספר איטרציות ידוע או על אוסף)[cite: 25]. הדגמנו שימוש ב-range() ועבדנו על תרגילים הכוללים חישוב סכומים, מציאת מספרים ראשוניים והדפסת דפוסים.",
+    "ai_questions": "שאל את הסטודנט מתי עדיף להשתמש ב-while ומתי ב-for, והאם אפשר להחליף תמיד לולאת for ב-while או להיפך."
   },
   {
     "course_name": "מבוא למדעי המחשב",
     "lecture_number": 4,
     "lecture_date": "2025-11-05",
     "topic": "פונקציות - הגדרה, קריאה והעברת פרמטרים",
-    "content": "הקדשנו את ההרצאה למושג הפונקציה כבלוק קוד נפרד ורב-פעמי. למדנו על הגדרת פונקציה עם def, העברת פרמטרים (Pass by Assignment), ערכי ברירת מחדל (Default Arguments), והחזרת ערכים עם return[cite: 38]. דנו בהבדל בין משתנים מקומיים (Local) לגלובליים (Global) והדגמנו כתיבת פונקציות לחישוב גורם משותף מרבה (GCD), בדיקת ראשוניות וסדרת פיבונאצ'י."
-  ,"ai_questions": "שאל את הסטודנט מה קורה כאשר מנסים לשנות משתנה גלובלי בתוך פונקציה מבלי להשתמש ב-global, ומהי משמעותה של return None."
+    "content": "הקדשנו את ההרצאה למושג הפונקציה כבלוק קוד נפרד ורב-פעמי. למדנו על הגדרת פונקציה עם def, העברת פרמטרים (Pass by Assignment), ערכי ברירת מחדל (Default Arguments), והחזרת ערכים עם return[cite: 38]. דנו בהבדל בין משתנים מקומיים (Local) לגלובליים (Global) והדגמנו כתיבת פונקציות לחישוב גורם משותף מרבה (GCD), בדיקת ראשוניות וסדרת פיבונאצ'י.",
+    "ai_questions": "שאל את הסטודנט מה קורה כאשר מנסים לשנות משתנה גלובלי בתוך פונקציה מבלי להשתמש ב-global, ומהי משמעותה של return None."
   },
-
-  {
-    "course_name": "אלגוריתמים ומבני נתונים 1",
-    "lecture_number": 1,
-    "lecture_date": "2025-10-16",
-    "topic": "מבוא לאלגוריתמים וניתוח סיבוכיות",
-    "content": "פתחנו את הקורס בהגדרת מושג האלגוריתם וקריטריוני היעילות. למדנו על סימון אסימפטוטי: O(g(n)) מייצג חסם עליון, Ω(g(n)) חסם תחתון, ו-Θ(g(n)) חסם הדוק[cite: 5]. דנו בכללי הניתוח של לולאות מקוננות ועברנו על דוגמאות כמו חיפוש לינארי O(n) לעומת בינארי O(log n). הדגשנו את חשיבות הניתוח במקרה הגרוע."
-  ,"ai_questions": "שאל את הסטודנט מה ההבדל בין חסם עליון (O) לחסם הדוק (Θ), ותן דוגמה לאלגוריתם שסיבוכיותו היא Θ(n log n)."
-  },
-  {
-    "course_name": "אלגוריתמים ומבני נתונים 1",
-    "lecture_number": 2,
-    "lecture_date": "2025-10-23",
-    "topic": "מערכים, רשימות מקושרות והשוואת מבני נתונים",
-    "content": "השוונו בין שני מבני הנתונים הבסיסיים: מערך (Array) לרשימה מקושרת (Linked List). מערך מאפשר גישה אקראית בזמן O(1) אך הכנסה/מחיקה הן O(n). רשימה מקושרת מאפשרת הכנסה/מחיקה בזמן O(1) אם יש מצביע לצומת הנכון, אך גישה אקראית היא O(n)[cite: 14]. למדנו על רשימות מקושרות חד-כיווניות ודו-כיווניות, ועל יישומן בפייתון."
-  ,"ai_questions": "שאל את הסטודנט מתי מומלץ להשתמש במערך ומתי ברשימה מקושרת, ומהי סיבוכיות חיפוש ערך ברשימה מקושרת לא ממוינת."
-  },
-  {
-    "course_name": "אלגוריתמים ומבני נתונים 1",
-    "lecture_number": 3,
-    "lecture_date": "2025-10-30",
-    "topic": "מחסניות, תורים ויישומים",
-    "content": "הקדשנו את ההרצאה למבני נתונים מבוססי-גישה מוגבלת: מחסנית (Stack - LIFO) ותור (Queue - FIFO). מימשנו מחסנית באמצעות רשימה פשוטה ודנו ביישומים כמו בדיקת סוגריים מאוזנים וחישוב ביטויי רקורסיה[cite: 22]. עבור תורים דנו ביישומי BFS והדגמנו מימוש תור באמצעות רשימה מקושרת או deque."
-  ,"ai_questions": "שאל את הסטודנט איך ניתן להשתמש במחסנית כדי להפוך מחרוזת, ומה ההבדל בין מבנה LIFO ל-FIFO בתור הקשרי למעקב אחרי סדר ביצוע משימות."
-  },
-  {
-    "course_name": "אלגוריתמים ומבני נתונים 1",
-    "lecture_number": 4,
-    "lecture_date": "2025-11-06",
-    "topic": "מיון - מיון בועות, מיון הכנסה ומיון מיזוג",
-    "content": "עברנו על אלגוריתמי מיון בסיסיים ויעילים יותר. מיון בועות (Bubble Sort) ומיון הכנסה (Insertion Sort) פועלים בזמן O(n²) במקרה הגרוע. מיון מיזוג (Merge Sort) משתמש בגישת הפרד ומשול (Divide & Conquer) ופועל בזמן O(n log n) בכל המקרים[cite: 31]. הדגמנו את תהליך המיזוג של שני מערכים ממוינים והוכחנו את סיבוכיות המיון על-ידי נוסחת הנסיגה T(n) = 2T(n/2) + O(n)."
-  ,"ai_questions": "שאל את הסטודנט למה מיון מיזוג יציב (Stable Sort) ומה היתרון שלו על פני Quick Sort במקרים מסוימים, למרות ששניהם רצים ב-O(n log n)."
-  },
-
   {
     "course_name": "מבוא להסתברות ולסטטיסטיקה",
     "lecture_number": 1,
     "lecture_date": "2025-10-17",
     "topic": "מושגי יסוד: מרחב מדגם, אירועים והסתברות",
-    "content": "פתחנו את הקורס בהגדרות הבסיסיות של תורת ההסתברות. מרחב המדגם (Sample Space) הוא קבוצת כל התוצאות האפשריות של ניסוי. אירוע (Event) הוא תת-קבוצה של מרחב המדגם. למדנו על אקסיומות קולמוגורוב: אי-שליליות P(A) ≥ 0, נורמליזציה P(Ω) = 1, וספירתיות P(∪A_i) = ΣP(A_i) לאירועים זרים[cite: 3]. דנו בדוגמאות של הטלת מטבע, קלף וקוביות."
-  ,"ai_questions": "שאל את הסטודנט מה ההסתברות לקבל לפחות 6 בהטלת קובייה הוגנת, והאם אפשר ש-P(A) = 1.5 למרות ש-A ⊂ Ω."
+    "content": "פתחנו את הקורס בהגדרות הבסיסיות של תורת ההסתברות. מרחב המדגם (Sample Space) הוא קבוצת כל התוצאות האפשריות של ניסוי. אירוע (Event) הוא תת-קבוצה של מרחב המדגם. למדנו על אקסיומות קולמוגורוב: אי-שליליות P(A) ≥ 0, נורמליזציה P(Ω) = 1, וספירתיות P(∪A_i) = ΣP(A_i) לאירועים זרים[cite: 3]. דנו בדוגמאות של הטלת מטבע, קלף וקוביות.",
+    "ai_questions": "שאל את הסטודנט מה ההסתברות לקבל לפחות 6 בהטלת קובייה הוגנת, והאם אפשר ש-P(A) = 1.5 למרות ש-A ⊂ Ω."
   },
   {
     "course_name": "מבוא להסתברות ולסטטיסטיקה",
     "lecture_number": 2,
     "lecture_date": "2025-10-24",
     "topic": "הסתברות מותנית ובייס",
-    "content": "הרצאה זו עסקה בהסתברות מותנית: P(A|B) = P(A∩B) / P(B) עבור P(B) > 0. למדנו על כלל המכפלה, אירועים בלתי-תלויים (P(A∩B) = P(A)·P(B)), ועל כלל הבייס (Bayes' Theorem)[cite: 9]. הדגמנו בעיית המonty Hall ובעיות רפואיות פשוטות (Sensitivity/Specificity של בדיקה). חישבנו הסתברות מותנית בעץ אירועים."
-  ,"ai_questions": "שאל את הסטודנט מהו ההבדל בין אירועים בלתי-תלויים לזרים, ובעיית הבייס: אם בדיקה חיובית בהסתברות 95% כשיש מחלה, אך המחלה נדירה (1%), מהי ההסתברות שאדם עם תוצאה חיובית באמת חולה?"
+    "content": "הרצאה זו עסקה בהסתברות מותנית: P(A|B) = P(A∩B) / P(B) עבור P(B) > 0. למדנו על כלל המכפלה, אירועים בלתי-תלויים (P(A∩B) = P(A)·P(B)), ועל כלל הבייס (Bayes' Theorem)[cite: 9]. הדגמנו בעיית המonty Hall ובעיות רפואיות פשוטות (Sensitivity/Specificity של בדיקה). חישבנו הסתברות מותנית בעץ אירועים.",
+    "ai_questions": "שאל את הסטודנט מהו ההבדל בין אירועים בלתי-תלויים לזרים, ובעיית הבייס: אם בדיקה חיובית בהסתברות 95% כשיש מחלה, אך המחלה נדירה (1%), מהי ההסתברות שאדם עם תוצאה חיובית באמת חולה?"
   },
   {
     "course_name": "מבוא להסתברות ולסטטיסטיקה",
     "lecture_number": 3,
     "lecture_date": "2025-10-31",
     "topic": "משתנים מקריים והתפלגויות בדידות",
-    "content": "הגדרנו משתנה מקרי (Random Variable) כפונקציה ממרחב המדגם למספרים ממשיים. למדנו על התפלגות ברנולי (Bernoulli), בינומית (Binomial) וגיאומטרית (Geometric)[cite: 15]. חישבנו תוחלת (Expected Value) E[X] ושונות (Variance) Var(X) = E[X²] - (E[X])². הדגמנו את הבדלים בין משתנה מקרי בדיד (Countable) לבין רציף, והתמקדנו בבינומית B(n,p) כמספר הצלחות ב-n ניסויים בלתי-תלויים."
-  ,"ai_questions": "שאל את הסטודנט מהי התוחלת והשונות של התפלגות בינומית B(n,p), ואיך משתנה השונות כאשר n גדל ו-p נשאר קבוע."
+    "content": "הגדרנו משתנה מקרי (Random Variable) כפונקציה ממרחב המדגם למספרים ממשיים. למדנו על התפלגות ברנולי (Bernoulli), בינומית (Binomial) וגיאומטרית (Geometric)[cite: 15]. חישבנו תוחלת (Expected Value) E[X] ושונות (Variance) Var(X) = E[X²] - (E[X])². הדגמנו את הבדלים בין משתנה מקרי בדיד (Countable) לבין רציף, והתמקדנו בבינומית B(n,p) כמספר הצלחות ב-n ניסויים בלתי-תלויים.",
+    "ai_questions": "שאל את הסטודנט מהי התוחלת והשונות של התפלגות בינומית B(n,p), ואיך משתנה השונות כאשר n גדל ו-p נשאר קבוע."
   },
   {
     "course_name": "מבוא להסתברות ולסטטיסטיקה",
     "lecture_number": 4,
     "lecture_date": "2025-11-07",
     "topic": "התפלגות פואסון והתפלגות רציפה אחידה",
-    "content": "עברנו להתפלגות פואסון (Poisson) המתארת מספר אירועים נדירים ביחידת זמן/מרחב, עם פרמטר λ שווה גם לתוחלת וגם לשונות. חישבנו הסתברות P(X=k) = e^(-λ)·λ^k / k![cite: 21]. עברנו למשתנים רציפים והתפלגות אחידה U(a,b): צפיפות f(x) = 1/(b-a) בקטע [a,b]. למדנו על פונקציית התפלגות מצטברת (CDF) F(x) = P(X ≤ x) ועל חישוב הסתברויות שטח תחת עקומת הצפיפות."
-  ,"ai_questions": "שאל את הסטודנט מתי עדיף להשתמש בהתפלגות פואסון על פני בינומית, ומהי ההסתברות P(X > (a+b)/2) עבור X ~ U(a,b)."
+    "content": "עברנו להתפלגות פואסון (Poisson) המתארת מספר אירועים נדירים ביחידת זמן/מרחב, עם פרמטר λ שווה גם לתוחלת וגם לשונות. חישבנו הסתברות P(X=k) = e^(-λ)·λ^k / k![cite: 21]. עברנו למשתנים רציפים והתפלגות אחידה U(a,b): צפיפות f(x) = 1/(b-a) בקטע [a,b]. למדנו על פונקציית התפלגות מצטברת (CDF) F(x) = P(X ≤ x) ועל חישוב הסתברויות שטח תחת עקומת הצפיפות.",
+    "ai_questions": "שאל את הסטודנט מתי עדיף להשתמש בהתפלגות פואסון על פני בינומית, ומהי ההסתברות P(X > (a+b)/2) עבור X ~ U(a,b)."
+  },
+  {
+    "course_name": "אלגוריתמים ומבני נתונים 1",
+    "lecture_number": 1,
+    "lecture_date": "2025-10-16",
+    "topic": "מבני נתונים לינאריים וערימות",
+    "content": "הרצאה זו מציגה מבני נתונים בסיסיים ולינאריים לניהול קבוצות דינמיות. 1. מערכים (Arrays): אחסון רציף בזיכרון, גישה אקראית בזמן $O(1)$ אך הכנסה/מחיקה בזמן $O(n)$ [שקופית 2]. 2. מחסנית (Stack): מבנה נתונים בשיטת LIFO (Last-In, First-Out). פעולת PUSH ו-POP מבוצעות בראש המחסנית בזמן $O(1)$ [שקופית 7]. 3. תור (Queue): מבנה נתונים בשיטת FIFO (First-In, First-Out). הכנסה ENQUEUE בזנב ומחיקה DEQUEUE בראש התור בזמן $O(1)$ [שקופית 9]. 4. רשימה מקושרת (Linked List): איברים המקושרים באמצעות מצביעים, המאפשרים שינוי גודל דינמי בזמן $O(1)$ להכנסה/מחיקה וגישה בזמן $O(n)$ [שקופית 10]. 5. ייצוג עצים מושרשים (Rooted Trees): ייצוג באמצעות שלושה מצביעים לכל צומת (אב, בן שמאלי, ואח ימני הבא) [שקופית 12]. 6. ערימה בינארית (Binary Heap): עץ בינארי כמעט מלא המקיים את תכונת הערימה (ערימת מקסימום: מפתח האב גדול או שווה למפתחות בניו). 7. מיון ערימה (Heap Sort): בניית ערימה בזמן $O(n)$ וביצוע מחיקות חוזרות של איבר המקסימום למיון המערך בזמן של $O(n \\log n)$ במקרה הגרוע [שקופית 21].\n\n--- דוגמה שנסרקה מתוך סיכומי ה-CS Drive ---\n• page 1: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | 1 Polynomials\n• page 2: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | then the equation V · ⃗ a= ⃗ yhas only one solution, since V is invertible (exercise:\n• page 3: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | representing A and B), then similarly to addition the multiplication would cost O(n)\n• page 4: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | An improvement. The following trick will help us speed up the algorithm. Let",
+    "ai_questions": "שאל את הסטודנט מהו ההבדל המרכזי בין מחסנית לתור במונחים של סדר הכנסה והוצאה, וכיצד מיוצג עץ כללי באמצעות שני מצביעים בלבד לכל צומת."
+  },
+  {
+    "course_name": "אלגוריתמים ומבני נתונים 1",
+    "lecture_number": 2,
+    "lecture_date": "2025-10-23",
+    "topic": "רקורסיה, סיבוכיות ומשפט המאסטר",
+    "content": "הרצאה זו מוקדשת לניתוח אסימפטוטי של פונקציות ופתרון משוואות נסיגה (Recurrences) הנובעות מאלגוריתמי רקורסיה והפרד ומשול. 1. קצב גידול של פונקציות: הגדרת חסמים אסימפטוטיים: $O(g(n))$ חסם עליון, $\\Omega(g(n))$ חסם תחתון, ו-$\\Theta(g(n))$ חסם הדוק אסימפטוטית [שקופית 2]. 2. גישת הפרד ומשול (Divide-and-Conquer): חחלוקת הבעיה לתת-בעיות קטנות יותר מאותו סוג, פתרון רקורסיבי שלהן, ומיזוג הפתרונות לפתרון הבעיה המקורית [שקופית 10]. 3. בעיית תת-המערך המקסימלי (Maximum Subarray): פתרון בשיטת הפרד ומשול בזמן $O(n \\log n)$ בהשוואה לפתרון נאיבי של $O(n^2)$ [שקופית 11]. 4. פתרון משוואות נסיגה: א. שיטת ההצבה (Substitution Method): ניחוש חסם והוכחתו באמצעות אינדוקציה מתמטית [שקופית 18]. ב. משפט המאסטר (Master Theorem): כלי שימושי לפתרון משוואות מהצורה $T(n) = aT(n/b) + f(n)$ עבור קבועים $a \\ge 1, b > 1$. המשפט מציג 3 מקרים בהתאם להשוואה בין $f(n)$ לבין $n^{\\log_b a}$ [שקופית 21]. ג. משוואות רקורסיה לינאריות (Linear Recurrences): שיטות לפתרון משוואות לינאריות הומוגניות ולא-הומוגניות עם מקדמים קבועים באמצעות פולינום אופייני [שקופית 31].\n\n--- דוגמה שנסרקה מתוך סיכומי ה-CS Drive ---\n• page 5: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | on the eyes. Actually, we will show how to perform (1) and (3) on n x-points, for n that\n• page 6: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | call the problem being solved is a problem in which the bounded degree and the number\n• page 7: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | The strong negation property. To overcome this last obstacle, we will require a\n• page 8: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | 1.3.2 The n’th roots of unity\n• page 9: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | Proof. The proof is by induction on n. For the base case n = 1 and we have only one root\n• page 10: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | In the case n > 1, we first issue a recursive call at lines 5 and 6. Lets focus on line 5.\n• page 11: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | now know that the x-point-value pairs that are used are the n complex n’th roots of unity.\n• page 12: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | Conclusion. Since the evaluation process and the interpolation process each cost",
+    "ai_questions": "שאל את הסטודנט מהם שלושת המקרים של משפט המאסטר, וכיצד הוא ינתח בעזרתם את סיבוכיות זמן הריצה של מיון מיזוג."
+  },
+  {
+    "course_name": "אלגוריתמים ומבני נתונים 1",
+    "lecture_number": 3,
+    "lecture_date": "2025-10-30",
+    "topic": "עצי חיפוש בינאריים ועצי AVL",
+    "content": "הרצאה זו מציגה את מבנה הנתונים עץ חיפוש בינארי (BST) ומרחיבה לעצי חיפוש מאוזנים עצמאית (AVL). 1. תכונת עץ החיפוש הבינארי (BST Property): לכל צומת $x$, המפתחות בתת-העץ השמאלי של $x$ קטנים או שווים ל-$x.key$, והמפתחות בתת-העץ הימני גדולים או שווים ל-$x.key$ [שקופית 3]. 2. סריקה בסדר תוכי (Inorder Traversal): מאפשרת לדווח ולבקר בכל מפתחות העץ בצורה ממוינת בזמן לינארי $\\Theta(n)$ [שקופית 4]. 3. שאילתות על BST: חיפוש (Search), מציאת מינימום/מקסימום, ומציאת עוקב (Successor) וקודם (Predecessor) בזיכרון, כולן רצות בזמן $O(h)$ כאשר $h$ הוא גובה העץ [שקופית 7]. 4. עדכונים: פעולות הכנסה (Insertion) ומחיקה (Deletion) השומרות על תכונת ה-BST בזמן $O(h)$ [שקופית 21]. 5. עצי AVL: עץ חיפוש בינארי המאזן את עצמו. לכל צומת, הפרש הגבהים בין תת-העץ הימני לשמאלי (גורם האיזון Balance Factor) הוא לכל היותר $1$. גובה עץ AVL עם $n$ צמתים חסום על ידי $h = O(\\log n)$ [שקופית 33]. 6. איזון העץ: פעולות סיבוב יחיד (Single Rotation) וסיבוב כפול (Double Rotation) מתבצעות בזמן $O(1)$ לשיקום איזון ה-AVL לאחר הכנסה או מחיקה [שקופית 35].\n\n--- דוגמה שנסרקה מתוך סיכומי ה-CS Drive ---\n• page 13: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | 2 Dynamic Programming\n• page 14: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | Saving space. The approach of the above algorithm is a top-down\n• page 15: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | Naive algorithm. It is a good practice (which we require) to first consider\n• page 16: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | Formally, let f(i) be the value of a maximum independent subsequence",
+    "ai_questions": "בקש מהסטודנט להסביר מהו 'עוקב' (successor) של צומת בעץ חיפוש בינארי, וכיצד משרתים איזוני ה-AVL (סיבובים) לשמירה על גובה אופטימלי."
+  },
+  {
+    "course_name": "אלגוריתמים ומבני נתונים 1",
+    "lecture_number": 4,
+    "lecture_date": "2025-11-06",
+    "topic": "אלגוריתמי מיון וחסמים",
+    "content": "הרצאה זו מנתחת את מגבלות התיאורטיות של מיונים מבוססי השוואה ומציגה מיונים מהירים בזמן לינארי. 1. חסם תחתון למיונים מבוססי השוואה: שימוש במודל עץ החלטות (Decision Trees) מוכיח כי כל אלגוריתם מיון המבוסס על השוואות בלבד דורש לפחות $\\Omega(n \\log n)$ השוואות במקרה הגרוע ביותר [שקופית 3]. 2. מיון מיזוג (Merge Sort): אלגוריתם יציב בשיטת הפרד ומשול הרץ בזמן אופטימלי של $\\Theta(n \\log n)$ [שקופית 6]. 3. מיונים בזמן לינארי: אלגוריתמים שאינם מבוססים על השוואות ועוקפים את החסם התחתון תחת הנחות ספציפיות על הקלט: א. מיון מנייה (Counting Sort): מניח ש-$n$ איברי הקלט הם שלמים בטווח $[0..k]$. רץ בזמן $O(n+k)$ ויציב אסימפטוטית [שקופית 8]. ב. מיון בסיס (Radix Sort): ממיין מספרים בעלי $d$ ספרות מהספרה הפחות משמעותית למשמעותית ביותר באמצעות מיון יציב (כמו Counting Sort). רץ בזמן $O(d(n+k))$ [שקופית 9]. ג. מיון דליים (Bucket Sort): מניח התפלגות אחידה של הקלט בקטע $[0..1)$. מחלק את האיברים ל-$n$ דליים, ממיין כל דלי בנפרד וממזג. רץ בזמן ממוצע של $\\Theta(n)$ [שקופית 10].\n\n--- דוגמה שנסרקה מתוך סיכומי ה-CS Drive ---\n• page 77: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | being correct. The trick is fairly simple: if we run Verify-Binary-MM-Basic\n• page 78: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | Let T (n) denote the runtime of a quicksort algorithm on an array of size\n• page 79: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | bution where the probability of success is p ≥ 1/2, and so the expected num-\n• page 80: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | there are j − i + 1 elements in this range and the distribution is uniform,\n• page 81: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | the i’th bucket is Bi = [ i−1\n• page 82: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | have E[ni] = n · p = n · 1",
+    "ai_questions": "שאל את הסטודנט מדוע לא ניתן למיין בשיטת השוואות בזמן טוב יותר מ-$\\Omega(n \\log n)$ במקרה הגרוע, ובאילו תנאים Counting Sort מאפשר מיון בזמן לינארי."
+  },
+  {
+    "course_name": "אלגוריתמים ומבני נתונים 1",
+    "lecture_number": 5,
+    "lecture_date": "2025-11-13",
+    "topic": "תכנות דינמי ובעיית חיתוך המוט",
+    "content": "הרצאה זו מציגה את פרדיגמת תכנות דינמי (Dynamic Programming) לפתרון בעיות אופטימיזציה בעלות תת-בעיות חופפות. 1. בעיית חיתוך המוט (Rod Cutting): מציאת הדרך הרווחית ביותר לחתוך מוט באורך $n$ בהינתן מחירון לכל אורך. פתרון רקורסיבי נאיבי רץ בזמן אקספוננציאלי $O(2^n)$ בשל חישובים חוזרים ונשנים [שקופית 2]. 2. עקרונות התכנות הדינמי: א. תת-בעיות חופפות (Overlapping Subproblems). ב. תשתית אופטימלית (Optimal Substructure) - פתרון אופטימלי לבעיה מורכב מפתרונות אופטימליים לתת-בעיותיה. 3. פתרונות תכנות דינמי: א. גישת מלמעלה-למטה עם זיכרון (Top-down with Memoization): פתרון רקורסיבי תוך שמירת תוצאות במערך למניעת חישוב כפול בזמן $O(n^2)$ [שקופית 6]. ב. גישת מלמטה-למעלה (Bottom-up Solution): פתרון איטרטיבי מהתת-בעיות הקטנות לגדולות ביותר בזמן $O(n^2)$ תוך חיסכון בתקורה של רקורסיה [שקופית 8]. 4. שחזור הפתרון האופטימלי (Solution Reconstruction): שמירת טבלה נוספת של החלטות החיתוך האופטימליות מאפשרת לשחזר את אורכי החיתוך עצמם ולא רק את הרווח המרבי [שקופית 9].\n\n--- דוגמה שנסרקה מתוך סיכומי ה-CS Drive ---\n• page 13: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | 2 Dynamic Programming\n• page 14: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | Saving space. The approach of the above algorithm is a top-down\n• page 15: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | Naive algorithm. It is a good practice (which we require) to first consider\n• page 16: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | Formally, let f(i) be the value of a maximum independent subsequence\n• page 17: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | whose value is f ∗ − ai is an optimal subsequence for a1, a2, . . . , ai−2.\n• page 18: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | MIS-Array(A = (a1, a2, . . . , an))\n• page 19: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | 2.3 Chain Matrix Multiplication\n• page 20: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | order).\n• page 21: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | While the recursive function follows the intuition discussed above, we\n• page 22: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | inclusive. Thus,\n• page 23: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | gives the minimum in Line 6, and then once C is full, we can trace the\n• page 24: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | option of removing xn which is the LCS of Xn−1 and Y = Ym and then\n• page 25: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | subsequence of Xi−1 and Yj, but not necessarily an optimal one. Thus,\n• page 26: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | If we are interested in returning an actual LCS, then we can use an",
+    "ai_questions": "בקש מהסטודנט להסביר מהו ההבדל בין גישת Bottom-up לגישת Top-down עם Memoization בתכנות דינמי, וכיצד משחזרים את הפתרון האופטימלי עצמו ולא רק את ערכו."
+  },
+  {
+    "course_name": "אלגוריתמים ומבני נתונים 1",
+    "lecture_number": 6,
+    "lecture_date": "2025-11-20",
+    "topic": "אלגוריתמים חמדניים ובעיית בחירת הפעילויות",
+    "content": "הרצאה זו מציגה את שיטת העיצוב של אלגוריתמים חמדניים (Greedy Algorithms) הבוחרת בכל שלב את האפשרות הטובה ביותר באותו רגע. 1. בעיית בחירת הפעילויות (Activity Selection): תזמון מספר מקסימלי של פעילויות שאינן חופפות בחדר הרצאות יחיד. אסטרטגיה חמדנית של בחירת הפעילות שמסתיימת ראשונה מוכחת כמניבה פתרון אופטימלי גלובלי בזמן $O(n \\log n)$ [שקופית 3]. 2. רכיבי האסטרטגיה החמדנית: א. תכונת הבחירה החמדנית (Greedy Choice Property): ניתן להגיע לפתרון אופטימלי גלובלי על ידי בחירות מקומיות אופטימליות. ב. תת-מבנה אופטימלי (Optimal Substructure): פתרון אופטימלי לבעיה מכיל בתוכו פתרונות אופטימליים לתת-הבעיות [שקופית 8]. 3. תכנות דינמי לעומת חמדנות: השוואה באמצעות בעיית התרמיל (Knapsack Problem). א. בעיית התרמיל השביר (Fractional Knapsack): ניתן לקחת חלקי מוצרים, ולכן פתרון חמדני לפי יחס ערך/משקל מניב פתרון אופטימלי. ב. בעיית התרמיל השלם (0-1 Knapsack): לא ניתן לקחת חלקי מוצרים. פתרון חמדני נכשל ויש לפתור באמצעות תכנות דינמי [שקופית 9].\n\n--- דוגמה שנסרקה מתוך סיכומי ה-CS Drive ---\n• page 27: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | 3 Greedy Algorithms\n• page 28: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | the correctness of greedy algorithms. But this example does capture the\n• page 29: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | σ c(σ)\n• page 30: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | Optimal prefix-free code. Suppose we are given a very large file, and\n• page 31: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | σ fσ\n• page 32: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | COST (T ) − COST (T ′) =\n• page 33: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | Lemma 3 (Optimal substructure property). Let Σ be an alphabet of size\n• page 34: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | is straightforward we will not require it for proving correctness of greedy",
+    "ai_questions": "שאל את הסטודנט מהו ההבדל המרכזי בין בעיית התרמיל השלם (0-1 Knapsack) לבעיית התרמיל השביר (Fractional Knapsack) ומדוע רק אחת מהן ניתנת לפתרון חמדני."
+  },
+  {
+    "course_name": "אלגוריתמים ומבני נתונים 1",
+    "lecture_number": 7,
+    "lecture_date": "2025-11-27",
+    "topic": "סריקת גרפים ואלגוריתמי מסלול קצר ביותר",
+    "content": "הרצאה זו מציגה ייצוגי גרפים בזיכרון, שיטות סריקה ואלגוריתמים למציאת מסלולים קצרים ביותר. 1. ייצוג גרפים: רשימת סמיכויות (Adjacency List) חסכונית במקום $O(V+E)$ לעומת מטריצת סמיכויות (Adjacency Matrix) עם גישה מהירה של $O(1)$ במחיר $O(V^2)$ מקום [שקופית 2]. 2. אלגוריתמי סריקה: א. חיפוש לרוחב (BFS): סורק שכבה אחר שכבה בעזרת תור (Queue) ומחשב מסלולים קצרים ביותר בגרף לא משוקלל בזמן $O(V+E)$ [שקופית 3]. ב. חיפוש לעומק (DFS): חוקר לאורך הענפים בעזרת רקורסיה/מחסנית, שימושי למיונים טופולוגיים וזיהוי רכיבים קשירים [שקופית 4]. 3. מסלול קצר ביותר ממקור יחיד (Single-Source Shortest Paths): א. אלגוריתם דייקסטרה (Dijkstra's Algorithm): מניח משקלים אי-שליליים בלבד. משתמש בתור קדימויות ומשיג זמן ריצה של $O(E \\log V)$ בעזרת ערימה [שקופית 5]. ב. אלגוריתם בלמן-פורד (Bellman-Ford): מתאים למשקלים שליליים, מבצע הקלה (Relaxation) של כל הקשתות $V-1$ פעמים, ומזהה מעגלים שליליים בזמן $O(VE)$ [שקופית 6]. 4. מסלולים קצרים בין כל הזוגות (All-Pairs Shortest Paths): אלגוריתם פלויד-וורשל (Floyd-Warshall) העובד בשיטת תכנות דינמי ומחשב מרחקים בין כל הזוגות בגרף בזמן של $\\Theta(V^3)$ [שקופית 7].\n\n--- דוגמה שנסרקה מתוך סיכומי ה-CS Drive ---\n• page 43: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | 6 Shortest Paths\n• page 44: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | shortest path from s to v.\n• page 45: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | to a shortest path from s to the vertex. Constructing this tree is fairly\n• page 46: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | The challenge with this recursive formulation is that if the graph contains\n• page 47: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | algorithm is to have d[u] = δ(s, u) at the end of the execution by decreasing\n• page 48: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | Relax((u, v), w)\n• page 49: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | 6.3 Bellman-Ford’s Algorithm\n• page 50: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | covered all possible shortest paths and we can stop.\n• page 51: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | 6.5 Properties of Shortest Paths and Relaxations\n• page 52: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | to a relaxation on edge (u, v), then after this relaxation we always have\n• page 53: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | the source s, and at each iteration the algorithm applies a greedy choice\n• page 54: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | Dijkstra(G = (V, E), w, s)\n• page 55: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | Invariant 6. Whenever Dijkstra’s algorithm reaches Line 4, for every u ∈ S",
+    "ai_questions": "שאל את הסטודנט מתי נעדיף להשתמש באלגוריתם בלמן-פורד על פני דייקסטרה למציאת מסלולים קצרים ביותר, וכיצד בלמן-פורד מזהה מעגלים שליליים."
   }
 ]

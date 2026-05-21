@@ -1,0 +1,29 @@
+Lecture 5: Dynamic Programming & Rod Cutting
+
+Key Concepts:
+1. Dynamic Programming (DP) Paradigm: Applied to optimization problems with overlapping subproblems and optimal substructure.
+2. Rod Cutting Problem: Given a rod of length n and a price table p_i for pieces of length i, find the maximum revenue r_n obtainable by cutting the rod.
+   - Naive Recursive Solution: T(n) = O(2^n) because it repeatedly recalculates the same subproblems.
+3. DP Approaches:
+   - Top-down with Memoization: Solves recursively but saves each subproblem's result in a lookup table. Runs in O(n^2) time.
+   - Bottom-up: Solves subproblems in size order (smallest first), avoiding recursion overhead. Runs in O(n^2) time.
+4. Reconstruction of Optimal Solution: By keeping a choice array s[i] representing the optimal size of the first piece cut from a rod of length i, we can reconstruct the exact cuts in O(n) time.
+
+--- VERIFIED PDF SOURCE CHUNKS ---
+
+
+--- דוגמה שנסרקה מתוך סיכומי ה-CS Drive ---
+• page 13: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | 2 Dynamic Programming
+• page 14: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | Saving space. The approach of the above algorithm is a top-down
+• page 15: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | Naive algorithm. It is a good practice (which we require) to first consider
+• page 16: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | Formally, let f(i) be the value of a maximum independent subsequence
+• page 17: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | whose value is f ∗ − ai is an optimal subsequence for a1, a2, . . . , ai−2.
+• page 18: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | MIS-Array(A = (a1, a2, . . . , an))
+• page 19: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | 2.3 Chain Matrix Multiplication
+• page 20: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | order).
+• page 21: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | While the recursive function follows the intuition discussed above, we
+• page 22: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | inclusive. Thus,
+• page 23: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | gives the minimum in Line 6, and then once C is full, we can trace the
+• page 24: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | option of removing xn which is the LCS of Xn−1 and Y = Ym and then
+• page 25: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | subsequence of Xi−1 and Yj, but not necessarily an optimal one. Thus,
+• page 26: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | If we are interested in returning an actual LCS, then we can use an

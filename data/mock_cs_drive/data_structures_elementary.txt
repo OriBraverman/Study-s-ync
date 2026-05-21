@@ -1,0 +1,19 @@
+Lecture 1: Elementary Data Structures & Heaps
+
+Key Concepts:
+1. Arrays: Contiguous memory allocation, O(1) random access, O(n) insert/delete.
+2. Stacks (LIFO): Last-In, First-Out dynamic set. INSERT is called PUSH, DELETE is called POP. Both operate on the top of the stack in O(1) time.
+3. Queues (FIFO): First-In, First-Out dynamic set. INSERT is ENQUEUE (at the tail), DELETE is DEQUEUE (at the head) in O(1) time.
+4. Linked Lists: Linearly ordered objects linked dynamically via pointers (memory addresses). Supports dynamic sizing.
+5. Rooted Tree Representation: Generalized linked list representation. Three pointers per node (parent, left-child, right-sibling) are sufficient to traverse all children in linear time.
+6. Binary Heaps: An array object visualized as a nearly complete binary tree. Max-Heap Property: parent key is >= children keys. Min-Heap Property: parent key is <= children keys.
+7. Heap Sort: Algorithm that builds a max-heap in O(n) time, then repeatedly extracts the maximum element and restores the heap property. Runs in O(n log n) time in-place.
+
+--- VERIFIED PDF SOURCE CHUNKS ---
+
+
+--- דוגמה שנסרקה מתוך סיכומי ה-CS Drive ---
+• page 1: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | 1 Polynomials
+• page 2: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | then the equation V · ⃗ a= ⃗ yhas only one solution, since V is invertible (exercise:
+• page 3: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | representing A and B), then similarly to addition the multiplication would cost O(n)
+• page 4: Algorithms 1, 89-220, Fall 2023 Tsvi Kopelowitz | An improvement. The following trick will help us speed up the algorithm. Let
