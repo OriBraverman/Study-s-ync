@@ -297,7 +297,7 @@ if generate_btn or (demo_mode and st.session_state.get("auto_demo_ran") is False
                 f"""
                 <div style="background-color: rgba(16, 185, 129, 0.05); border: 1px solid rgba(16, 185, 129, 0.2); padding: 32px; border-radius: 16px; text-align: center; margin: 20px auto; max-width: 600px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);">
                     <div style="font-size: 3rem; margin-bottom: 16px;">🎉</div>
-                    <h3 style="color: #065f46; font-size: 1.5rem; font-weight: bold; margin-bottom: 12px; font-family: system-ui, -apple-system, sans-serif;">אין צורך בתוכנית שיקום!</h3>
+                    <h3 style="color: #065f46; font-size: 1.5rem; font-weight: bold; margin-bottom: 12px; font-family: system-ui, -apple-system, sans-serif;">אין צורך בתוכנית עבודה!</h3>
                     <p style="color: #047857; font-size: 1rem; line-height: 1.6; margin-bottom: 8px; font-family: system-ui, -apple-system, sans-serif;">
                         לא נמצאו נושאים שהפסדת בטווח התאריכים שהגדרת עבור הקורס <strong>{plan.get('course_name', '')}</strong>.
                     </p>

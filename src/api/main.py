@@ -719,6 +719,14 @@ def chat_with_tutor(request: ChatRequest):
     api_key = os.getenv("GEMINI_API_KEY", "")
     model = os.getenv("TUTOR_MODEL", "gemini-2.5-flash")
 
+    use_mock = os.getenv("USE_MOCK_LLM", "true").lower() == "true" or not api_key or api_key == "your-gemini-api-key-here"
+
+    if use_mock:
+        # Hebrew mock message
+        return {
+            "reply": f"[מצב סימולציה (Mock)] שלום! אני סוכן העזר הלימודי של Study[S]ync. קיבלתי את הודעתך: '{request.user_message}'. כדי להפעיל את הבוט האמיתי המבוסס על בינה מלאכותית, אנא הגדר מפתח GEMINI_API_KEY תקין בקובץ ה-.env."
+        }
+
     try:
         from langchain_google_genai import ChatGoogleGenerativeAI
         client = ChatGoogleGenerativeAI(model=model, google_api_key=api_key)

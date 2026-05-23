@@ -15,37 +15,253 @@
             options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre'] }
         };
     </script>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" onload="if (window.MathJax && window.MathJax.typeset) window.MathJax.typeset();"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=Assistant:wght@300;400;600;700;800&display=swap');
 
         :root {
-            --primary: #059669;
-            --primary-light: #d1fae5;
-            --primary-dark: #047857;
+            --primary: #10b981;
+            --primary-hover: #059669;
+            --primary-light: rgba(16, 185, 129, 0.12);
+            --primary-glow: rgba(16, 185, 129, 0.25);
             --accent: #0ea5e9;
-            --glass: rgba(255,255,255,0.85);
+            --bg-gradient: linear-gradient(135deg, #02140f 0%, #070d19 50%, #0b0e17 100%);
+            --glass: rgba(13, 20, 35, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --card-bg: rgba(30, 41, 59, 0.35);
+            --chat-assistant-bg: rgba(30, 41, 59, 0.6);
+            --chat-assistant-border: rgba(255, 255, 255, 0.05);
+            --chat-assistant-text: #f1f5f9;
+            --input-bg: rgba(13, 20, 35, 0.6);
+            --header-bg: rgba(13, 20, 35, 0.4);
+            --timeline-btn-bg: rgba(255, 255, 255, 0.02);
+            --timeline-btn-border: rgba(255, 255, 255, 0.05);
+            --timeline-btn-text: #e2e8f0;
+            --code-block-bg: #090d16;
+            --code-block-border: rgba(255, 255, 255, 0.05);
+            --plan-tips-bg: rgba(16, 185, 129, 0.05);
+            
+            /* Custom variables for removing grays */
+            --shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            --chat-box-bg: rgba(3, 7, 18, 0.2);
+            --chat-input-bg: rgba(9, 13, 22, 0.8);
+            --tester-chat-bg: rgba(8, 13, 22, 0.4);
+        }
+
+        body.light-theme {
+            --bg-gradient: #ffffff;
+            --glass: #ffffff;
+            --glass-border: rgba(16, 185, 129, 0.2);
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --card-bg: #ffffff;
+            --chat-assistant-bg: #f0fdf4;
+            --chat-assistant-border: rgba(16, 185, 129, 0.15);
+            --chat-assistant-text: #065f46;
+            --input-bg: #ffffff;
+            --header-bg: linear-gradient(120deg, #059669 0%, #10b981 40%, #34d399 100%);
+            --timeline-btn-bg: #ffffff;
+            --timeline-btn-border: rgba(16, 185, 129, 0.15);
+            --timeline-btn-text: #0f172a;
+            --code-block-bg: #f8fafc;
+            --code-block-border: rgba(16, 185, 129, 0.15);
+            --plan-tips-bg: rgba(16, 185, 129, 0.06);
+            
+            /* Custom variables for light theme */
+            --shadow: 0 8px 32px 0 rgba(16, 185, 129, 0.05);
+            --chat-box-bg: #ffffff;
+            --chat-input-bg: #ffffff;
+            --tester-chat-bg: #ffffff;
         }
 
         body {
-            font-family: 'Assistant', sans-serif;
-            background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 50%, #f8fafc 100%);
+            font-family: 'Assistant', 'Outfit', sans-serif;
+            background: var(--bg-gradient);
+            color: var(--text-main);
             min-height: 100vh;
+            transition: background 0.3s ease, color 0.3s ease;
         }
 
-        /* Glassmorphism card */
+        body.light-theme h2, 
+        body.light-theme h3, 
+        body.light-theme h4 {
+            color: #065f46 !important;
+        }
+        body.light-theme .text-gray-200 {
+            color: #1e293b !important;
+        }
+        body.light-theme .text-gray-300 {
+            color: #334155 !important;
+        }
+        body.light-theme .text-gray-400 {
+            color: #475569 !important;
+        }
+        body.light-theme .text-emerald-400 {
+            color: #059669 !important;
+        }
+        body.light-theme #welcomeUser {
+            color: #047857 !important;
+            background: rgba(16, 185, 129, 0.1) !important;
+        }
+        body.light-theme #authHeader strong {
+            color: #ffffff !important;
+        }
+        header .text-emerald-400, header .text-gray-400, header strong {
+            color: #ffffff !important;
+        }
+        body.light-theme .timeline-btn:hover {
+            color: #059669 !important;
+        }
+        body.light-theme .timeline-btn.active {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(5, 150, 105, 0.15)) !important;
+            border-color: #10b981 !important;
+            color: #047857 !important;
+            box-shadow: 0 0 12px rgba(16, 185, 129, 0.1) !important;
+        }
+        
+        /* Map Tailwind border-white/5 and border-white/10 to our theme border variable */
+        body.light-theme .border-white\/5,
+        body.light-theme .border-white\/10 {
+            border-color: var(--glass-border) !important;
+        }
+        
+        /* Map card bg-white/5 to pure white in light theme, while keeping header buttons transparent */
+        body.light-theme .bg-white\/5 {
+            background-color: #ffffff !important;
+        }
+        body.light-theme header .bg-white\/5 {
+            background-color: rgba(255, 255, 255, 0.15) !important;
+        }
+        body.light-theme header .hover\:bg-white\/10:hover {
+            background-color: rgba(255, 255, 255, 0.3) !important;
+        }
+        
+        /* Map very light gray badges to soft green tinted ones */
+        body.light-theme .bg-gray-50 {
+            background-color: rgba(16, 185, 129, 0.06) !important;
+            color: #065f46 !important;
+        }
+        
+        /* Ensure auth modal is beautifully bright in light theme */
+        body.light-theme #authModal > div {
+            background-color: #ffffff !important;
+            border-color: var(--glass-border) !important;
+        }
+        body.light-theme #authModal h2 {
+            color: #065f46 !important;
+        }
+        body.light-theme #authModal label {
+            color: #475569 !important;
+        }
+        body.light-theme #authModal p {
+            color: #475569 !important;
+        }
+        
+        /* Ensure missing courses block looks nice in light theme */
+        body.light-theme #missingCoursesSection {
+            background-color: #fffbeb !important;
+            border-color: #f59e0b !important;
+        }
+        body.light-theme #missingCoursesSection h3 {
+            color: #b45309 !important;
+        }
+        body.light-theme #missingCoursesSection button {
+            background-color: #ffffff !important;
+            border-color: #fcd34d !important;
+            color: #b45309 !important;
+        }
+        body.light-theme #missingCoursesSection button:hover {
+            background-color: #fef3c7 !important;
+        }
+
+        /* Markdown / Formatted content styling */
+        #textContent p,
+        .chat-assistant p,
+        .chat-user p {
+            margin-bottom: 0.75rem;
+        }
+        #textContent p:last-child,
+        .chat-assistant p:last-child,
+        .chat-user p:last-child {
+            margin-bottom: 0;
+        }
+        #textContent ul,
+        .chat-assistant ul,
+        .chat-user ul {
+            list-style-type: disc !important;
+            margin-right: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+        #textContent ol,
+        .chat-assistant ol,
+        .chat-user ol {
+            list-style-type: decimal !important;
+            margin-right: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+        #textContent li,
+        .chat-assistant li,
+        .chat-user li {
+            margin-bottom: 0.25rem;
+            list-style-position: outside;
+        }
+        #textContent strong,
+        .chat-assistant strong,
+        .chat-user strong {
+            font-weight: 700;
+            color: inherit;
+        }
+        #textContent em,
+        .chat-assistant em,
+        .chat-user em {
+            font-style: italic;
+        }
+        #textContent h1, #textContent h2, #textContent h3, #textContent h4,
+        .chat-assistant h1, .chat-assistant h2, .chat-assistant h3, .chat-assistant h4 {
+            font-weight: 700;
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+            color: inherit;
+        }
+        #textContent h1, .chat-assistant h1 { font-size: 1.25rem; }
+        #textContent h2, .chat-assistant h2 { font-size: 1.15rem; }
+        #textContent h3, .chat-assistant h3 { font-size: 1.05rem; }
+        #textContent h4, .chat-assistant h4 { font-size: 1rem; }
+        
+        #textContent code,
+        .chat-assistant code,
+        .chat-user code {
+            font-family: monospace;
+            background-color: rgba(255, 255, 255, 0.15);
+            padding: 0.125rem 0.25rem;
+            border-radius: 0.25rem;
+            font-size: 0.875rem;
+        }
+        
+        body.light-theme #textContent code,
+        body.light-theme .chat-assistant code,
+        body.light-theme .chat-user code {
+            background-color: rgba(16, 185, 129, 0.08);
+            color: #065f46;
+        }
+
+        /* Glassmorphism */
         .glass {
             background: var(--glass);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255,255,255,0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--shadow);
         }
 
-        /* Smooth fade-in */
+        /* Animations */
         .animate-fade-in {
-            animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
             opacity: 0;
-            transform: translateY(12px);
+            transform: translateY(8px);
         }
 
         @keyframes fadeIn {
@@ -55,74 +271,113 @@
         .animate-slide-up {
             animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
             opacity: 0;
-            transform: translateY(20px);
+            transform: translateY(16px);
         }
 
         @keyframes slideUp {
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Header gradient */
-        .hero-header {
-            background: linear-gradient(120deg, #059669 0%, #10b981 40%, #34d399 100%);
-            position: relative;
-            overflow: hidden;
+        /* Glassy header */
+        .glass-header {
+            background: var(--header-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--glass-border);
         }
 
-        .hero-header::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -10%;
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
-            border-radius: 50%;
-            pointer-events: none; /* Prevent pseudo-element from capturing clicks */
-            z-index: 0;
+        /* Ensure all header text elements stay white in both themes */
+        .glass-header,
+        .glass-header h1,
+        .glass-header span,
+        .glass-header strong,
+        .glass-header button,
+        .glass-header div {
+            color: #ffffff !important;
         }
 
-        /* Tabs */
+        /* Tabs styling */
         .tab-active {
-            border-bottom: 3px solid #059669;
-            color: #059669;
+            border-bottom: 3px solid var(--primary);
+            color: var(--primary);
             font-weight: 700;
         }
         .tab-inactive {
             border-bottom: 3px solid transparent;
-            color: #64748b;
+            color: var(--text-muted);
         }
         .tab-inactive:hover {
-            color: #059669;
+            color: var(--primary);
         }
 
-        /* Modal */
+        /* Modal Overlay */
         .modal-overlay {
-            background-color: rgba(2, 44, 34, 0.45);
-            backdrop-filter: blur(4px);
+            background-color: rgba(2, 8, 16, 0.8);
+            backdrop-filter: blur(6px);
         }
 
-        /* Chat bubbles */
-        .chat-user {
-            background: linear-gradient(135deg, #059669, #10b981);
+        /* Custom buttons */
+        .btn-primary {
+            background: linear-gradient(135deg, #10b981, #059669);
+            box-shadow: 0 4px 15px var(--primary-glow);
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
             color: white;
-            border-radius: 18px 18px 4px 18px;
-            box-shadow: 0 4px 15px rgba(5, 150, 105, 0.25);
+            border: none;
+        }
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-1.5px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+            filter: brightness(1.05);
+        }
+        .btn-primary:active:not(:disabled) {
+            transform: translateY(0.5px);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.04);
+            color: var(--text-main);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.2s ease;
+        }
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        /* Custom input styling */
+        input, select {
+            background: var(--input-bg) !important;
+            border: 1px solid var(--glass-border) !important;
+            color: var(--text-main) !important;
+            transition: all 0.25s ease;
+        }
+        input:focus, select:focus {
+            border-color: var(--primary) !important;
+            box-shadow: 0 0 0 2px var(--primary-glow) !important;
+            outline: none !important;
+        }
+
+        /* Chat design */
+        .chat-user {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            border-radius: 20px 20px 4px 20px;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
             align-self: flex-end;
         }
         .chat-assistant {
-            background: #ffffff;
-            border: 1px solid #e2e8f0;
-            color: #1e293b;
-            border-radius: 18px 18px 18px 4px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            background: var(--chat-assistant-bg);
+            border: 1px solid var(--chat-assistant-border);
+            color: var(--chat-assistant-text);
+            border-radius: 20px 20px 20px 4px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
             align-self: flex-start;
         }
 
         /* Code block styling */
         .code-block {
-            background: #0f172a;
-            color: #e2e8f0;
+            background: var(--code-block-bg);
+            color: var(--timeline-btn-text);
             font-family: 'Fira Code', 'Consolas', monospace;
             font-size: 0.8rem;
             line-height: 1.6;
@@ -131,299 +386,364 @@
             overflow-x: auto;
             direction: ltr;
             text-align: left;
-        }
-
-        /* Buttons */
-        .btn-primary {
-            background: linear-gradient(135deg, #059669, #10b981);
-            box-shadow: 0 4px 14px rgba(5, 150, 105, 0.35);
-            transition: all 0.25s ease;
-        }
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(5, 150, 105, 0.45);
-        }
-
-        .btn-secondary {
-            background: #f1f5f9;
-            color: #334155;
-            border: 1px solid #e2e8f0;
-            transition: all 0.2s ease;
-        }
-        .btn-secondary:hover {
-            background: #e2e8f0;
-            border-color: #cbd5e1;
+            border: 1px solid var(--code-block-border);
         }
 
         /* Scrollbar */
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
-        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        ::-webkit-scrollbar-thumb { background: rgba(16, 185, 129, 0.25); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(16, 185, 129, 0.5); }
 
         /* Pulse animation for live indicator */
         .pulse-dot {
             width: 8px; height: 8px;
-            background: #22c55e;
+            background: #10b981;
             border-radius: 50%;
             animation: pulse 2s infinite;
+            box-shadow: 0 0 8px #10b981;
         }
         @keyframes pulse {
             0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.5; transform: scale(1.2); }
+            50% { opacity: 0.4; transform: scale(1.2); }
         }
 
-        /* Section card hover */
-        .section-card {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        /* Custom interactive timeline button */
+        .timeline-btn {
+            background: var(--timeline-btn-bg);
+            border: 1px solid var(--timeline-btn-border);
+            color: var(--timeline-btn-text);
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .section-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+        .timeline-btn:hover {
+            background: rgba(16, 185, 129, 0.12);
+            border-color: rgba(16, 185, 129, 0.3);
+            transform: translateX(-3px);
+            color: white;
+        }
+        .timeline-btn.active {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(5, 150, 105, 0.2));
+            border-color: #10b981;
+            color: #34d399;
+            box-shadow: 0 0 12px rgba(16, 185, 129, 0.15);
         }
 
         /* Iframe for visualizer */
         .viz-iframe {
             width: 100%;
-            min-height: 320px;
-            border: 1px solid #e2e8f0;
-            border-radius: 10px;
-            background: white;
+            min-height: 340px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            background: #0b0e14;
         }
     </style>
 </head>
-<body class="text-gray-800 text-right">
+<body class="text-right">
 
     <!-- Header -->
-    <header class="hero-header text-white p-5 shadow-xl">
+    <header class="glass-header text-white p-4 shadow-lg">
         <div class="container mx-auto flex justify-between items-center flex-wrap gap-3 relative z-10">
             <div class="flex items-center gap-3">
-                <div class="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center backdrop-blur-sm">
-                    <span class="text-xl">🛡️</span>
+                <div class="w-10 h-10 bg-emerald-500/10 border border-emerald-500/20 rounded-xl flex items-center justify-center backdrop-blur-md">
+                    <span class="text-lg">🛡️</span>
                 </div>
                 <div>
-                    <h1 class="text-2xl font-extrabold tracking-tight">study<span class="text-emerald-200">[</span>s<span class="text-emerald-200">]</span>ync</h1>
-                    <span class="text-xs opacity-90 font-light tracking-wide">השלמת פערים אקדמיים חכמה</span>
+                    <h1 class="text-xl font-extrabold tracking-tight">study<span class="text-emerald-400">[</span>s<span class="text-emerald-400">]</span>ync</h1>
+                    <span class="text-[10px] text-gray-400 font-light tracking-wide block -mt-1">השלמת פערים אקדמיים חכמה</span>
                 </div>
             </div>
-            <div id="authHeader" class="flex items-center gap-3">
-                <button onclick="demoLoginDanny()" class="bg-white/20 hover:bg-white/30 text-white px-4 py-2 rounded-xl font-bold backdrop-blur-sm transition text-sm border border-white/20">👤 Demo: Danny Israely</button>
-                <button onclick="openAuthModal()" class="bg-white text-emerald-700 px-4 py-2 rounded-xl font-bold hover:bg-emerald-50 transition text-sm shadow-lg">התחברות / הרשמה</button>
+            <div class="flex items-center gap-3">
+                <button onclick="toggleTheme()" class="bg-white/5 hover:bg-white/10 p-2 rounded-xl border border-white/10 transition text-sm flex items-center justify-center text-white" id="themeToggleBtn" title="שנה ערכת נושא">🌓</button>
+                <div id="authHeader" class="flex items-center gap-3">
+                    <button onclick="demoLoginDanny()" class="bg-white/5 hover:bg-white/10 text-white px-3 py-1.5 rounded-xl font-bold transition text-xs border border-white/10">👤 Demo: Danny Israely</button>
+                    <button onclick="openAuthModal()" class="btn-primary px-4 py-1.5 rounded-xl font-bold text-xs shadow-md">התחברות / הרשמה</button>
+                </div>
             </div>
         </div>
     </header>
 
-    <main class="container mx-auto p-5 md:p-8 max-w-7xl">
+    <main class="container mx-auto p-4 md:p-6 max-w-7xl">
         <!-- Auth Modal -->
         <div id="authModal" class="fixed inset-0 modal-overlay hidden z-50 flex items-center justify-center">
-            <div class="bg-white/95 backdrop-blur-xl p-8 rounded-3xl shadow-2xl w-full max-w-md mx-4 animate-fade-in border border-white/50">
-                <div class="flex justify-between items-center mb-6">
-                    <h2 id="authModalTitle" class="text-2xl font-bold text-emerald-900">התחברות</h2>
-                    <button onclick="closeAuthModal()" class="text-gray-400 hover:text-gray-600 text-2xl w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 transition">&times;</button>
+            <div class="bg-[#0f172a]/95 backdrop-blur-2xl p-7 rounded-2xl shadow-2xl w-full max-w-md mx-4 animate-fade-in border border-white/10">
+                <div class="flex justify-between items-center mb-5">
+                    <h2 id="authModalTitle" class="text-xl font-bold text-gray-100">התחברות</h2>
+                    <button onclick="closeAuthModal()" class="text-gray-400 hover:text-gray-200 text-2xl w-8 h-8 flex items-center justify-center rounded-full hover:bg-white/5 transition">&times;</button>
                 </div>
-                <div id="authForm">
-                    <div class="mb-4">
-                        <label class="block text-sm font-bold text-gray-700 mb-1">שם משתמש</label>
-                        <input id="authUsername" type="text" class="border p-3 rounded-xl w-full focus:ring-2 focus:ring-emerald-500 outline-none border-gray-200 bg-gray-50/50 transition" placeholder="הכנס שם משתמש">
+                <div id="authForm" class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-bold text-gray-400 mb-1">שם משתמש</label>
+                        <input id="authUsername" type="text" class="border p-2.5 rounded-xl w-full focus:ring-2 focus:ring-emerald-500 outline-none" placeholder="הכנס שם משתמש">
                     </div>
-                    <div class="mb-6">
-                        <label class="block text-sm font-bold text-gray-700 mb-1">סיסמה</label>
-                        <input id="authPassword" type="password" class="border p-3 rounded-xl w-full focus:ring-2 focus:ring-emerald-500 outline-none border-gray-200 bg-gray-50/50 transition" placeholder="הכנס סיסמה">
+                    <div class="mb-2">
+                        <label class="block text-xs font-bold text-gray-400 mb-1">סיסמה</label>
+                        <input id="authPassword" type="password" class="border p-2.5 rounded-xl w-full focus:ring-2 focus:ring-emerald-500 outline-none" placeholder="הכנס סיסמה">
                     </div>
-                    <button id="authActionBtn" onclick="performAuth()" class="w-full btn-primary text-white py-3 rounded-xl font-bold">התחבר</button>
-                    <p class="text-center mt-4 text-sm text-gray-500">
+                    <button id="authActionBtn" onclick="performAuth()" class="w-full btn-primary py-2.5 rounded-xl font-bold text-sm">התחבר</button>
+                    <p class="text-center mt-3 text-xs text-gray-500">
                         <span id="authToggleText">אין לך חשבון?</span>
-                        <button onclick="toggleAuthMode()" class="text-emerald-600 font-bold underline mr-1 hover:text-emerald-800">לחץ כאן</button>
+                        <button onclick="toggleAuthMode()" class="text-emerald-400 font-bold underline mr-1 hover:text-emerald-300">לחץ כאן</button>
                     </p>
-                    <p id="authError" class="text-red-500 text-sm mt-3 text-center hidden font-semibold"></p>
+                    <p id="authError" class="text-red-400 text-xs mt-2 text-center hidden font-semibold"></p>
                 </div>
             </div>
         </div>
 
-        <!-- User Panel -->
-        <div id="userPanel" class="hidden mb-6 glass rounded-2xl p-6 shadow-lg section-card animate-slide-up">
-            <div class="flex items-center justify-between mb-5">
-                <div class="flex items-center gap-2">
-                    <div class="w-10 h-10 bg-emerald-100 rounded-full flex items-center justify-center text-emerald-700 font-bold text-lg">🎓</div>
-                    <h3 class="font-bold text-emerald-900 text-xl">הקורסים שלי</h3>
+        <!-- 4-Column (5-Grid) Dashboard Layout -->
+        <div id="dashboardGrid" class="grid grid-cols-1 lg:grid-cols-4 gap-6 items-start">
+            
+            <!-- Column 1: Sidebar Control (lg:col-span-1) -->
+            <div class="lg:col-span-1 space-y-6 flex flex-col">
+                
+                <!-- User Panel -->
+                <div id="userPanel" class="hidden glass rounded-2xl p-5 shadow-lg animate-slide-up">
+                    <div class="flex items-center justify-between mb-4 border-b border-white/5 pb-2">
+                        <div class="flex items-center gap-2">
+                            <span class="text-lg">🎓</span>
+                            <h3 class="font-bold text-gray-100 text-base">הקורסים שלי</h3>
+                        </div>
+                        <span id="welcomeUser" class="text-[10px] text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full font-semibold"></span>
+                    </div>
+                    <div class="space-y-2 mb-4 max-h-[160px] overflow-y-auto pr-1" id="myCoursesList"></div>
+                    <div class="border-t border-white/5 pt-3 space-y-2.5">
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <label class="block text-[10px] font-bold text-gray-400 mb-1">שם קורס</label>
+                                <input id="newCourseName" type="text" class="border p-2 rounded-xl w-full text-xs" placeholder="מבוא למדעי המחשב">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold text-gray-400 mb-1">קוד קורס</label>
+                                <input id="newCourseNum" type="text" class="border p-2 rounded-xl w-full text-xs font-mono" placeholder="89-110">
+                            </div>
+                        </div>
+                        <button onclick="addCourse()" class="w-full btn-primary py-2 rounded-xl font-bold text-xs">הוסף קורס</button>
+                    </div>
+                    <p id="courseMsg" class="text-xs mt-2 text-center hidden font-semibold"></p>
                 </div>
-                <span id="welcomeUser" class="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full"></span>
-            </div>
-            <div class="flex flex-wrap gap-3 mb-5" id="myCoursesList"></div>
-            <div class="flex flex-wrap gap-3 items-end border-t border-gray-200/60 pt-4">
-                <div class="flex-1 min-w-[180px]">
-                    <label class="block text-xs font-bold text-gray-500 mb-1.5">שם קורס</label>
-                    <input id="newCourseName" type="text" class="border p-2.5 rounded-xl w-full focus:ring-2 focus:ring-emerald-500 outline-none border-gray-200 bg-gray-50/50 text-sm" placeholder="למשל: מבוא למדעי המחשב">
+
+                <!-- Date Picker & Actions -->
+                <div class="glass rounded-2xl p-5 shadow-lg animate-slide-up" style="animation-delay:0.03s">
+                    <div class="flex items-center gap-2 mb-3 border-b border-white/5 pb-2">
+                        <span class="text-base">📅</span>
+                        <h3 class="font-bold text-gray-100 text-base">טווח היעדרות</h3>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <label class="block text-[10px] font-bold text-gray-400 mb-1">מתאריך</label>
+                                <input id="startDate" type="date" class="border p-2 rounded-xl w-full text-xs">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold text-gray-400 mb-1">עד תאריך</label>
+                                <input id="endDate" type="date" class="border p-2 rounded-xl w-full text-xs">
+                            </div>
+                        </div>
+                        <div class="flex flex-col gap-2 pt-1">
+                            <button onclick="loadLessonRange()" class="w-full btn-primary py-2.5 rounded-xl font-bold text-xs">🔍 הצג הרצאות שהפסדתי</button>
+                            <button onclick="syncLecturesFromCSDrive()" id="syncDriveBtn" class="w-full bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-700 hover:to-indigo-600 text-white py-2 rounded-xl font-bold shadow-md hover:shadow-indigo-500/10 transition-all duration-200 text-xs flex items-center justify-center gap-1.5">
+                                <span id="syncBtnIcon" class="inline-block">🔄</span>
+                                <span id="syncBtnText">סנכרן מ-CS Drive</span>
+                            </button>
+                        </div>
+                    </div>
                 </div>
-                <div class="w-40">
-                    <label class="block text-xs font-bold text-gray-500 mb-1.5">קוד קורס</label>
-                    <input id="newCourseNum" type="text" class="border p-2.5 rounded-xl w-full focus:ring-2 focus:ring-emerald-500 outline-none border-gray-200 bg-gray-50/50 text-sm" placeholder="למשל: 89-110">
+
+                <!-- Missing Courses Warnings -->
+                <div id="missingCoursesSection" class="hidden bg-amber-950/20 border border-amber-900/40 p-4 rounded-2xl shadow-md animate-fade-in">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="text-base">⚠️</span>
+                        <h3 class="font-bold text-amber-400 text-sm">קורסים ללא סילבוס</h3>
+                    </div>
+                    <p class="text-[11px] text-gray-400 mb-3">לחץ על הקורס כדי לסרוק סילבוס אונליין:</p>
+                    <div id="missingCoursesList" class="flex flex-col gap-2"></div>
+                    <div id="scrapeLoading" class="hidden mt-3 text-center text-xs text-gray-400">
+                        <span class="inline-block animate-spin rounded-full h-4 w-4 border-b-2 border-amber-500 mr-2 align-middle"></span>
+                        <span class="align-middle">סורק סילבוס...</span>
+                    </div>
                 </div>
-                <button onclick="addCourse()" class="btn-primary text-white px-6 py-2.5 rounded-xl font-bold text-sm h-[46px]">הוסף קורס</button>
-            </div>
-            <p id="courseMsg" class="text-sm mt-3 hidden font-semibold"></p>
-        </div>
 
-        <!-- Date Picker -->
-        <div class="glass rounded-2xl p-6 shadow-lg section-card mb-6 animate-slide-up" style="animation-delay:0.05s">
-            <div class="flex flex-wrap md:flex-nowrap gap-4 items-end justify-center">
-                <div class="w-full md:w-56">
-                    <label class="block text-sm font-bold text-gray-600 mb-1.5">מתאריך</label>
-                    <input id="startDate" type="date" class="border p-2.5 rounded-xl w-full focus:ring-2 focus:ring-emerald-500 outline-none border-gray-200 bg-gray-50/50 transition hover:border-emerald-300">
+            </div>
+
+            <!-- Column 2: Missed Lectures (lg:col-span-1) -->
+            <div id="lectureList" class="hidden lg:col-span-1 p-5 glass rounded-2xl shadow-md animate-fade-in flex flex-col h-[720px]">
+                <div class="flex items-center gap-2 mb-3 border-b border-white/5 pb-2">
+                    <span class="text-base">📚</span>
+                    <h3 class="font-bold text-gray-100 text-base">ציר זמן הרצאות</h3>
                 </div>
-                <div class="w-full md:w-56">
-                    <label class="block text-sm font-bold text-gray-600 mb-1.5">עד תאריך</label>
-                    <input id="endDate" type="date" class="border p-2.5 rounded-xl w-full focus:ring-2 focus:ring-emerald-500 outline-none border-gray-200 bg-gray-50/50 transition hover:border-emerald-300">
-                </div>
-                <button onclick="loadLessonRange()" class="btn-primary text-white px-8 py-2.5 rounded-xl font-bold shadow-lg h-[46px] whitespace-nowrap">הצג את כל ההרצאות בטווח</button>
-                <button onclick="syncLecturesFromCSDrive()" id="syncDriveBtn" class="bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-700 hover:to-indigo-600 text-white px-6 py-2.5 rounded-xl font-bold shadow-lg hover:shadow-indigo-500/20 hover:scale-105 active:scale-95 transition-all duration-200 h-[46px] whitespace-nowrap flex items-center gap-2">
-                    <span id="syncBtnIcon" class="inline-block">🔄</span>
-                    <span id="syncBtnText">סנכרן מ-CS Drive</span>
-                </button>
+                <div id="buttonsContainer" class="space-y-3 overflow-y-auto pr-1 flex-1"></div>
             </div>
-        </div>
 
-        <!-- Missing Courses -->
-        <div id="missingCoursesSection" class="hidden mb-6 bg-gradient-to-r from-amber-50 to-orange-50 p-6 rounded-2xl border border-amber-200 shadow-md animate-fade-in">
-            <div class="flex items-center gap-2 mb-3">
-                <span class="text-xl">⚠️</span>
-                <h3 class="font-bold text-amber-900 text-lg">קורסים ללא נתונים</h3>
-            </div>
-            <p class="text-sm text-gray-600 mb-4">הקורסים הבאים עדיין לא נסרקו. לחץ כדי לסרוק אותם עכשיו:</p>
-            <div id="missingCoursesList" class="flex flex-wrap gap-3"></div>
-            <div id="scrapeLoading" class="hidden mt-4 text-center text-gray-500">
-                <span class="inline-block animate-spin rounded-full h-5 w-5 border-b-2 border-amber-600 mr-2"></span>
-                מסרק קורסים...
-            </div>
-        </div>
-
-
-        <!-- Lectures List -->
-        <div id="lectureList" class="hidden mb-6 p-6 glass rounded-2xl border border-gray-200 shadow-md animate-fade-in">
-            <div class="flex items-center gap-2 mb-5 border-b border-gray-200/60 pb-3">
-                <span class="text-xl">📚</span>
-                <h3 class="font-bold text-gray-800 text-xl">פירוט הרצאות לפי קורסים</h3>
-            </div>
-            <div id="buttonsContainer" class="space-y-5"></div>
-        </div>
-
-        <!-- Main Grid -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <!-- Content Panel -->
-            <div class="lg:col-span-2 glass p-6 md:p-8 rounded-2xl shadow-lg border border-white/60 min-h-[600px] animate-slide-up" style="animation-delay:0.1s">
-
+            <!-- Column 3 & 4: Central Study Workspace (lg:col-span-2) -->
+            <div class="lg:col-span-2 glass p-5 md:p-6 rounded-2xl shadow-lg border border-white/5 min-h-[720px] flex flex-col animate-slide-up" style="animation-delay:0.08s">
+                
                 <!-- Tabs -->
-                <div class="flex border-b border-gray-200/60 mb-5" id="contentTabs">
-                    <button onclick="switchTab('lesson')" id="tab-lesson" class="px-5 py-3 tab-active transition text-sm md:text-base">📖 תוכן</button>
-                    <button onclick="switchTab('plan')" id="tab-plan" class="px-5 py-3 tab-inactive transition text-sm md:text-base">🎯 תוכנית</button>
-                    <button onclick="switchTab('viz')" id="tab-viz" class="px-5 py-3 tab-inactive transition text-sm md:text-base">🧮 סימולציה</button>
-                    <button onclick="switchTab('test')" id="tab-test" class="px-5 py-3 tab-inactive transition text-sm md:text-base">📝 בוחן</button>
+                <div class="flex border-b border-white/5 mb-4" id="contentTabs">
+                    <button onclick="switchTab('lesson')" id="tab-lesson" class="px-4 py-2.5 tab-active transition text-xs md:text-sm">📖 תוכן השיעור</button>
+                    <button onclick="switchTab('plan')" id="tab-plan" class="px-4 py-2.5 tab-inactive transition text-xs md:text-sm">🎯 תוכנית עבודה</button>
+                    <button onclick="switchTab('viz')" id="tab-viz" class="px-4 py-2.5 tab-inactive transition text-xs md:text-sm">🧮 סימולציה אינטראקטיבית</button>
+                    <button onclick="switchTab('test')" id="tab-test" class="px-4 py-2.5 tab-inactive transition text-xs md:text-sm">📝 בוחן תרגול</button>
                 </div>
 
-                <!-- Welcome -->
-                <div id="welcomeMessage" class="text-center mt-24 text-gray-400 animate-fade-in">
-                    <div class="w-24 h-24 bg-emerald-50 rounded-full flex items-center justify-center mx-auto mb-5 text-5xl shadow-inner">📖</div>
-                    <p class="text-xl font-semibold text-gray-500">בחר טווח תאריכים והרצאה להצגת החומר</p>
-                    <p class="text-sm text-gray-400 mt-2">ה-AI ינתח עבורך את הנושאים שהפסדת ויבנה תוכנית לימודים</p>
-                </div>
-
-                <!-- Lesson -->
-                <div id="lessonContent" class="hidden animate-fade-in">
-                    <div class="flex items-center gap-3 mb-5">
-                        <div class="w-1 h-8 bg-emerald-500 rounded-full"></div>
-                        <h2 id="lessonTopic" class="text-2xl md:text-3xl font-bold text-emerald-900"></h2>
+                <!-- Workspace Body Area with Internal Scrolling -->
+                <div class="flex-1 overflow-y-auto pr-1">
+                    
+                    <!-- Welcome Initial State -->
+                    <div id="welcomeMessage" class="text-center mt-24 text-gray-500 animate-fade-in">
+                        <div class="w-20 h-20 bg-emerald-500/5 border border-emerald-500/10 rounded-full flex items-center justify-center mx-auto mb-4 text-4xl shadow-inner animate-pulse">📖</div>
+                        <p class="text-lg font-bold text-gray-300">בחר הרצאה או טווח תאריכים</p>
+                        <p class="text-xs text-gray-400 mt-1.5 max-w-sm mx-auto leading-relaxed">סוכן ה-AI ינתח עבורך את הנושאים שהפסדת, יבנה תוכנית לימודים אישית, ויצור סימולציה להסבר מושגים קשים.</p>
                     </div>
-                    <div id="textContent" class="leading-relaxed text-lg whitespace-pre-line text-gray-700 bg-emerald-50/30 p-5 rounded-xl border border-emerald-100"></div>
-                </div>
 
-                <!-- Plan -->
-                <div id="planContent" class="hidden animate-fade-in">
-                    <div id="planHeader" class="mb-5 pb-4 border-b border-emerald-100">
-                        <h2 class="text-2xl font-bold text-emerald-900 flex items-center gap-2">🎯 תוכנית שיקום</h2>
-                        <div id="planSummary" class="mt-3 text-gray-600"></div>
+                    <!-- Lesson Content -->
+                    <div id="lessonContent" class="hidden animate-fade-in space-y-4">
+                        <div class="flex items-center gap-2.5 border-b border-white/5 pb-2">
+                            <div class="w-1.5 h-6 bg-emerald-500 rounded-full"></div>
+                            <h2 id="lessonTopic" class="text-xl font-bold text-emerald-400"></h2>
+                        </div>
+                        <div id="textContent" class="leading-relaxed text-sm whitespace-pre-line text-gray-200 bg-white/5 p-5 rounded-xl border border-white/5"></div>
                     </div>
-                    <div id="planTasks" class="space-y-4">
-                        <div id="planGeneratorCard" class="bg-gradient-to-br from-emerald-50/80 to-white/95 p-8 rounded-2xl border border-emerald-100 shadow-md text-center max-w-xl mx-auto my-6 backdrop-blur-md animate-fade-in">
-                            <div class="w-16 h-16 bg-emerald-100/80 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-4 shadow-inner">📅</div>
-                            <h3 class="text-xl font-bold text-emerald-950 mb-2">צור תוכנית שיקום אקדמי</h3>
-                            <p class="text-sm text-emerald-700/90 mb-6">בנה תוכנית למידה מותאמת אישית לטווח התאריכים שהפסדת</p>
-                            
-                            <div class="flex flex-col gap-4 max-w-xs mx-auto">
-                                <div id="planGeneratorContext" class="text-right">
-                                    <!-- populated dynamically -->
+
+                    <!-- Plan Content -->
+                    <div id="planContent" class="hidden animate-fade-in flex flex-col h-full">
+                        <div id="planHeader" class="mb-4 pb-3 border-b border-white/5">
+                            <h2 class="text-lg font-bold text-emerald-400 flex items-center gap-2">🎯 תוכנית עבודה אקדמית</h2>
+                            <div id="planSummary" class="mt-2"></div>
+                        </div>
+                        <div id="planTasks" class="space-y-4 flex-1">
+                            <div id="planGeneratorCard" class="bg-white/5 p-6 rounded-2xl border border-white/5 shadow-md text-center max-w-md mx-auto my-6 animate-fade-in">
+                                <div class="w-12 h-12 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl flex items-center justify-center text-2xl mx-auto mb-3 shadow-inner">📅</div>
+                                <h3 class="text-base font-bold text-gray-200 mb-1">צור תוכנית עבודה אקדמית</h3>
+                                <p class="text-xs text-gray-400 mb-5 leading-relaxed">בנה תוכנית למידה מותאמת אישית לטווח התאריכים שהפסדת</p>
+                                
+                                <div class="flex flex-col gap-3 max-w-xs mx-auto">
+                                    <div id="planGeneratorContext" class="text-right">
+                                        <!-- populated dynamically -->
+                                    </div>
+                                    <button onclick="generateBootcamp()" class="btn-primary font-bold py-2.5 rounded-xl transition-all shadow-md text-xs">✨ צור תוכנית לימודים</button>
                                 </div>
-                                <button onclick="generateBootcamp()" class="bg-gradient-to-l from-emerald-600 to-emerald-500 hover:from-emerald-700 hover:to-emerald-600 text-white font-bold px-6 py-3.5 rounded-xl transition-all transform hover:scale-[1.02] active:scale-[0.98] shadow-md flex items-center justify-center gap-2 mt-2">
-                                    <span>✨ צור תוכנית לימודים</span>
-                                </button>
-                            </div>
-                            <div id="tabPlannerLoading" class="hidden mt-5 text-center text-gray-500 bg-white/60 rounded-xl py-3 border border-emerald-100/50 animate-pulse">
-                                <span class="inline-block animate-spin rounded-full h-5 w-5 border-b-2 border-emerald-600 mr-2 align-middle"></span>
-                                <span class="text-sm font-medium align-middle">מכין את תוכנית הלימודים...</span>
+                                <div id="tabPlannerLoading" class="hidden mt-4 text-center text-gray-400 bg-white/5 rounded-xl py-2.5 border border-white/5 animate-pulse">
+                                    <span class="inline-block animate-spin rounded-full h-4 w-4 border-b-2 border-emerald-500 mr-2 align-middle"></span>
+                                    <span class="text-xs font-medium align-middle">מכין את תוכנית הלימודים...</span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- Visualizer -->
-                <div id="vizContent" class="hidden animate-fade-in">
-                    <h2 class="text-2xl font-bold text-emerald-900 mb-5 flex items-center gap-2">🧮 סימולציה אינטראקטיבית</h2>
-                    <div id="vizResult" class="space-y-5">
-                        <div class="text-center py-14 text-gray-400">
-                            <div class="w-16 h-16 bg-emerald-50 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl">🧮</div>
-                            <p class="text-lg font-medium">אין סימולציה להצגה</p>
-                            <p class="text-sm mt-1">בחר הרצאה מהרשימה ולחץ על כפתור "סימולציה" כדי ליצור תצוגה אינטראקטיבית.</p>
+                    <!-- Visualizer -->
+                    <div id="vizContent" class="hidden animate-fade-in space-y-4">
+                        <h2 class="text-lg font-bold text-emerald-400 border-b border-white/5 pb-2 flex items-center gap-2">🧮 סימולציה אינטראקטיבית</h2>
+                        <div id="vizResult" class="space-y-4">
+                            <div class="text-center py-14 text-gray-500 bg-white/5 rounded-2xl border border-white/5">
+                                <div class="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center mx-auto mb-3 text-2xl">🧮</div>
+                                <p class="text-sm font-semibold text-gray-300">אין סימולציה להצגה</p>
+                                <p class="text-xs text-gray-400 mt-1">בחר הרצאה מציר הזמן ולחץ על הטאב "סימולציה" כדי ליצור הדמיה.</p>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- Tester -->
-                <div id="testContent" class="hidden animate-fade-in">
-                    <div class="flex items-center justify-between mb-4 pb-3 border-b border-gray-200/60">
-                        <h2 class="text-xl font-bold text-emerald-900 flex items-center gap-2">📝 בוחן: <span id="testerTopicTitle">בחר הרצאה</span></h2>
-                        <button onclick="switchTab('lesson')" id="testerGoToContent" class="hidden bg-amber-50 border border-amber-200 text-amber-700 px-3 py-1.5 rounded-xl text-sm hover:bg-amber-100 transition font-semibold">📖 עיין בתוכן</button>
-                    </div>
-                    <div id="testerChatBox" class="overflow-y-auto space-y-3 mb-4 bg-gray-50/30 p-4 rounded-xl border border-gray-100" style="min-height:300px;max-height:400px">
-                        <div class="text-center py-10 text-gray-400">
-                            <p class="text-lg font-medium">אין בוחן להצגה</p>
-                            <p class="text-sm mt-1">בחר הרצאה מהרשימה ולחץ על כפתור "בוחן" כדי ליצור בוחן תרגול.</p>
+                    <!-- Tester -->
+                    <div id="testContent" class="hidden animate-fade-in flex flex-col h-full">
+                        <div class="flex items-center justify-between mb-3 pb-2 border-b border-white/5">
+                            <h2 class="text-base font-bold text-emerald-400 flex items-center gap-1.5">📝 בוחן תרגול: <span id="testerTopicTitle" class="text-gray-200">בחר הרצאה</span></h2>
+                            <button onclick="switchTab('lesson')" id="testerGoToContent" class="hidden bg-amber-500/10 border border-amber-500/20 text-amber-300 px-3 py-1.5 rounded-xl text-xs hover:bg-amber-500/20 transition font-bold">📖 עיין בתוכן</button>
+                        </div>
+                        
+                        <!-- Internal Chatbox for practice test -->
+                        <div id="testerChatBox" class="overflow-y-auto space-y-3 mb-3 p-4 rounded-xl border flex flex-col" style="height:440px; background: var(--tester-chat-bg); border-color: var(--glass-border);">
+                            <div class="text-center py-14 text-gray-500">
+                                <p class="text-sm font-semibold text-gray-300">אין בוחן להצגה</p>
+                                <p class="text-xs text-gray-400 mt-1">בחר הרצאה מציר הזמן ולחץ על הטאב "בוחן" כדי להתחיל תרגול מבוסס שיחה.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-2">
+                            <input id="testerInput" type="text" placeholder="כתוב תשובתך לבוחן..." class="flex-1 border p-2.5 rounded-xl outline-none text-xs transition" onkeydown="if(event.key==='Enter')sendTesterMessage()">
+                            <button onclick="sendTesterMessage()" class="btn-primary px-5 rounded-xl text-xs font-bold whitespace-nowrap">שלח</button>
                         </div>
                     </div>
-                    <div class="flex gap-2 mt-2">
-                        <input id="testerInput" type="text" placeholder="כתוב תשובתך..." dir="rtl" class="flex-1 border border-gray-200 p-3 rounded-xl outline-none focus:ring-2 focus:ring-purple-500 bg-gray-50/50 text-sm transition" onkeydown="if(event.key==='Enter')sendTesterMessage()">
-                        <button onclick="sendTesterMessage()" class="bg-purple-600 text-white px-5 rounded-xl hover:bg-purple-700 transition shadow-md text-sm font-bold">שלח</button>
-                    </div>
+
                 </div>
+
             </div>
 
-            <!-- Chat Panel -->
-            <div class="glass flex flex-col h-[680px] rounded-2xl shadow-xl border border-white/60 overflow-hidden animate-slide-up" style="animation-delay:0.15s">
-                <div class="bg-gradient-to-l from-emerald-700 to-emerald-600 p-4 font-bold text-white text-center shadow-md flex items-center justify-center gap-2">
+            <!-- Column 4: AI Tutor Chat (lg:col-span-1) -->
+            <div class="lg:col-span-1 lg:sticky lg:top-6 glass flex flex-col h-[720px] rounded-2xl shadow-xl border border-white/5 overflow-hidden animate-slide-up" style="animation-delay:0.12s">
+                <div class="bg-gradient-to-l from-emerald-800 to-emerald-700 p-4 font-bold text-white text-center shadow-md flex items-center justify-center gap-2 border-b border-white/5">
                     <span class="pulse-dot"></span>
-                    <span>מורה פרטי AI</span>
-                    <span class="text-lg">🤖</span>
+                    <span class="text-sm font-extrabold tracking-tight">מורה פרטי AI</span>
+                    <span class="text-base">🤖</span>
                 </div>
-                <div id="chatBox" class="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50/50 flex flex-col">
-                    <div class="chat-assistant p-4 max-w-[85%] text-sm">
-                        שלום! התחבר כדי שאדע אילו קורסים אתה לומד, או בחר טווח תאריכים כדי לראות מה הפסדת.
+                <!-- Chat messages (Scrollable) -->
+                <div id="chatBox" class="flex-1 overflow-y-auto p-4 space-y-4 flex flex-col" style="background: var(--chat-box-bg);">
+                    <div class="chat-assistant p-3.5 max-w-[85%] text-xs leading-relaxed">
+                        שלום! התחבר כדי שאדע אילו קורסים אתה לומד, או בחר טווח תאריכים בציר הזמן כדי לראות מה הפסדת.
                     </div>
                 </div>
-                <div class="p-4 border-t border-gray-200/60 bg-white/80 flex gap-2">
-                    <input id="userInput" type="text" placeholder="שאל אותי משהו..." class="flex-1 border border-gray-200 p-3 rounded-xl outline-none focus:ring-2 focus:ring-emerald-500 bg-gray-50/50 text-right text-sm transition" onkeydown="if(event.key==='Enter')sendMessage()">
-                    <button onclick="sendMessage()" class="btn-primary text-white px-5 rounded-xl hover:scale-105 transition shadow-md">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" /></svg>
+                <!-- Chat Input area -->
+                <div class="p-3 border-t flex gap-2" style="background: var(--chat-input-bg); border-top-color: var(--glass-border);">
+                    <input id="userInput" type="text" placeholder="שאל אותי משהו..." class="flex-1 border p-2.5 rounded-xl outline-none text-xs text-right transition" onkeydown="if(event.key==='Enter')sendMessage()">
+                    <button onclick="sendMessage()" class="btn-primary p-2.5 rounded-xl flex items-center justify-center" title="שלח">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                        </svg>
                     </button>
                 </div>
             </div>
+
         </div>
     </main>
 
     <!-- Footer -->
-    <footer class="text-center py-6 text-gray-400 text-sm">
-        <p>Study[S]ync v1.3 · Bar-Ilan University CS · AI Academic Recovery</p>
+    <footer class="text-center py-6 text-gray-500 text-[10px] tracking-wide border-t border-white/5 mt-6">
+        <p>Study[S]ync v1.3 · Bar-Ilan University CS · AI Academic Gap Recovery Dashboard</p>
     </footer>
 
     <script>
         const API_BASE = "";
+        
+        function renderFormattedContent(text) {
+            if (!text) return '';
+            
+            // 1. Temporarily extract LaTeX blocks to prevent Markdown parser from corrupting them
+            const placeholders = [];
+            let placeholderCounter = 0;
+            
+            // Match display math $$...$$
+            let processedText = text.replace(/\$\$([\s\S]+?)\$\$/g, (match, math) => {
+                const id = `__MATH_PLACEHOLDER_${placeholderCounter++}__`;
+                placeholders.push({ id, original: match });
+                return id;
+            });
+            
+            // Match inline math $...$
+            processedText = processedText.replace(/\$([^\$]+?)\$/g, (match, math) => {
+                const id = `__MATH_PLACEHOLDER_${placeholderCounter++}__`;
+                placeholders.push({ id, original: match });
+                return id;
+            });
+            
+            // 2. Parse Markdown using marked.js if available, else return text with newlines
+            let html = processedText;
+            if (window.marked) {
+                html = marked.parse(processedText);
+            } else {
+                // Safe basic replacement for HTML injection
+                html = processedText
+                    .replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;')
+                    .replace(/"/g, '&quot;')
+                    .replace(/'/g, '&#39;')
+                    .replace(/\n/g, '<br>');
+            }
+            
+            // 3. Restore LaTeX placeholders exactly as they were
+            placeholders.forEach(placeholder => {
+                html = html.replace(placeholder.id, placeholder.original);
+            });
+            
+            return html;
+        }
+
         let chatHistory = [];
         let testerHistory = [];
         let currentCourse = "";
@@ -541,13 +861,13 @@
             const container = document.getElementById('authHeader');
             if (currentUser) {
                 container.innerHTML = `
-                    <span class="text-sm text-white/90 font-medium">שלום, <strong>${escapeHtml(currentUser.username)}</strong></span>
-                    <button onclick="logout()" class="bg-white/20 hover:bg-white/30 text-white px-4 py-2 rounded-xl font-bold transition text-sm border border-white/20">התנתק</button>
+                    <span class="text-xs text-white/90 font-medium ml-2">שלום, <strong>${escapeHtml(currentUser.username)}</strong></span>
+                    <button onclick="logout()" class="bg-white/5 hover:bg-white/10 text-white px-3 py-1.5 rounded-xl font-bold transition text-xs border border-white/10">התנתק</button>
                 `;
             } else {
                 container.innerHTML = `
-                    <button onclick="demoLoginDanny()" class="bg-white/20 hover:bg-white/30 text-white px-4 py-2 rounded-xl font-bold backdrop-blur-sm transition text-sm border border-white/20">👤 Demo: Danny Israely</button>
-                    <button onclick="openAuthModal()" class="bg-white text-emerald-700 px-4 py-2 rounded-xl font-bold hover:bg-emerald-50 transition text-sm shadow-lg">התחברות / הרשמה</button>
+                    <button onclick="demoLoginDanny()" class="bg-white/5 hover:bg-white/10 text-white px-3 py-1.5 rounded-xl font-bold backdrop-blur-sm transition text-xs border border-white/10">👤 Demo: Danny Israely</button>
+                    <button onclick="openAuthModal()" class="btn-primary px-4 py-1.5 rounded-xl font-bold text-xs shadow-md">התחברות / הרשמה</button>
                 `;
             }
         }
@@ -566,15 +886,17 @@
         function renderCoursesList() {
             const list = document.getElementById('myCoursesList');
             if (userCourses.length === 0) {
-                list.innerHTML = '<span class="text-gray-400 text-sm bg-gray-50 px-4 py-2 rounded-lg">עדיין לא רשמת קורסים. הוסף קורס למטה.</span>';
+                list.innerHTML = '<span class="text-gray-400 text-xs bg-white/5 border border-white/5 px-4 py-2.5 rounded-xl block text-center">עדיין לא רשמת קורסים.</span>';
                 populateCourseDropdowns([]);
                 return;
             }
             list.innerHTML = userCourses.map(c => `
-                <div class="bg-emerald-50 border border-emerald-200/60 px-4 py-2.5 rounded-xl flex items-center gap-2.5 shadow-sm hover:shadow-md transition">
-                    <span class="font-semibold text-emerald-900 text-sm">${escapeHtml(c.course_name)}</span>
-                    <span class="text-xs text-emerald-700 bg-emerald-100/70 px-2.5 py-0.5 rounded-md font-mono">${escapeHtml(c.course_num)}</span>
-                    <button onclick="removeCourse('${escapeHtml(c.course_num)}')" class="text-red-400 hover:text-red-600 text-sm mr-1 w-5 h-5 flex items-center justify-center rounded-full hover:bg-red-50 transition" title="הסר">&times;</button>
+                <div class="bg-white/5 border border-white/5 px-3 py-2.5 rounded-xl flex items-center justify-between shadow-sm hover:bg-white/10 transition">
+                    <div class="flex flex-col gap-0.5 text-right">
+                        <span class="font-bold text-gray-200 text-xs">${escapeHtml(c.course_name)}</span>
+                        <span class="text-[10px] text-emerald-400 font-mono font-semibold">${escapeHtml(c.course_num)}</span>
+                    </div>
+                    <button onclick="removeCourse('${escapeHtml(c.course_num)}')" class="text-red-400 hover:text-red-600 text-lg w-6 h-6 flex items-center justify-center rounded-full hover:bg-white/5 transition" title="הסר">&times;</button>
                 </div>
             `).join('');
             populateCourseDropdowns(userCourses);
@@ -585,13 +907,13 @@
             const numInput = document.getElementById('newCourseNum');
             const msg = document.getElementById('courseMsg');
             const name = nameInput.value.trim(); const num = numInput.value.trim();
-            if (!name || !num) { msg.innerText = "אנא הכנס שם קורס וקוד קורס"; msg.className = "text-sm mt-3 text-red-500 font-semibold"; msg.classList.remove('hidden'); return; }
+            if (!name || !num) { msg.innerText = "אנא הכנס שם קורס וקוד קורס"; msg.className = "text-xs mt-2 text-red-400 font-semibold text-center"; msg.classList.remove('hidden'); return; }
             try {
                 const resp = await fetch(`${API_BASE}/my_courses`, { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Token': authToken }, body: JSON.stringify({ course_name: name, course_num: num }) });
                 const data = await resp.json();
-                if (resp.ok) { userCourses = data.courses; renderCoursesList(); nameInput.value = ""; numInput.value = ""; msg.innerText = "הקורס נוסף בהצלחה!"; msg.className = "text-sm mt-3 text-emerald-600 font-semibold"; msg.classList.remove('hidden'); }
-                else { msg.innerText = data.detail || "שגיאה בהוספת קורס"; msg.className = "text-sm mt-3 text-red-500 font-semibold"; msg.classList.remove('hidden'); }
-            } catch (e) { msg.innerText = "שגיאת תקשורת"; msg.className = "text-sm mt-3 text-red-500 font-semibold"; msg.classList.remove('hidden'); }
+                if (resp.ok) { userCourses = data.courses; renderCoursesList(); nameInput.value = ""; numInput.value = ""; msg.innerText = "הקורס נוסף בהצלחה!"; msg.className = "text-xs mt-2 text-emerald-400 font-semibold text-center"; msg.classList.remove('hidden'); }
+                else { msg.innerText = data.detail || "שגיאה בהוספת קורס"; msg.className = "text-xs mt-2 text-red-400 font-semibold text-center"; msg.classList.remove('hidden'); }
+            } catch (e) { msg.innerText = "שגיאת תקשורת"; msg.className = "text-xs mt-2 text-red-400 font-semibold text-center"; msg.classList.remove('hidden'); }
         }
 
         async function removeCourse(courseNum) {
@@ -723,6 +1045,7 @@
             const listDiv = document.getElementById('lectureList');
             const missingSection = document.getElementById('missingCoursesSection');
             container.innerHTML = ''; missingSection.classList.add('hidden');
+            document.getElementById('dashboardGrid').className = "grid grid-cols-1 lg:grid-cols-4 gap-6 items-start";
 
             try {
                 const headers = authToken ? { 'X-Token': authToken } : {};
@@ -733,12 +1056,14 @@
                 const filtered = lectures.filter(l => { const lDate = new Date(l.lecture_date); return lDate >= start && lDate <= end; });
                 if (filtered.length === 0) {
                     alert("לא נמצאו הרצאות בטווח הזה"); listDiv.classList.add('hidden');
+                    document.getElementById('dashboardGrid').className = "grid grid-cols-1 lg:grid-cols-4 gap-6 items-start";
                     return;
                 }
 
                 const grouped = {};
                 filtered.forEach(l => { if (!grouped[l.course_name]) grouped[l.course_name] = []; grouped[l.course_name].push(l); });
                 listDiv.classList.remove('hidden');
+                document.getElementById('dashboardGrid').className = "grid grid-cols-1 lg:grid-cols-5 gap-6 items-start";
 
                 // Populate the planner course select dropdown dynamically based on grouped courses
                 const coursesToDisplay = [];
@@ -754,16 +1079,23 @@
 
                 for (const courseName in grouped) {
                     const section = document.createElement('div');
-                    section.className = "bg-white/70 rounded-xl p-4 border border-emerald-100 shadow-sm";
-                    section.innerHTML = `<h4 class="text-lg font-bold text-emerald-800 mb-3 flex items-center gap-2"><span class="w-2 h-2 bg-emerald-500 rounded-full"></span>${courseName}</h4><div class="flex flex-wrap gap-3"></div>`;
+                    section.className = "bg-white/5 border border-white/5 rounded-xl p-3 shadow-sm";
+                    section.innerHTML = `<h4 class="text-xs font-bold text-emerald-400 mb-2 flex items-center gap-1.5"><span class="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></span>${courseName}</h4><div class="flex flex-col gap-1.5"></div>`;
                     const btnsContainer = section.querySelector('div');
 
                     grouped[courseName].forEach(lecture => {
-                        const wrapper = document.createElement('div'); wrapper.className = "flex flex-col gap-1.5";
+                        const wrapper = document.createElement('div'); wrapper.className = "flex flex-col gap-1";
                         const btn = document.createElement('button');
-                        btn.className = "bg-white border border-emerald-200 text-emerald-800 px-4 py-2.5 rounded-xl hover:bg-emerald-500 hover:text-white transition shadow-sm font-semibold text-sm text-right";
-                        btn.innerText = `${lecture.lecture_date}: ${lecture.topic}`;
-                        btn.onclick = () => displaySpecificLecture(lecture);
+                        btn.className = "w-full timeline-btn px-3 py-2.5 rounded-xl transition font-medium text-xs text-right flex items-center justify-between";
+                        btn.innerHTML = `
+                            <span class="font-semibold truncate max-w-[120px]">${escapeHtml(lecture.topic)}</span>
+                            <span class="text-[10px] opacity-60 font-mono">${escapeHtml(lecture.lecture_date)}</span>
+                        `;
+                        btn.onclick = () => {
+                            document.querySelectorAll('.timeline-btn').forEach(b => b.classList.remove('active'));
+                            btn.classList.add('active');
+                            displaySpecificLecture(lecture);
+                        };
 
                         wrapper.appendChild(btn); btnsContainer.appendChild(wrapper);
                     });
@@ -782,8 +1114,9 @@
             const section = document.getElementById('missingCoursesSection');
             const list = document.getElementById('missingCoursesList');
             list.innerHTML = missing.map(c => `
-                <button onclick="scrapeCourse('${escapeHtml(c.course_num)}', '${escapeHtml(c.course_name)}')" class="bg-white border border-amber-300 text-amber-700 px-4 py-2.5 rounded-xl hover:bg-amber-50 transition text-sm font-semibold shadow-sm">
-                    🔍 ${escapeHtml(c.course_name)} (${escapeHtml(c.course_num)})
+                <button onclick="scrapeCourse('${escapeHtml(c.course_num)}', '${escapeHtml(c.course_name)}')" class="w-full bg-amber-500/10 border border-amber-500/20 text-amber-300 px-3 py-2.5 rounded-xl hover:bg-amber-500/20 transition text-xs font-semibold text-right flex items-center justify-between">
+                    <span>🔍 ${escapeHtml(c.course_name)}</span>
+                    <span class="text-[10px] opacity-60 font-mono">${escapeHtml(c.course_num)}</span>
                 </button>
             `).join('');
             section.classList.remove('hidden');
@@ -865,7 +1198,7 @@
                 document.getElementById('lessonContent').classList.remove('hidden');
                 document.getElementById('lessonTopic').innerText = lecture.topic;
                 let cleanContent = lecture.content;
-                document.getElementById('textContent').innerText = cleanContent;
+                document.getElementById('textContent').innerHTML = renderFormattedContent(cleanContent);
                 switchTab('lesson');
                 document.getElementById('chatBox').innerHTML = '';
                 let firstQuestion = lecture.ai_questions.replace("שאל את הסטודנט ", "");
@@ -891,7 +1224,7 @@
                 document.getElementById('welcomeMessage').classList.add('hidden');
                 document.getElementById('lessonContent').classList.remove('hidden');
                 document.getElementById('lessonTopic').innerText = topic;
-                document.getElementById('textContent').innerText = "למידה עצמית ותרגול עבור הנושא: " + topic;
+                document.getElementById('textContent').innerHTML = renderFormattedContent("למידה עצמית ותרגול עבור הנושא: " + topic);
                 switchTab('lesson');
                 
                 document.getElementById('chatBox').innerHTML = '';
@@ -959,7 +1292,7 @@
                 tasksDiv.innerHTML = `
                     <div class="bg-gradient-to-br from-emerald-50/80 to-white/95 p-8 rounded-2xl border border-emerald-100 shadow-md text-center max-w-xl mx-auto my-6 backdrop-blur-md animate-fade-in">
                         <div class="w-16 h-16 bg-emerald-100/80 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-4 shadow-inner">🎉</div>
-                        <h3 class="text-xl font-bold text-emerald-950 mb-2">אין צורך בתוכנית שיקום!</h3>
+                        <h3 class="text-xl font-bold text-emerald-950 mb-2">אין צורך בתוכנית עבודה!</h3>
                         <p class="text-sm text-emerald-800 leading-relaxed mb-6">
                             לא נמצאו נושאים שהפסדת בטווח התאריכים שהגדרת עבור הקורס <strong>${plan.course_name}</strong>.<br>
                             ייתכן שכל המפגשים בתאריכים אלו היו מנהלתיים (מבחנים, חגים, חזרות וכו') או שלא התקיימו שיעורים.
@@ -981,7 +1314,7 @@
                     </div>
                     <button onclick="clearActivePlan()" class="text-xs text-emerald-600 hover:text-emerald-800 underline font-semibold transition">בחר קורס אחר</button>
                 </div>
-                <p class="mt-3 text-gray-600 leading-relaxed bg-white p-4 rounded-xl border border-gray-100 shadow-sm">${plan.executive_summary}</p>
+                <p class="mt-3 text-gray-600 leading-relaxed bg-white p-4 rounded-xl border border-gray-100 shadow-sm">${renderFormattedContent(plan.executive_summary)}</p>
             `;
             tasksDiv.innerHTML = '';
             plan.study_tasks.forEach(task => {
@@ -994,7 +1327,7 @@
                         <h4 class="font-bold text-lg text-gray-800">${task.topic}</h4>
                         <span class="text-sm ${pColor} font-semibold bg-gray-50 px-2 py-1 rounded-lg">${pEmoji} ${task.priority}</span>
                     </div>
-                    <p class="text-gray-600 text-sm mb-3 leading-relaxed">${task.description}</p>
+                    <p class="text-gray-600 text-sm mb-3 leading-relaxed">${renderFormattedContent(task.description)}</p>
                     <div class="flex gap-3 text-xs text-gray-500 mb-3">
                         <span class="bg-gray-50 px-2 py-1 rounded-md">⏱️ ${task.estimated_hours} שעות</span>
                         <span class="bg-gray-50 px-2 py-1 rounded-md">📅 יום ${task.day}</span>
@@ -1002,7 +1335,7 @@
                     <div class="mt-2 bg-emerald-50/50 p-3 rounded-lg">
                         <p class="text-xs font-bold text-gray-700 mb-1.5">💡 טיפים:</p>
                         <ul class="text-xs text-gray-600 list-disc mr-5 space-y-1">
-                            ${task.study_tips.map(t => `<li>${t}</li>`).join('')}
+                            ${task.study_tips.map(t => `<li>${renderFormattedContent(t)}</li>`).join('')}
                         </ul>
                     </div>
                     <div class="mt-4">
@@ -1022,7 +1355,7 @@
             tasksDiv.innerHTML = `
                 <div id="planGeneratorCard" class="bg-gradient-to-br from-emerald-50/80 to-white/95 p-8 rounded-2xl border border-emerald-100 shadow-md text-center max-w-xl mx-auto my-6 backdrop-blur-md animate-fade-in">
                     <div class="w-16 h-16 bg-emerald-100/80 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-4 shadow-inner">📅</div>
-                    <h3 class="text-xl font-bold text-emerald-950 mb-2">צור תוכנית שיקום אקדמי</h3>
+                    <h3 class="text-xl font-bold text-emerald-950 mb-2">צור תוכנית עבודה אקדמית</h3>
                     <p class="text-sm text-emerald-700/90 mb-6">בנה תוכנית למידה מותאמת אישית לטווח התאריכים שהפסדת</p>
                     
                     <div class="flex flex-col gap-4 max-w-xs mx-auto">
@@ -1206,7 +1539,7 @@
             div.className = role === 'user'
                 ? 'chat-user p-3 max-w-[85%] text-sm leading-relaxed'
                 : 'chat-assistant p-3 max-w-[85%] text-sm leading-relaxed';
-            div.innerText = text;
+            div.innerHTML = renderFormattedContent(text);
             chatBox.appendChild(div);
             chatBox.scrollTop = chatBox.scrollHeight;
             return id;
@@ -1214,7 +1547,7 @@
 
         function updateTesterMessage(id, text) {
             const el = document.getElementById(id);
-            if (el) el.innerText = text;
+            if (el) el.innerHTML = renderFormattedContent(text);
         }
 
         // ================================================================
@@ -1236,7 +1569,7 @@
 
         function addChatMessage(role, text) {
             const chatBox = document.getElementById('chatBox');
-            const id = Date.now() + Math.random();
+            const id = 'cm_' + Date.now() + '_' + Math.random();
             const div = document.createElement('div');
             div.id = id;
             // RTL fix: user = right side (self-start in RTL), assistant = left side (self-end in RTL)
@@ -1245,7 +1578,7 @@
             } else {
                 div.className = "chat-assistant p-3.5 max-w-[85%] text-sm leading-relaxed";
             }
-            div.innerText = text;
+            div.innerHTML = renderFormattedContent(text);
             chatBox.appendChild(div);
             chatBox.scrollTop = chatBox.scrollHeight;
             return id;
@@ -1253,7 +1586,21 @@
 
         function updateChatMessage(id, text) {
             const el = document.getElementById(id);
-            if (el) el.innerText = text;
+            if (el) el.innerHTML = renderFormattedContent(text);
+        }
+
+        // ================================================================
+        // Theme Toggle (Dark / Light Mode)
+        // ================================================================
+        function toggleTheme() {
+            document.body.classList.toggle('light-theme');
+            const isLight = document.body.classList.contains('light-theme');
+            localStorage.setItem('study_sync_theme', isLight ? 'light' : 'dark');
+        }
+
+        // Apply saved theme on load
+        if (localStorage.getItem('study_sync_theme') === 'light') {
+            document.body.classList.add('light-theme');
         }
     </script>
 </body>
