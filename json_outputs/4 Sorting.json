@@ -1,122 +1,182 @@
 [
-    {
-        "page_number": 1,
-        "content": "Sorting\nApril  2025\nAlgorithms and DS I: Sorting\n1\nPrepared by Shmuel Wimer\nInstructed by Deganit Armon and Shmuel Wimer"
-    },
-    {
-        "page_number": 2,
-        "content": "Overview\nApril  2025\nAlgorithms and DS I: Sorting\n2"
-    },
-    {
-        "page_number": 3,
-        "content": "Lower Bound of Sorting\nApril  2025\nAlgorithms and DS I: Sorting\n3"
-    },
-    {
-        "page_number": 4,
-        "content": "April  2025\nAlgorithms and DS I: Sorting\n4"
-    },
-    {
-        "page_number": 5,
-        "content": "April  2025\nAlgorithms and DS I: Sorting\n5"
-    },
-    {
-        "page_number": 6,
-        "content": "Merge Sort\nIdea: two sorted subsequences merge into one sorted sequence.\nApril  2025\nAlgorithms and DS I: Sorting\n6"
-    },
-    {
-        "page_number": 7,
-        "content": "April  2025\nAlgorithms and DS I: Sorting\n7"
-    },
-    {
-        "page_number": 8,
-        "content": "Linear Time Sorting\nApril  2025\nAlgorithms and DS I: Sorting\n8"
-    },
-    {
-        "page_number": 9,
-        "content": "April  2025\nAlgorithms and DS I: Sorting\n9"
-    },
-    {
-        "page_number": 10,
-        "content": "April  2025\nAlgorithms and DS I: Sorting\n10"
-    },
-    {
-        "page_number": 11,
-        "content": "April  2025\nAlgorithms and DS I: Sorting\n11"
-    },
-    {
-        "page_number": 12,
-        "content": "April  2025\nAlgorithms and DS I: Sorting\n12\nCounting sort is stable: numbers with same values are output in same order as in input. Important when numbers are keys of other data. \nStability is crucial in Radix sort using stable sort subroutine."
-    },
-    {
-        "page_number": 13,
-        "content": "April  2025\nAlgorithms and DS I: Sorting\n13\nstable\nstable\ninput\noutput"
-    },
-    {
-        "page_number": 14,
-        "content": "Bucket Sort\nApril  2025\nAlgorithms and DS I: Sorting\n14"
-    },
-    {
-        "page_number": 15,
-        "content": "April  2025\nAlgorithms and DS I: Sorting\n15\nMost time consuming is the insertion sort of the buckets linked lists."
-    },
-    {
-        "page_number": 16,
-        "content": "April  2025\nAlgorithms and DS I: Sorting\n16"
-    },
-    {
-        "page_number": 17,
-        "content": "April  2025\nAlgorithms and DS I: Sorting\n17\nSupplementary"
-    },
-    {
-        "page_number": 18,
-        "content": "Expected Run Time of Bucket Sort\nApril  2025\nAlgorithms and DS I: Sorting\n18"
-    },
-    {
-        "page_number": 19,
-        "content": "April  2025\nAlgorithms and DS I: Sorting\n19"
-    },
-    {
-        "page_number": 20,
-        "content": "April  2025\nAlgorithms and DS I: Sorting\n20"
-    },
-    {
-        "page_number": 21,
-        "content": "Quicksort (C.A.R. Hoare 1962)\nApril  2025\nAlgorithms and DS I: Sorting\n21"
-    },
-    {
-        "page_number": 22,
-        "content": "April  2025\nAlgorithms and DS I: Sorting\n22"
-    },
-    {
-        "page_number": 23,
-        "content": "April  2025\nAlgorithms and DS I: Sorting\n23"
-    },
-    {
-        "page_number": 24,
-        "content": "April  2025\nAlgorithms and DS I: Sorting\n24"
-    },
-    {
-        "page_number": 25,
-        "content": "April  2025\nAlgorithms and DS I: Sorting\n25"
-    },
-    {
-        "page_number": 26,
-        "content": "April  2025\nAlgorithms and DS I: Sorting\n26"
-    },
-    {
-        "page_number": 27,
-        "content": "April  2025\nAlgorithms and DS I: Sorting\n27"
-    },
-    {
-        "page_number": 28,
-        "content": "April  2025\nAlgorithms and DS I: Sorting\n28"
-    },
-    {
-        "page_number": 29,
-        "content": "April  2025\nAlgorithms and DS I: Sorting\n29"
-    },
-    {
-        "page_number": 30,
-        "content": "April  2025\nAlgorithms and DS I: Sorting\n30"
-    }
+  {
+    "page_number": 1,
+    "title": "Sorting",
+    "content": "Sorting\nApril  2025\nAlgorithms and DS I: Sorting\nPrepared by Shmuel Wimer\nInstructed by Deganit Armon and Shmuel Wimer",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 2,
+    "title": null,
+    "content": "Overview\nApril  2025\nAlgorithms and DS I: Sorting",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 3,
+    "title": null,
+    "content": "Lower Bound of Sorting\nApril  2025\nAlgorithms and DS I: Sorting\nComparison sorting is modeled by a full binary decision tree.",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 4,
+    "title": null,
+    "content": "April  2025\nAlgorithms and DS I: Sorting",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 5,
+    "title": null,
+    "content": "April  2025\nAlgorithms and DS I: Sorting",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 6,
+    "title": null,
+    "content": "Merge Sort\nIdea: two sorted subsequences merge into one sorted sequence.\nApril  2025\nAlgorithms and DS I: Sorting\n2\n3\n12\n17\n19\n20\n1\n4\n8\n11\n15\n16\n22",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 7,
+    "title": null,
+    "content": "April  2025\nAlgorithms and DS I: Sorting",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 8,
+    "title": null,
+    "content": "Linear Time Sorting\nApril  2025\nAlgorithms and DS I: Sorting",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 9,
+    "title": null,
+    "content": "April  2025\nAlgorithms and DS I: Sorting",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 10,
+    "title": null,
+    "content": "April  2025\nAlgorithms and DS I: Sorting",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 11,
+    "title": null,
+    "content": "April  2025\nAlgorithms and DS I: Sorting",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 12,
+    "title": null,
+    "content": "April  2025\nAlgorithms and DS I: Sorting\nCounting sort is stable: numbers with same values are output in same order as in input. Important when numbers are keys of other data.\nStability is crucial in Radix sort using stable sort subroutine.",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 13,
+    "title": null,
+    "content": "April  2025\nAlgorithms and DS I: Sorting\n329\n457\n657\n839\n436\n720\n355\nstable\ninput\noutput",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 14,
+    "title": null,
+    "content": "Bucket Sort\nApril  2025\nAlgorithms and DS I: Sorting\n.23\n.21",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 15,
+    "title": null,
+    "content": "April  2025\nAlgorithms and DS I: Sorting\nMost time consuming is the insertion sort of the buckets linked lists.\n// insert into appropriate bucket\n// sort within bucket",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 16,
+    "title": null,
+    "content": "April  2025\nAlgorithms and DS I: Sorting",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 17,
+    "title": null,
+    "content": "April  2025\nAlgorithms and DS I: Sorting\nSupplementary",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 18,
+    "title": null,
+    "content": "Expected Run Time of Bucket Sort\nApril  2025\nAlgorithms and DS I: Sorting\nexpectation linearity",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 19,
+    "title": null,
+    "content": "April  2025\nAlgorithms and DS I: Sorting\nExpectation linearity\n(2)\nExpectation definition\n(3)\n(4)",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 20,
+    "title": null,
+    "content": "April  2025\nAlgorithms and DS I: Sorting",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 21,
+    "title": null,
+    "content": "Quicksort (C.A.R. Hoare 1962)\nApril  2025\nAlgorithms and DS I: Sorting",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 22,
+    "title": null,
+    "content": "April  2025\nAlgorithms and DS I: Sorting\n2\n8\n7\n1\n3\n5\n6\n4",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 23,
+    "title": null,
+    "content": "April  2025\nAlgorithms and DS I: Sorting\n// use last element for pivot\n// yes, move element leftward\n// reposition pivot element\n// initialize border of not larger elements\n// return pivot location\n// shift border rightward\n// not larger than pivot ?",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 24,
+    "title": null,
+    "content": "April  2025\nAlgorithms and DS I: Sorting\nnot decided",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 25,
+    "title": null,
+    "content": "April  2025\nAlgorithms and DS I: Sorting",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 26,
+    "title": null,
+    "content": "April  2025\nAlgorithms and DS I: Sorting\n// pivot drawn randomly\n// make pivot rightmost",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 27,
+    "title": null,
+    "content": "April  2025\nAlgorithms and DS I: Sorting",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 28,
+    "title": null,
+    "content": "April  2025\nAlgorithms and DS I: Sorting\nexpectation linearity",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 29,
+    "title": null,
+    "content": "April  2025\nAlgorithms and DS I: Sorting",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 30,
+    "title": null,
+    "content": "April  2025\nAlgorithms and DS I: Sorting\nharmonic sum",
+    "speaker_notes": null
+  }
 ]

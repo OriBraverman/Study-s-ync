@@ -1,114 +1,170 @@
 [
-    {
-        "page_number": 1,
-        "content": "Dynamic Programming\nApril 2025\nAlgorithms and DS I: Dynamic Programming\n1\nPrepared by Shmuel Wimer\nInstructed by Deganit Armon and Shmuel Wimer"
-    },
-    {
-        "page_number": 2,
-        "content": "Rod Cutting Optimization\nApril 2025\nAlgorithms and DS I: Dynamic Programming\n2"
-    },
-    {
-        "page_number": 3,
-        "content": "Very inefficient! CUT-ROD calls itself recursively again and again with same parameter values.\nApril 2025\nAlgorithms and DS I: Dynamic Programming\n3"
-    },
-    {
-        "page_number": 4,
-        "content": "April 2025\nAlgorithms and DS I: Dynamic Programming\n4\nSame sub-problems solved many times!"
-    },
-    {
-        "page_number": 5,
-        "content": "April 2025\nAlgorithms and DS I: Dynamic Programming\n5\nRepetitions of same sub-problems can be avoided by memoization."
-    },
-    {
-        "page_number": 6,
-        "content": "Top-down Solution by Dynamic Programming\nApril 2025\nAlgorithms and DS I: Dynamic Programming\n6"
-    },
-    {
-        "page_number": 7,
-        "content": "April 2025\nAlgorithms and DS I: Dynamic Programming\n7"
-    },
-    {
-        "page_number": 8,
-        "content": "Bottom-up Solution by Dynamic Programming\nApril 2025\nAlgorithms and DS I: Dynamic Programming\n8"
-    },
-    {
-        "page_number": 9,
-        "content": "Cut Retrieval of Optimal Solution\nApril 2025\nAlgorithms and DS I: Dynamic Programming\n9"
-    },
-    {
-        "page_number": 10,
-        "content": "Max revenue cuts is retrieved by backward traversal\nApril 2025\nAlgorithms and DS I: Dynamic Programming\n10"
-    },
-    {
-        "page_number": 11,
-        "content": "Optimal Matrix-Chain Multiplication\nApril 2025\nAlgorithms and DS I: Dynamic Programming\n11"
-    },
-    {
-        "page_number": 12,
-        "content": "April 2025\nAlgorithms and DS I: Dynamic Programming\n12"
-    },
-    {
-        "page_number": 13,
-        "content": "April 2025\nAlgorithms and DS I: Dynamic Programming\n13"
-    },
-    {
-        "page_number": 14,
-        "content": "April 2025\nAlgorithms and DS I: Dynamic Programming\n14"
-    },
-    {
-        "page_number": 15,
-        "content": "April 2025\nAlgorithms and DS I: Dynamic Programming\n15"
-    },
-    {
-        "page_number": 16,
-        "content": "April 2025\nAlgorithms and DS I: Dynamic Programming\n16"
-    },
-    {
-        "page_number": 17,
-        "content": "Retrieval of Optimal Parenthesization\nApril 2025\nAlgorithms and DS I: Dynamic Programming\n17"
-    },
-    {
-        "page_number": 18,
-        "content": "April 2025\nAlgorithms and DS I: Dynamic Programming\n18"
-    },
-    {
-        "page_number": 19,
-        "content": "April 2025\nAlgorithms and DS I: Dynamic Programming\n19\nDynamic Programming comprises: \nOptimal sub-structures\nOverlapping sub-problems\nReconstruction of optimal solution\nMemoization"
-    },
-    {
-        "page_number": 20,
-        "content": "Longest Common Subsequence (LCS)\nApril 2025\nAlgorithms and DS I: Dynamic Programming\n20"
-    },
-    {
-        "page_number": 21,
-        "content": "April 2025\nAlgorithms and DS I: Dynamic Programming\n21"
-    },
-    {
-        "page_number": 22,
-        "content": "April 2025\nAlgorithms and DS I: Dynamic Programming\n22"
-    },
-    {
-        "page_number": 23,
-        "content": "April 2025\nAlgorithms and DS I: Dynamic Programming\n23"
-    },
-    {
-        "page_number": 24,
-        "content": "April 2025\nAlgorithms and DS I: Dynamic Programming\n24"
-    },
-    {
-        "page_number": 25,
-        "content": "April 2025\nAlgorithms and DS I: Dynamic Programming\n25"
-    },
-    {
-        "page_number": 26,
-        "content": "April 2025\nAlgorithms and DS I: Dynamic Programming\n26"
-    },
-    {
-        "page_number": 27,
-        "content": "LCS Retrieval\nApril 2025\nAlgorithms and DS I: Dynamic Programming\n27"
-    },
-    {
-        "page_number": 28,
-        "content": "B\nApril 2025\nAlgorithms and DS I: Dynamic Programming\n28"
-    }
+  {
+    "page_number": 1,
+    "title": "Dynamic Programming",
+    "content": "Dynamic Programming\nApril 2025\nAlgorithms and DS I: Dynamic Programming\nPrepared by Shmuel Wimer\nInstructed by Deganit Armon and Shmuel Wimer",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 2,
+    "title": null,
+    "content": "Rod Cutting Optimization\nApril 2025\nAlgorithms and DS I: Dynamic Programming",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 3,
+    "title": null,
+    "content": "Very inefficient! CUT-ROD calls itself recursively again and again with same parameter values.\nApril 2025\nAlgorithms and DS I: Dynamic Programming",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 4,
+    "title": null,
+    "content": "left over rod size\nApril 2025\nAlgorithms and DS I: Dynamic Programming\nSame sub-problems solved many times!",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 5,
+    "title": null,
+    "content": "April 2025\nAlgorithms and DS I: Dynamic Programming\ncall at root\nRepetitions of same sub-problems can be avoided by memoization.",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 6,
+    "title": null,
+    "content": "Top-down Solution by Dynamic Programming\nApril 2025\nAlgorithms and DS I: Dynamic Programming\n// init revenues of sub-problems",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 7,
+    "title": null,
+    "content": "April 2025\nAlgorithms and DS I: Dynamic Programming\n// avoid repetition of sub-problems\n// solve all 1 to n sub-problems\n// use memoized solution\n// memoize solution\n// empty problem yields zero revenue\n// choose the best of two",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 8,
+    "title": null,
+    "content": "Bottom-up Solution by Dynamic Programming\nApril 2025\nAlgorithms and DS I: Dynamic Programming\n// memoize max revenue\n// max revenue memoization array\n// update max cost",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 9,
+    "title": null,
+    "content": "Cut Retrieval of Optimal Solution\nApril 2025\nAlgorithms and DS I: Dynamic Programming\n// record where optimal 1st cut occurs\n// is better cut found\n// update max revenue\n// memoize max revenue\n// init max revenue",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 10,
+    "title": null,
+    "content": "Max revenue cuts is retrieved by backward traversal\nApril 2025\nAlgorithms and DS I: Dynamic Programming\n// get first cut of max revenue solution\n// size of next (smaller) sub-problem",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 11,
+    "title": null,
+    "content": "Optimal Matrix-Chain Multiplication\nApril 2025\nAlgorithms and DS I: Dynamic Programming",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 12,
+    "title": null,
+    "content": "April 2025\nAlgorithms and DS I: Dynamic Programming",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 13,
+    "title": null,
+    "content": "April 2025\nAlgorithms and DS I: Dynamic Programming",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 14,
+    "title": null,
+    "content": "April 2025\nAlgorithms and DS I: Dynamic Programming",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 15,
+    "title": null,
+    "content": "April 2025\nAlgorithms and DS I: Dynamic Programming",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 16,
+    "title": null,
+    "content": "April 2025\nAlgorithms and DS I: Dynamic Programming\n// no multiplication in length 1 chain, zero cost\n// set chain split border\n//  init chain min cost\n// update chain’s min cost and split",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 17,
+    "title": null,
+    "content": "Retrieval of Optimal Parenthesization\nApril 2025\nAlgorithms and DS I: Dynamic Programming",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 18,
+    "title": null,
+    "content": "April 2025\nAlgorithms and DS I: Dynamic Programming",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 19,
+    "title": null,
+    "content": "April 2025\nAlgorithms and DS I: Dynamic Programming\nDynamic Programming comprises:\nOptimal sub-structures\nOverlapping sub-problems\nReconstruction of optimal solution\nMemoization",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 20,
+    "title": null,
+    "content": "Longest Common Subsequence (LCS)\nApril 2025\nAlgorithms and DS I: Dynamic Programming",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 21,
+    "title": null,
+    "content": "April 2025\nAlgorithms and DS I: Dynamic Programming",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 22,
+    "title": null,
+    "content": "April 2025\nAlgorithms and DS I: Dynamic Programming",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 23,
+    "title": null,
+    "content": "April 2025\nAlgorithms and DS I: Dynamic Programming",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 24,
+    "title": null,
+    "content": "April 2025\nAlgorithms and DS I: Dynamic Programming",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 25,
+    "title": null,
+    "content": "April 2025\nAlgorithms and DS I: Dynamic Programming",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 26,
+    "title": null,
+    "content": "April 2025\nAlgorithms and DS I: Dynamic Programming\n// case (1) of theorem\n// case (2)\n// case (3), LCS not growing\n// LCS not growing\n// LCS growing",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 27,
+    "title": null,
+    "content": "LCS Retrieval\nApril 2025\nAlgorithms and DS I: Dynamic Programming",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 28,
+    "title": null,
+    "content": "0\n1\n2\n3\n4\nD\nC\nA\nB\n5\n6\n7\nApril 2025\nAlgorithms and DS I: Dynamic Programming",
+    "speaker_notes": null
+  }
 ]

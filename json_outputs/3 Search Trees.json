@@ -1,170 +1,254 @@
 [
-    {
-        "page_number": 1,
-        "content": "Search Trees\nPrepared by Shmuel Wimer\nInstructed by Deganit Armon and Shmuel Wimer\nMarch 2025\nAlgorithms and DS I: Search Trees\n1"
-    },
-    {
-        "page_number": 2,
-        "content": "Binary Search Tree\nMarch 2025\nAlgorithms and DS I: Search Trees\n2"
-    },
-    {
-        "page_number": 3,
-        "content": "BST property\nMarch 2025\nAlgorithms and DS I: Search Trees\n3"
-    },
-    {
-        "page_number": 4,
-        "content": "Nodes’ keys can be efficiently reported by an inorder traversal.\nMarch 2025\nAlgorithms and DS I: Search Trees\n4\nPostorder traversal reports root’s key after left and right subtrees.\nPreorder traversal reports root’s key before left and right subtrees."
-    },
-    {
-        "page_number": 5,
-        "content": "March 2025\nAlgorithms and DS I: Search Trees\n5"
-    },
-    {
-        "page_number": 6,
-        "content": "March 2025\nAlgorithms and DS I: Search Trees\n6"
-    },
-    {
-        "page_number": 7,
-        "content": "Querying\nMarch 2025\nAlgorithms and DS I: Search Trees\n7\nsearching 13"
-    },
-    {
-        "page_number": 8,
-        "content": "March 2025\nAlgorithms and DS I: Search Trees\n8"
-    },
-    {
-        "page_number": 9,
-        "content": "March 2025\nAlgorithms and DS I: Search Trees\n9"
-    },
-    {
-        "page_number": 10,
-        "content": "March 2025\nAlgorithms and DS I: Search Trees\n10"
-    },
-    {
-        "page_number": 11,
-        "content": "March 2025\nAlgorithms and DS I: Search Trees\n11\nInsertion and Deletion"
-    },
-    {
-        "page_number": 12,
-        "content": "March 2025\nAlgorithms and DS I: Search Trees\n12"
-    },
-    {
-        "page_number": 13,
-        "content": "March 2025\nAlgorithms and DS I: Search Trees\n13"
-    },
-    {
-        "page_number": 14,
-        "content": "March 2025\nAlgorithms and DS I: Search Trees\n14"
-    },
-    {
-        "page_number": 15,
-        "content": "March 2025\nAlgorithms and DS I: Search Trees\n15"
-    },
-    {
-        "page_number": 16,
-        "content": "Sorting with BST\nMarch 2025\nAlgorithms and DS I: Search Trees\n16"
-    },
-    {
-        "page_number": 17,
-        "content": "AVL Trees\nMarch 2025\nAlgorithms and DS I: Search Trees\n17\nBalance invariance: left and right subtrees depth differ at most by 1."
-    },
-    {
-        "page_number": 18,
-        "content": "March 2025\nAlgorithms and DS I: Search Trees\n18\nWorst (imbalanced) AVL: 1 height diff occurs at all nodes. Otherwise leaves could be dropped without harming the invariance."
-    },
-    {
-        "page_number": 19,
-        "content": "March 2025\nAlgorithms and DS I: Search Trees\n19"
-    },
-    {
-        "page_number": 20,
-        "content": "March 2025\nAlgorithms and DS I: Search Trees\n20\nInsertion in AVL Tree"
-    },
-    {
-        "page_number": 21,
-        "content": "March 2025\nAlgorithms and DS I: Search Trees\n21"
-    },
-    {
-        "page_number": 22,
-        "content": "March 2025\nAlgorithms and DS I: Search Trees\n22\nRight rotation alone does not solve the imbalance.\nBalance violation"
-    },
-    {
-        "page_number": 23,
-        "content": "March 2025\nAlgorithms and DS I: Search Trees\n23\nBalance restored by two rotations: 1st left, 2nd right."
-    },
-    {
-        "page_number": 24,
-        "content": "2-3 Trees\nAugust 2024\nAlgorithms and DS II: Search Trees\n24"
-    },
-    {
-        "page_number": 25,
-        "content": "August 2024\nAlgorithms and DS II: Search Trees\n25\n2-3 Tree Operations"
-    },
-    {
-        "page_number": 26,
-        "content": "August 2024\nAlgorithms and DS II: Search Trees\n26"
-    },
-    {
-        "page_number": 27,
-        "content": "August 2024\nAlgorithms and DS II: Search Trees\n27"
-    },
-    {
-        "page_number": 28,
-        "content": "August 2024\nAlgorithms and DS II: Search Trees\n28"
-    },
-    {
-        "page_number": 29,
-        "content": "August 2024\nAlgorithms and DS II: Search Trees\n29\nnew root"
-    },
-    {
-        "page_number": 30,
-        "content": "August 2024\nAlgorithms and DS II: Search Trees\n30"
-    },
-    {
-        "page_number": 31,
-        "content": "August 2024\nAlgorithms and DS II: Search Trees\n31"
-    },
-    {
-        "page_number": 32,
-        "content": "August 2024\nAlgorithms and DS II: Search Trees\n32"
-    },
-    {
-        "page_number": 33,
-        "content": "August 2024\nAlgorithms and DS II: Search Trees\n33"
-    },
-    {
-        "page_number": 34,
-        "content": "August 2024\nAlgorithms and DS II: Search Trees\n34"
-    },
-    {
-        "page_number": 35,
-        "content": "Complexities of Operations\nAugust 2024\nAlgorithms and DS II: Search Trees\n35"
-    },
-    {
-        "page_number": 36,
-        "content": "March 2025\nAlgorithms and DS I: Search Trees\n36\nSupplementary"
-    },
-    {
-        "page_number": 37,
-        "content": "Random BSTs\nMarch 2025\nAlgorithms and DS I: Search Trees\n37"
-    },
-    {
-        "page_number": 38,
-        "content": "March 2025\nAlgorithms and DS I: Search Trees\n38"
-    },
-    {
-        "page_number": 39,
-        "content": "March 2025\nAlgorithms and DS I: Search Trees\n39"
-    },
-    {
-        "page_number": 40,
-        "content": "March 2025\nAlgorithms and DS I: Search Trees\n40"
-    },
-    {
-        "page_number": 41,
-        "content": "March 2025\nAlgorithms and DS I: Search Trees\n41"
-    },
-    {
-        "page_number": 42,
-        "content": "March 2025\nAlgorithms and DS I: Search Trees\n42"
-    }
+  {
+    "page_number": 1,
+    "title": "Search Trees",
+    "content": "Search Trees\nPrepared by Shmuel Wimer\nInstructed by Deganit Armon and Shmuel Wimer\nMarch 2025\nAlgorithms and DS I: Search Trees",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 2,
+    "title": null,
+    "content": "Binary Search Tree\nMarch 2025\nAlgorithms and DS I: Search Trees",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 3,
+    "title": null,
+    "content": "BST property\nMarch 2025\nAlgorithms and DS I: Search Trees",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 4,
+    "title": null,
+    "content": "Nodes’ keys can be efficiently reported by an inorder traversal.\nMarch 2025\nAlgorithms and DS I: Search Trees\nPostorder traversal reports root’s key after left and right subtrees.\nPreorder traversal reports root’s key before left and right subtrees.\nNode’s key (root) reported after all left subtree’s nodes and before right subtree’s nodes.",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 5,
+    "title": null,
+    "content": "March 2025\nAlgorithms and DS I: Search Trees",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 6,
+    "title": null,
+    "content": "March 2025\nAlgorithms and DS I: Search Trees\nby induction",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 7,
+    "title": null,
+    "content": "Querying\nMarch 2025\nAlgorithms and DS I: Search Trees\nsearching 13",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 8,
+    "title": null,
+    "content": "March 2025\nAlgorithms and DS I: Search Trees\n// found or not exists",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 9,
+    "title": null,
+    "content": "March 2025\nAlgorithms and DS I: Search Trees",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 10,
+    "title": null,
+    "content": "March 2025\nAlgorithms and DS I: Search Trees",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 11,
+    "title": null,
+    "content": "March 2025\nAlgorithms and DS I: Search Trees\nInsertion and Deletion",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 12,
+    "title": null,
+    "content": "March 2025\nAlgorithms and DS I: Search Trees\n// traverse to leaf\n// add new leaf",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 13,
+    "title": null,
+    "content": "March 2025\nAlgorithms and DS I: Search Trees",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 14,
+    "title": null,
+    "content": "March 2025\nAlgorithms and DS I: Search Trees",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 15,
+    "title": null,
+    "content": "March 2025\nAlgorithms and DS I: Search Trees",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 16,
+    "title": null,
+    "content": "Sorting with BST\nMarch 2025\nAlgorithms and DS I: Search Trees",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 17,
+    "title": null,
+    "content": "AVL Trees\nMarch 2025\nAlgorithms and DS I: Search Trees\nBalance invariance: left and right subtrees depth differ at most by 1.",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 18,
+    "title": null,
+    "content": "March 2025\nAlgorithms and DS I: Search Trees\nWorst (imbalanced) AVL: 1 height diff occurs at all nodes. Otherwise leaves could be dropped without harming the invariance.",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 19,
+    "title": null,
+    "content": "March 2025\nAlgorithms and DS I: Search Trees",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 20,
+    "title": null,
+    "content": "March 2025\nAlgorithms and DS I: Search Trees\nInsertion in AVL Tree",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 21,
+    "title": null,
+    "content": "March 2025\nAlgorithms and DS I: Search Trees\nright rotation\nBalance violation",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 22,
+    "title": null,
+    "content": "March 2025\nAlgorithms and DS I: Search Trees\nRight rotation alone does not solve the imbalance.\n2nd\n1st\nBalance violation",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 23,
+    "title": null,
+    "content": "March 2025\nAlgorithms and DS I: Search Trees\nBalance restored by two rotations: 1st left, 2nd right.\nafter left rotation\nafter right rotation",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 24,
+    "title": null,
+    "content": "2-3 Trees\nAugust 2024\nAlgorithms and DS II: Search Trees",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 25,
+    "title": null,
+    "content": "August 2024\nAlgorithms and DS II: Search Trees\n2-3 Tree Operations",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 26,
+    "title": null,
+    "content": "August 2024\nAlgorithms and DS II: Search Trees",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 27,
+    "title": null,
+    "content": "August 2024\nAlgorithms and DS II: Search Trees",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 28,
+    "title": null,
+    "content": "August 2024\nAlgorithms and DS II: Search Trees",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 29,
+    "title": null,
+    "content": "August 2024\nAlgorithms and DS II: Search Trees\nnew root\nsplit old root",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 30,
+    "title": null,
+    "content": "August 2024\nAlgorithms and DS II: Search Trees",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 31,
+    "title": null,
+    "content": "August 2024\nAlgorithms and DS II: Search Trees",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 32,
+    "title": null,
+    "content": "August 2024\nAlgorithms and DS II: Search Trees",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 33,
+    "title": null,
+    "content": "August 2024\nAlgorithms and DS II: Search Trees",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 34,
+    "title": null,
+    "content": "imbalanced\n2 children yielding 3 subtrees merged in parent\nAugust 2024\nAlgorithms and DS II: Search Trees",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 35,
+    "title": null,
+    "content": "Complexities of Operations\nAugust 2024\nAlgorithms and DS II: Search Trees",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 36,
+    "title": null,
+    "content": "March 2025\nAlgorithms and DS I: Search Trees\nSupplementary",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 37,
+    "title": null,
+    "content": "Random BSTs\nMarch 2025\nAlgorithms and DS I: Search Trees",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 38,
+    "title": null,
+    "content": "March 2025\nAlgorithms and DS I: Search Trees",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 39,
+    "title": null,
+    "content": "March 2025\nAlgorithms and DS I: Search Trees\nmean, average",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 40,
+    "title": null,
+    "content": "March 2025\nAlgorithms and DS I: Search Trees\nsummands appear twice",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 41,
+    "title": null,
+    "content": "March 2025\nAlgorithms and DS I: Search Trees",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 42,
+    "title": null,
+    "content": "March 2025\nAlgorithms and DS I: Search Trees",
+    "speaker_notes": null
+  }
 ]
