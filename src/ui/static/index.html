@@ -516,7 +516,7 @@
         <div id="dashboardGrid" class="grid grid-cols-1 lg:grid-cols-4 gap-6 items-start">
             
             <!-- Column 1: Sidebar Control (lg:col-span-1) -->
-            <div class="lg:col-span-1 space-y-6 flex flex-col">
+            <div class="lg:col-span-1 lg:sticky lg:top-6 space-y-6 flex flex-col">
                 
                 <!-- User Panel -->
                 <div id="userPanel" class="hidden glass rounded-2xl p-5 shadow-lg animate-slide-up">
@@ -588,7 +588,7 @@
             </div>
 
             <!-- Column 2: Missed Lectures (lg:col-span-1) -->
-            <div id="lectureList" class="hidden lg:col-span-1 p-5 glass rounded-2xl shadow-md animate-fade-in flex flex-col h-[720px]">
+            <div id="lectureList" class="hidden lg:col-span-1 p-5 glass rounded-2xl shadow-md animate-fade-in flex flex-col h-[720px] lg:sticky lg:top-6">
                 <div class="flex items-center gap-2 mb-3 border-b border-white/5 pb-2">
                     <span class="text-base">📚</span>
                     <h3 class="font-bold text-gray-100 text-base">ציר זמן הרצאות</h3>
@@ -768,6 +768,8 @@
         }
 
         let chatHistory = [];
+        let currentPlanTasks = [];
+        let currentActivePlan = null;
         let testerHistory = [];
         let currentCourse = "";
         let currentTopic = "";
@@ -1308,10 +1310,12 @@
 
         function renderBootcampPlan(plan) {
             lastGeneratedPlanCourse = plan.course_name;
+            currentActivePlan = plan;
             const tasksDiv = document.getElementById('planTasks');
             
             if (!plan.study_tasks || plan.study_tasks.length === 0) {
                 document.getElementById('planSummary').innerHTML = '';
+                currentPlanTasks = [];
                 tasksDiv.innerHTML = `
                     <div class="bg-gradient-to-br from-emerald-50/80 to-white/95 p-8 rounded-2xl border border-emerald-100 shadow-md text-center max-w-xl mx-auto my-6 backdrop-blur-md animate-fade-in">
                         <div class="w-16 h-16 bg-emerald-100/80 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-4 shadow-inner">🎉</div>
@@ -1339,40 +1343,83 @@
                 </div>
                 <p class="mt-3 text-gray-600 leading-relaxed bg-white p-4 rounded-xl border border-gray-100 shadow-sm">${renderFormattedContent(plan.executive_summary)}</p>
             `;
+            
+            // Map or sync tasks list, keeping existing completion states if the course has not changed
+            currentPlanTasks = plan.study_tasks.map(task => {
+                const existing = currentPlanTasks.find(t => t.topic === task.topic);
+                return {
+                    ...task,
+                    completed: existing ? existing.completed : false
+                };
+            });
+            
+            renderPlanTasksList();
+        }
+
+        function renderPlanTasksList() {
+            const tasksDiv = document.getElementById('planTasks');
+            if (!currentPlanTasks || currentPlanTasks.length === 0) return;
+            
+            // Sort tasks: uncompleted first, completed last
+            const sortedTasks = [...currentPlanTasks].sort((a, b) => (a.completed === b.completed) ? 0 : a.completed ? 1 : -1);
+            
             tasksDiv.innerHTML = '';
-            plan.study_tasks.forEach(task => {
+            sortedTasks.forEach(task => {
                 const div = document.createElement('div');
-                div.className = "border-r-4 border-emerald-500 bg-white p-5 rounded-xl shadow-sm hover:shadow-md transition";
+                if (task.completed) {
+                    div.className = "border-r-4 border-emerald-300/40 bg-emerald-50/50 p-5 rounded-xl shadow-inner transition opacity-65";
+                } else {
+                    div.className = "border-r-4 border-emerald-500 bg-white p-5 rounded-xl shadow-sm hover:shadow-md transition";
+                }
                 const pColor = task.priority === 'high' ? 'text-red-500' : task.priority === 'medium' ? 'text-amber-500' : 'text-emerald-500';
                 const pEmoji = task.priority === 'high' ? '🔴' : task.priority === 'medium' ? '🟡' : '🟢';
+                
                 div.innerHTML = `
                     <div class="flex justify-between items-start mb-2">
-                        <h4 class="font-bold text-lg text-gray-800">${task.topic}</h4>
-                        <span class="text-sm ${pColor} font-semibold bg-gray-50 px-2 py-1 rounded-lg">${pEmoji} ${task.priority}</span>
+                        <h4 class="font-bold text-lg text-gray-800 ${task.completed ? 'line-through text-gray-400' : ''}">${task.topic}</h4>
+                        <span class="text-sm ${task.completed ? 'text-gray-400' : pColor} font-semibold bg-gray-50 px-2 py-1 rounded-lg">${task.completed ? '✔️' : pEmoji} ${task.priority}</span>
                     </div>
-                    <p class="text-gray-600 text-sm mb-3 leading-relaxed">${renderFormattedContent(task.description)}</p>
+                    <p class="text-gray-600 text-sm mb-3 leading-relaxed ${task.completed ? 'line-through opacity-70' : ''}">${renderFormattedContent(task.description)}</p>
                     <div class="flex gap-3 text-xs text-gray-500 mb-3">
                         <span class="bg-gray-50 px-2 py-1 rounded-md">⏱️ ${task.estimated_hours} שעות</span>
                         <span class="bg-gray-50 px-2 py-1 rounded-md">📅 יום ${task.day}</span>
                     </div>
-                    <div class="mt-2 bg-emerald-50/50 p-3 rounded-lg">
+                    <div class="mt-2 bg-emerald-50/50 p-3 rounded-lg ${task.completed ? 'opacity-50' : ''}">
                         <p class="text-xs font-bold text-gray-700 mb-1.5">💡 טיפים:</p>
                         <ul class="text-xs text-gray-600 list-disc mr-5 space-y-1">
                             ${task.study_tips.map(t => `<li>${renderFormattedContent(t)}</li>`).join('')}
                         </ul>
                     </div>
-                    <div class="mt-4">
-                        <button onclick="startLearningTask('${escapeHtml(task.topic)}')" class="w-full bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-700 hover:to-emerald-600 text-white py-2 rounded-xl text-sm font-bold shadow-md hover:shadow-emerald-500/10 hover:scale-[1.02] active:scale-95 transition-all duration-200 flex items-center justify-center gap-2">
-                            <span>📖 התחל ללמוד ותרגל</span>
-                        </button>
+                    <div class="mt-4 pt-3 border-t border-gray-100 flex items-center justify-between">
+                        <label class="flex items-center gap-2 cursor-pointer select-none">
+                            <input type="checkbox" ${task.completed ? 'checked' : ''} onchange="toggleTaskCompletion('${escapeHtml(task.topic)}')" class="w-4.5 h-4.5 rounded-lg border-emerald-300 text-emerald-600 focus:ring-emerald-500 accent-emerald-500 cursor-pointer transition">
+                            <span class="text-xs font-bold ${task.completed ? 'text-emerald-700' : 'text-gray-500'}">${task.completed ? 'בוצע 🎉' : 'סמן כבוצע'}</span>
+                        </label>
+                        ${task.completed ? `
+                            <span class="text-xs text-emerald-600 font-bold bg-emerald-50/80 px-3 py-1.5 rounded-xl border border-emerald-100/60 shadow-sm">משימה הושלמה! ✨</span>
+                        ` : `
+                            <button onclick="startLearningTask('${escapeHtml(task.topic)}')" class="bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-700 hover:to-emerald-600 text-white px-5 py-2.5 rounded-xl text-xs font-bold shadow-md hover:scale-[1.02] active:scale-95 transition-all duration-200 flex items-center justify-center gap-1.5">
+                                <span>📖 התחל ללמוד</span>
+                            </button>
+                        `}
                     </div>
                 `;
                 tasksDiv.appendChild(div);
             });
         }
 
+        function toggleTaskCompletion(topic) {
+            const task = currentPlanTasks.find(t => t.topic === topic);
+            if (task) {
+                task.completed = !task.completed;
+                renderPlanTasksList();
+            }
+        }
+
         function clearActivePlan() {
             lastGeneratedPlanCourse = "";
+            currentPlanTasks = [];
+            currentActivePlan = null;
             document.getElementById('planSummary').innerHTML = "";
             const tasksDiv = document.getElementById('planTasks');
             tasksDiv.innerHTML = `
