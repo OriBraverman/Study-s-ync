@@ -178,10 +178,16 @@
         }
 
         /* Markdown / Formatted content styling */
+        #textContent {
+            font-size: 15px !important;
+            line-height: 1.8 !important;
+            letter-spacing: 0.01em;
+        }
         #textContent p,
         .chat-assistant p,
         .chat-user p {
-            margin-bottom: 0.75rem;
+            margin-bottom: 1.15rem;
+            line-height: 1.8 !important;
         }
         #textContent p:last-child,
         .chat-assistant p:last-child,
@@ -192,21 +198,28 @@
         .chat-assistant ul,
         .chat-user ul {
             list-style-type: disc !important;
-            margin-right: 1.5rem;
-            margin-bottom: 0.75rem;
+            margin-right: 1.75rem;
+            margin-bottom: 1.15rem;
         }
         #textContent ol,
         .chat-assistant ol,
         .chat-user ol {
             list-style-type: decimal !important;
-            margin-right: 1.5rem;
-            margin-bottom: 0.75rem;
+            margin-right: 1.75rem;
+            margin-bottom: 1.15rem;
         }
         #textContent li,
         .chat-assistant li,
         .chat-user li {
-            margin-bottom: 0.25rem;
+            margin-bottom: 0.55rem;
             list-style-position: outside;
+            line-height: 1.8 !important;
+        }
+        #textContent li p,
+        .chat-assistant li p,
+        .chat-user li p {
+            margin-bottom: 0 !important;
+            display: inline;
         }
         #textContent strong,
         .chat-assistant strong,
@@ -222,23 +235,33 @@
         #textContent h1, #textContent h2, #textContent h3, #textContent h4,
         .chat-assistant h1, .chat-assistant h2, .chat-assistant h3, .chat-assistant h4 {
             font-weight: 700;
-            margin-top: 1rem;
-            margin-bottom: 0.5rem;
+            margin-top: 1.75rem;
+            margin-bottom: 0.75rem;
             color: inherit;
+            line-height: 1.4 !important;
         }
-        #textContent h1, .chat-assistant h1 { font-size: 1.25rem; }
-        #textContent h2, .chat-assistant h2 { font-size: 1.15rem; }
-        #textContent h3, .chat-assistant h3 { font-size: 1.05rem; }
-        #textContent h4, .chat-assistant h4 { font-size: 1rem; }
+        #textContent h1, .chat-assistant h1 { font-size: 1.35rem; }
+        #textContent h2, .chat-assistant h2 { 
+            font-size: 1.25rem; 
+            border-right: 4px solid var(--primary);
+            padding-right: 0.5rem;
+        }
+        #textContent h3, .chat-assistant h3 { 
+            font-size: 1.15rem; 
+            border-right: 3px solid rgba(16, 185, 129, 0.5);
+            padding-right: 0.5rem;
+        }
+        #textContent h4, .chat-assistant h4 { font-size: 1.05rem; }
         
         #textContent code,
         .chat-assistant code,
         .chat-user code {
             font-family: monospace;
             background-color: rgba(255, 255, 255, 0.15);
-            padding: 0.125rem 0.25rem;
+            padding: 0.15rem 0.35rem;
             border-radius: 0.25rem;
-            font-size: 0.875rem;
+            font-size: 0.85rem;
+            word-break: break-word;
         }
         
         body.light-theme #textContent code,
@@ -600,7 +623,7 @@
                             <div class="w-1.5 h-6 bg-emerald-500 rounded-full"></div>
                             <h2 id="lessonTopic" class="text-xl font-bold text-emerald-400"></h2>
                         </div>
-                        <div id="textContent" class="leading-relaxed text-sm whitespace-pre-line text-gray-200 bg-white/5 p-5 rounded-xl border border-white/5"></div>
+                        <div id="textContent" class="text-gray-200 bg-white/5 p-6 rounded-2xl border border-white/5 shadow-inner"></div>
                     </div>
 
                     <!-- Plan Content -->
@@ -1537,8 +1560,8 @@
             const div = document.createElement('div');
             div.id = id;
             div.className = role === 'user'
-                ? 'chat-user p-3 max-w-[85%] text-sm leading-relaxed'
-                : 'chat-assistant p-3 max-w-[85%] text-sm leading-relaxed';
+                ? 'chat-user p-4 max-w-[85%] text-[14px] leading-relaxed shadow-sm'
+                : 'chat-assistant p-4 max-w-[85%] text-[14px] leading-relaxed shadow-sm';
             div.innerHTML = renderFormattedContent(text);
             chatBox.appendChild(div);
             chatBox.scrollTop = chatBox.scrollHeight;
@@ -1574,9 +1597,9 @@
             div.id = id;
             // RTL fix: user = right side (self-start in RTL), assistant = left side (self-end in RTL)
             if (role === 'user') {
-                div.className = "chat-user p-3.5 max-w-[85%] text-sm leading-relaxed";
+                div.className = "chat-user p-4 max-w-[85%] text-[14px] leading-relaxed shadow-sm";
             } else {
-                div.className = "chat-assistant p-3.5 max-w-[85%] text-sm leading-relaxed";
+                div.className = "chat-assistant p-4 max-w-[85%] text-[14px] leading-relaxed shadow-sm";
             }
             div.innerHTML = renderFormattedContent(text);
             chatBox.appendChild(div);
