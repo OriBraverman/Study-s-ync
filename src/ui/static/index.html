@@ -454,11 +454,13 @@
         /* Iframe for visualizer */
         .viz-iframe {
             width: 100%;
-            height: 680px; /* Generous large height */
+            min-height: 500px;
+            height: 500px; /* default starting height */
             border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 16px;
             background: #ffffff; /* Opaque white background is extremely clear for dynamic charts and shapes */
             overflow: hidden;
+            transition: height 0.3s ease;
         }
         body.light-theme .viz-iframe {
             border-color: rgba(16, 185, 129, 0.15);
@@ -1510,6 +1512,30 @@
                 );
 
                 const iframe = document.getElementById(iframeId);
+                
+                // Dynamic auto-resizing to perfectly match simulation content scrollHeight and prevent clipping
+                iframe.onload = () => {
+                    let resizeCount = 0;
+                    const resizeInterval = setInterval(() => {
+                        try {
+                            const innerDoc = iframe.contentDocument || iframe.contentWindow.document;
+                            if (innerDoc) {
+                                const height = Math.max(
+                                    innerDoc.body ? innerDoc.body.scrollHeight : 0,
+                                    innerDoc.documentElement ? innerDoc.documentElement.scrollHeight : 0
+                                );
+                                if (height > 50) {
+                                    iframe.style.height = (height + 30) + 'px';
+                                }
+                            }
+                        } catch (err) {
+                            clearInterval(resizeInterval);
+                        }
+                        resizeCount++;
+                        if (resizeCount > 20) clearInterval(resizeInterval); // Poll for 10 seconds to cover Babel compilation and rendering
+                    }, 500);
+                };
+
                 // srcdoc is the reliable modern approach: the browser creates
                 // a proper document loading cycle so CDN scripts are fetched
                 // and Babel transpiles all <script type="text/babel"> tags.
