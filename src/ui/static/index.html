@@ -454,10 +454,14 @@
         /* Iframe for visualizer */
         .viz-iframe {
             width: 100%;
-            min-height: 340px;
+            height: 680px; /* Generous large height */
             border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 12px;
-            background: #0b0e14;
+            border-radius: 16px;
+            background: #ffffff; /* Opaque white background is extremely clear for dynamic charts and shapes */
+            overflow: hidden;
+        }
+        body.light-theme .viz-iframe {
+            border-color: rgba(16, 185, 129, 0.15);
         }
     </style>
 </head>
@@ -1470,23 +1474,15 @@
                 const v = data.visualizer;
                 const iframeId = 'vizFrame_' + Date.now();
                 resultDiv.innerHTML = `
-                    <div class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm">
-                        <h3 class="font-bold text-xl mb-3 text-emerald-900">${v.topic}</h3>
-                        <p class="text-gray-600 mb-5 leading-relaxed">${v.explanation}</p>
-                        <div class="mb-5">
+                    <div class="glass p-6 rounded-2xl shadow-lg border border-white/5 animate-slide-up">
+                        <h3 class="font-bold text-xl mb-3 text-emerald-400">${v.topic}</h3>
+                        <p class="text-gray-300 mb-5 leading-relaxed text-sm">${renderFormattedContent(v.explanation)}</p>
+                        <div class="mb-2">
                             <div class="flex items-center gap-2 mb-2">
                                 <span class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
-                                <p class="text-sm font-bold text-gray-700">תצוגה חיה</p>
+                                <p class="text-sm font-bold text-gray-300">תצוגה חיה</p>
                             </div>
-                            <iframe id="${iframeId}" class="viz-iframe" sandbox="allow-scripts allow-same-origin"></iframe>
-                        </div>
-                        <div class="border border-gray-200 rounded-xl overflow-hidden">
-                            <div class="flex bg-gray-50 border-b border-gray-200">
-                                <button onclick="toggleCodeTab(this,'reactCode')" class="px-4 py-2 text-sm font-bold text-emerald-700 bg-white border-l border-gray-200">React Code</button>
-                                <button onclick="toggleCodeTab(this,'htmlCode')" class="px-4 py-2 text-sm font-bold text-gray-500 hover:text-gray-700">HTML Wrapper</button>
-                            </div>
-                            <div id="reactCode" class="p-0"><pre class="code-block m-0 rounded-none">${escapeHtmlEntity(v.react_code || '// No React code generated')}</pre></div>
-                            <div id="htmlCode" class="hidden p-0"><pre class="code-block m-0 rounded-none">${escapeHtmlEntity(v.html_wrapper || '<!-- No HTML wrapper -->')}</pre></div>
+                            <iframe id="${iframeId}" class="viz-iframe" sandbox="allow-scripts allow-same-origin" scrolling="no"></iframe>
                         </div>
                     </div>
                 `;
