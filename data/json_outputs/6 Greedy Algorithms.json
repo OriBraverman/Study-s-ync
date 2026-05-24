@@ -1,0 +1,152 @@
+[
+  {
+    "page_number": 1,
+    "title": "Greedy Algorithms",
+    "content": "March 2022\nGreedy Algorithms\nPrepared by Shmuel Wimer\nInstructed by Deganit Armon and Shmuel Wimer\nAlgorithms and DS |: Greedy Algorithms",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 2,
+    "title": null,
+    "content": "Overview\nDynamic programming (DP) finds optimal solution with memoization\nand back traversal.\nOnly at termination the entire solution is disclosed.\nGreedy algorithms take at each step the best decision with no later\nregrets, simpler DP.\nGreedy paradigm may result in non-optimal solution.\nFor some problems greedy algorithm yields optimal solution though.\nMarch 2022 Algorithms and DS |: Greedy Algorithms 2",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 3,
+    "title": null,
+    "content": "Activity Selection Problem\nS = {aj, dp, ..., Ay} activities executed on single machine.\nScheduled for [s;, f; ), sorted s.t. f, < fo S++ S fy.\na; and aj, i < j, are compatible (both executed) only if f; < sj.\nGoal: Maximize the number of completed (compatible) activities.\nMarch 2022 Algorithms and DS |: Greedy Algorithms 3",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 4,
+    "title": null,
+    "content": "March 2022\nAlgorithms and DS |: Greedy Algorithms",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 5,
+    "title": null,
+    "content": "It has optimal sub-structure property, suggesting DP.\nLet Sjj = {anlfi< Sto fe < s;} i.e. [si fi) < safe) < [s;, fj ).\nLet Aj; S S;; be maximum compatible, |Ai;| = ci, j].\nay © Ajj > optimal sub-structure property\nCod = Imaxayes, (Clik) + clk, f] +1} ifSy #9.\nMarch 2022 Algorithms and DS |: Greedy Algorithms 5",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 6,
+    "title": null,
+    "content": "Free machine => best next is earliest finishing, greedy decision.\nfi < fo S + < fh > a can be chosen safely for optimal solution\n(may be few). (HW)\nRECURSIVE-ACTIVITY-SELECTOR (Ss, f, k,1)\nm =k+1// a, already in optimal solution\nwhile m <n and s{m] < fk] // skip overlapping activities\nm=m+1\nifm <n // a, the earliest to finish\nreturn {d,,} U RECURSIVE-ACTIVITY-SELECTOR(s, f,m,1)\nelse return @\nMarch 2022 Algorithms and DS |: Greedy Algorithms 6",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 7,
+    "title": null,
+    "content": "Ny\nf includes artificial element f[0] = 0 to initiate the recursive call\nRECURSIVE—ACTIVITY—SELECTOR(s, f, 0,7).\nRuntime is O(n) because recursive call increases m.\nGREEDY-ACTIVITY-SELECTOR(s, f )\nn = S.length\nA= {a}; k=1\nform = 2 ton\nif s[m] > f[k]\nA = AU {dn} ik =m\nreturn A\nO(n) runtime but runs more efficiently on hardware.\nMarch 2022 Algorithms and DS |: Greedy Algorithms 7",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 8,
+    "title": null,
+    "content": "Elements of Greedy Strategy\nGreedy-choice property makes currently best choice without\nconsidering sub-problems results, leaving only one sub-problem.\nMust prove that greedy choice yields a globally optimal solution.\n(Unlike DP where choice at each step depends on sub-problems\nsolutions.)\nLike DP, problem exhibits optimal sub-structure if its optimal solution\ncontains optimal solutions to sub-problems.\nMarch 2022 Algorithms and DS |: Greedy Algorithms 8",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 9,
+    "title": null,
+    "content": "The Knapsack Problem\nn objects each has weight w; € Z, and value v; €E Ry, 1<i<n,\nand a knapsack of weight capacity W,\nMaximize )i_1 ViXi,\nx; € {0,1} 0-1 problem\nn X <\nS.t. Min Wixi SW, ; <x; <1 fractional problem °\nBoth versions exhibit optimal sub problems.\nMarch 2022 Algorithms and DS |: Greedy Algorithms 9",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 10,
+    "title": null,
+    "content": "Ny\n0—1: Optimal solution includes object j > n — 1 sub-problem must\nbe solved optimally for capacity W — w;.\nFractional: Optimal solution includes 0 <w <w, of object j > n\n— 1 sub-problem + object j with weight w; —w must be solved\noptimally for capacity W — w.\nFraction problem solved greedily, 0Q—1 not!\nGreedy solution: sort objects descending in v;/w,, fill knapsack in\norder, consuming w,, stop at W. (HW: prove correctness).\nMarch 2022 Algorithms and DS |: Greedy Algorithms 10",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 11,
+    "title": null,
+    "content": "Greedy solution does not work for 0O—1.\nExample:\n(w, = 10, vy = 60,14 /W, = 6), (wz = 20, V2 = 100, v2/w2 = 5),\n(wz = 30, v3 = 120, v3/w3 = 4), and W = 50.\nOptimal 0—1 solution yields 220, using objects 2 and 3, excluding 1.\nConsider DP solution.\nLet c[i,w] be maximum value achievable by using objects from\n1,2, ..., i with total weight not exceeding w.\nMarch 2022 Algorithms and DS |: Greedy Algorithms 11",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 12,
+    "title": null,
+    "content": "c[i, w] defined recursively by\n0 do not use object i use object i ifi=0\ncli, w] = { max{c[i — 1,w],cli-1,w-—w,]+v;} ifw,<w\nc{i—1,w] ifw; >w\nInput: wt[1..n], val[1..n], W.\nMaximum costs of sub-problems are memoized in c[0..n, 0..W].\nInitialization: c[0,j] =0,0 <j <W,andc[i,0] =0,0<i<n.\nMarch 2022 Algorithms and DS |: Greedy Algorithms 12",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 13,
+    "title": null,
+    "content": "IERATIVE—KNAPSACK (wt, val, W, c)\nfori =1ton\nforj =1toW\nif wt[i] <j\nc[i, j]=max(cli —1,j], cli —1,j- wt[i]| + val[i])\nelse\ncli j]=cli- Lj]\nT(n,W) = O(nW). Looks polynomial, but W needs only log W bits.\n>T(n,W) = O(n2!°8 wv), exponential in input size!\nMarch 2022 Algorithms and DS |: Greedy Algorithms 13",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 14,
+    "title": null,
+    "content": "Nd\nHuffman Codes\n(David A. Huffman 1952). Compress the representation of data given\nby sequence of characters, e.g. text file.\nFile includes only {a, b,c, d, e, f} with relative frequencies.\nTwo binary codes that can be unambiguously decoded. minimize\na b Cc d e f Average\nFrequency [%]/ 45 | 13 | 12 | 16 | 9 | 5 | bits/char\nFixed-length| 000 | 001 | 010 | 011 | 100 | 101 3.0\nVariable-length} O | 101 / 100 | 111 |1101|1100 2.24\nMarch 2022 Algorithms and DS |: Greedy Algorithms 14",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 15,
+    "title": null,
+    "content": "Fixed-length\nVariable-length\na:45|} |b:13) |c:12| |d:16) | e:9 £:5\n000 001 010 011 100 101\nMarch 2022\n£:5 e:9\n1100 1101\nAlgorithms and DS |: Greedy Algorithms",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 16,
+    "title": null,
+    "content": "Ny\nConsider only prefix codes, where no code is a prefix of another code,\nanyway yield optimal compression (not proven here).\nEncoding by concatenation: abc = 0- 101-100 = 0101100.\nDecoding uses the prefix property to strip the first code, translate it\ninto char and repeat for the reminder of the 0/1 file.\nPrefix code can be represented by full binary tree (shown soon) chars\nstored at leaves. Root-to-leaf path corresponds to char code.\nMarch 2022 Algorithms and DS |: Greedy Algorithms 16",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 17,
+    "title": null,
+    "content": "£:5 e:9\n1100 1101\n01011100 =? =abf\nMarch 2022 Algorithms and DS |: Greedy Algorithms",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 18,
+    "title": null,
+    "content": "Ny\nAn optimal tree T (minimizing average bits/char) must be full binary,\nfor which every node has both left (0) and right (1) children (HW).\nFor alphabet C, T has |C| leaves and |C| — 1 internal nodes (HW).\nLetc € C,c. freq its relative frequency and d7(c) its leaf depth.\nThe average bits/char B(T) is\nB(T) = Yeec ce. freq X dr(c).\nIntuitively optimal coding uses single bit for highest frequency char.\nMarch 2022 Algorithms and DS |: Greedy Algorithms 18",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 19,
+    "title": null,
+    "content": "EXTRACT—MIN\nINSERT\nEXTRACT—MIN\nEXTRACT—MIN\nINSERT\nEXTRACT—MIN\nMarch 2022\n£:5 | | 2:9} |c:12| |b:13] |d:16} |a:45\naa es)\nAlgorithms and DS |: Greedy Algorithms",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 20,
+    "title": null,
+    "content": "Algorithm stores C in min-queue (heap) Q keyed on frequencies.\nHUFFMAN(C )\nn= |C|\nQO = C // initialize Q\nfor i = 1 ton —1 // Q reduced by 1 at every iteration\nallocate a new node z\nz.left = x = EXTRACT-MIN(Q) // get min frequency\nz.right = y = EXTRACT-MIN(Q) // get min frequency\nz.freq = x.freq + y.freq\nINSERT(Q, z) //insert node and maintain min-priority\nreturn EXTRACT-MIN(Q) // return root (Q is only 1 item)\nMarch 2022 Algorithms and DS |: Greedy Algorithms 20",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 21,
+    "title": null,
+    "content": "Correctness proof of HUFFMAN algorithm.\nLemma 1: Let {x,y} € C have lowest frequencies. 4 optimal prefix\ncode s.t. x and y codes have same length and differ only in last bit.\nProof : w.l.o.g x. freq < y. freq.\nLet T correspond to optimal prefix code and {a, b} € C be two sibling\nleaves, dr(a) = dr(b) is maximum, and w.l.o.g a. freq < b. freq.\nConsequently x. freq < a. freq and y. freq < b. freq.\nFrom depth assumptions: dr(a) => d(x) and dr(b) = dr(y)\nMarch 2022 Algorithms and DS |: Greedy Algorithms 21",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 22,
+    "title": null,
+    "content": "Transform T into T’ by exchanging positions x @ a andy © b.\nT and T’ codes are identical except x ~ a and y © b exchanges.\nB(T) — B(T\") = Yeec ¢. freq X dp(c) — Yeec ¢. freq X dyi(c) =\n(a. freq — x. freq)(dr(a) = dr(x)) +\n(b. freq — y. freq)(dr(b) — dr(y)) = 0.\nMarch 2022 Algorithms and DS |: Greedy Algorithms 22",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 23,
+    "title": null,
+    "content": "T optimal > B(T) — B(T’) < 0= BCT’) = B(T) = T’ optimal. =\nLemma 1 justifies the merge of lowest frequency keys.\nStill need to show optimal sub-structure property.\nLemma 2: Let C'’=C — {x,y}U{z}, z.freq=x.freq+y.freq,\nwhere {x,y} are lowest frequency in C . Let T’ be an optimal prefix\ncode representation for C’.\nThen T obtained from T’ by replacing leaf z by x and y yields optimal\nprefix code for C.\nMarch 2022 Algorithms and DS |: Greedy Algorithms 23",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 24,
+    "title": null,
+    "content": "Proof: C’ and C are identical except z replaced {x, y} >\ndr(x) = dr(y) = d;(z) + 1. Hence\nB(T’) = Deecr ¢. freq X dp(c) = B(T) — (x. freq + y. freq).\nT not optimal > 3 optimal T” s.t. B(T’’) < B(T), and by Lemma 1\n{x, y} are w.l.o.g sibling in T”’.\nReplace T”’ by T’”” by merging, replacing {x, y} with z, thus creating\nalphabet C’. Then\nMarch 2022 Algorithms and DS |: Greedy Algorithms 24",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 25,
+    "title": null,
+    "content": "B(T'\") = BCT\") —- («. freq + y. freq) < B(T) — (x. freq\n+ y. freq) = B(T’),\ndpn(x) =dpnr(y) = dpm(z) +1\nimpossible since T’ is optimal for C’ > T optimal for C. m\nTheorem: HUFFMAN produces an optimal prefix code.\nProof: Follows immediately from Lemma 1 and 2.\nLemma 2 establishes induction on the optimality of a prefix code for a\ntree of given depth to show the optimality at a deeper tree. m\nMarch 2022 Algorithms and DS |: Greedy Algorithms 25",
+    "speaker_notes": null
+  }
+]

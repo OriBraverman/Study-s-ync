@@ -1,0 +1,128 @@
+[
+  {
+    "page_number": 1,
+    "title": "Elementary Data Structures",
+    "content": "Elementary Data Structures\nPrepared by Shmuel Wimer\nInstructed by Deganit Armon and Shmuel Wimer\nMarch 2022 Algorithms and DS |: Elementary DS",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 2,
+    "title": null,
+    "content": "Arrays\nAn n-element array, or n-array A[1..n] is a 1D data structure (DS)\nwhose elements (keys) are referenced by their index A[i],1 <i<n.\nAn array is usually stored in the computer’s DRAM contiguously.\nIts usage is shown for a sorting problem where a number sequence\naj, 1<i<n, needs to be permuted to a;’, 1 <i<n,s+t.a;’ <a,’,\ni<j.\nAn algorithm called insertion sort permutes A[1..n] s.t. upon\ntermination A[i] < A[j], 1<i<j<n.\nMarch 2022 Algorithms and DS |: Elementary DS",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 3,
+    "title": null,
+    "content": "March 2022\n5 6 1 2\nAlgorithms and DS |: Elementary DS",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 4,
+    "title": null,
+    "content": "INSERTION-SORT(A)\nfor j = 2 to A.length\nkey = A[j] // compare A[j]\ni= j—1  //with already sorted A[1..j — 1]\nwhile i > 0 and A[i] > key // proceed while A[j] < A[i]\nAfi + 1] = Ali] // swap keys\ni=i-|l\nAfi + 1] = key\nThe loop invariant is the sorted A[1..j — 1], starting with is A[1..1].\nUpon termination j = n + 1 hence A[1..n] is sorted.\nMarch 2022 Algorithms and DS |: Elementary DS 4",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 5,
+    "title": null,
+    "content": "Runtime Analysis\nThe runtime T(n) relates to the input size which for A[1..n] is n.\nReference A[i] to RAM takes constant time, independently of n.\nConstant time is charged to code line unless it calls function.\nCounting number of times each line is executed yields runtime\ndependence on n.\nOf interests are worst-case and average-case runtime, where average\nis usually more difficult to derive than worst.\nMarch 2022 Algorithms and DS |: Elementary DS 5",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 6,
+    "title": null,
+    "content": "Worst-case input analysis result bounds the runtime of any input.\nAverage-case is more difficult. Requires knowledge of the input\nprobabilistic nature, and applying probabilistic analysis.\nWhat is the worst-case input instance of INSERTION—SORT ? (HW)\nWorst-case INSERTION—SORT runtimw is quadratic in n. (HW)\nThe algorithms in this course are deterministic, where different runs\nfor same input yield same runtime.\nRandomized algorithms are left for advanced courses.\nMarch 2022 Algorithms and DS |: Elementary DS 6",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 7,
+    "title": null,
+    "content": "Stacks\nDynamic set where elements are deleted in /ast-in, first-out (LIFO).\nINSERT operation is called PUSH, DELETE operation is called POP.\nPop(S)\nif S.top ==\nerror “underflow”\nelse S.top = S.top — 1\nreturn S[S.top + 1]\nPUSH(S, x)\nif S.top ==\nerror “overflow”\nelse S.top = S.top +1\nS[S.top| = x\nMarch 2022 Algorithms and DS |: Elementary DS",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 8,
+    "title": null,
+    "content": "S.top = 4\n123 45 67\nMarch 2022\nPUSH(S, v)\nPUSH(S, t)\nS.top = 6\n123 45 67 POP(S)\nb\nZ\nr|jmvi)t ecco\nS.top =5\n123 45 67\nblz|r|mlv | eee\nAlgorithms and DS |: Elementary DS 8",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 9,
+    "title": null,
+    "content": "Queues\nDynamic set. Elements deleted in a first-in, first-out (FIFO).\nINSERT called ENQUEUE, DELETE is called DEQUEUE. (code CLRS 10.1)\nQueue has head and tail. Insertion is made to tail, deletion to head.\n2 x DEQUEUE\n3 x ENQUEUE\nMarch 2022 Algorithms and DS |: Elementary DS 9",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 10,
+    "title": null,
+    "content": "WN:\nLinked Lists >\nData structure where objects ordered linearly.\nUnlike arrays which size is predefined, linked lists size change\ndynamically by using pointers (memory addresses) attached to objects.\n\\ | /\nL.head ——>|7|9} |e | /16} le | 4) [eo] J lls\nInsert object at head Delete object\nL.head fiz ae 9} [eT |16) | | |4] | | | 1 wa\nL.head ———>| 7 |\\25| |e 1 19} [et 16) Le tf I 7\nMarch 2022 Algorithms and DS |: Elementary DS 10",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 11,
+    "title": null,
+    "content": "LIST-SEARCH(L.k)\nx = L.head\nwhile x ~ NIL and x.key 4k\nxX = X.next\nreturn x\nLIST-INSERT(L, x)\nx.next = L.head\nif L head # NIL\nL.head.prev = x\nL.head = x\nX.prev = NIL\nLIST-DELETE(L, x)\nif x.prev A NIL\nX.prev.next = X.next\nelse L. head = xX.next\nif x.next A NIL\nX.next.prev = X.prev\nMarch 2022 Algorithms and DS |: Elementary DS 11",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 12,
+    "title": null,
+    "content": "Rooted Trees Representation\nLinked lists representation is generalized for rooted trees.\nT.root\n™, parent\nkey\nparent ee\nkey\nlet ee\nparent\nFer Jat\nkey\nSS\nparent\nkey\npare\nFer Ja\nMarch 2022 Algorithms and DS |: Elementary DS",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 13,
+    "title": null,
+    "content": "T.root\n™, parent\nkey\nparent\n[er Fr\nkey\nWA ZZ. Key\nparent parent parent aa\nparent\nparent parent parent\nFer ier] —> Fer Jen} >\nkey key key key key key key\nparent parent parent\neft [rene\nkey key key\nThree pointers at node are sufficient so all children can be reached in\ntime linear in the number of children.\nMarch 2022 Algorithms and DS |: Elementary DS 13",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 14,
+    "title": null,
+    "content": "Heaps\nA heap of n keys is an array A equivalent to balanced binary tree\n(leaves’ depth differs by at moat 1). Depth is O(log n). (HW)\nParent(i) = |i/2], Left(i) = 2i, Right(i) = 2i + 1, hardware efficient.\n1 2 3 4 5 6 7 8 9 10\nA: |16]14|10/8|7]9|3]2/4] 1\nSS”\nMax-heap: A[Parent(i)] > Ali]\nMin-heap: A[Parent(i)] < Ali]\nAlgorithms and DS |: Elementary DS 14\nMarch 2022",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 15,
+    "title": null,
+    "content": "Wd\nHow to maintain the heap property?\nLet rooted subtrees at Left(i) = 2i and Right(i) = 2i + 1 satisfy max-\nheap property, but A[i] not, i.e., A[i] < max{A[Left(i)], A[Right(Z) ]}.\nMarch 2022 Algorithms and DS |: Elementary DS 15",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 16,
+    "title": null,
+    "content": "MAX-HEAPIFY (A, /)\n1 = LEFT(i)\nr = RIGHT(/)\nif / < A.heap-size and A[/] > Ali] // left son exists?\nlargest = 1 //\\eft son beats parent\nelse largest = i\nif r < A.heap-size and A[r] > A[largest] // right son exists?\nlargest = r // right son beats parent and left\nif largest Fi\nexchange A[i] with A[/argest] // downshift parent\nMAX-HEAPIFY (A, largest) // proceed recursively\nMarch 2022 Algorithms and DS |: Elementary DS 16",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 17,
+    "title": null,
+    "content": "MAX—HEAPIFY works top-down to maintain the heap property.\nRuntime satisfies T(n) = O(log n). (HW)\nMAX—HEAPIFY can be employed bottom-up to make A[1..n] a heap.\nHeap embodiment dictates that T’s leaves (1-element heap) reside in\nA[|n/2] + 1..n] (HW).\nModification of array A to heap is done by first populating A and then\napplying MAX—HEAPIFY from |n/2| to 1.\nMarch 2022 Algorithms and DS |: Elementary DS 17",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 18,
+    "title": null,
+    "content": "BUILD-MAX-HEAP|A)\nA. heap-size = A.length\nfor i = |A.length/2| downto |\nMAX-HEAPIFY (A, 7)\nMAX—HEAPIFY assumed the invariance that the subtrees at Left(i)\n= 2i and Right(i) = 2i + 1 are already heaps.\nNeed to show that BUILD—MAX—HEAP maintains the invariance.\nPrior to first iteration A[|n/2] + 1..n] are leaves, hence invariance is\ntrivially satisfied.\nMarch 2022 Algorithms and DS |: Elementary DS 18",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 19,
+    "title": null,
+    "content": "Since loop index i is decreasing, it is encountered after 2i and 2i+ 1\nare done. Hence the corresponding subtrees are heaps.\nThe last iteration processes i = 1, which is the root of the entire tree.\nBUILD—MAX—HEAP O(nlogn) runtime stems from O(n) iterations\nof MAX—HEAPIFY, each bounded by O(logn).\nBetter bound is possible.\nMAX—HEAPIFY(A, i) runtime is actually O(h), where h is i’s height in\nT (distance to leaf).\nMarch 2022 Algorithms and DS |: Elementary DS 19",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 20,
+    "title": null,
+    "content": "Since T is n-node binary balanced tree, the number of nodes at height\nh (root height is [log n]) is at most [n/2\"*1]. (HW)\nSumming up MAX—HEAPIFY(A, i) over all T’s levels yields:\ns(t Do\nfor |x| <1 Sx Tox’ drivate > Sh get = !\nh= 0 h=0 el (1 —x)?",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 21,
+    "title": null,
+    "content": "NY\nHeap Sort\nSome applications require to remove the largest (smallest) key from the\nheap and then recover the heap property of the reminder n — 1 keys.\nHEAP-EXTRACT-MAX(A)\nmax = A[l] // largest key is the 1%\nA[1l] = A[A.heap-size] // fillin the vacant location\nA.heap-size = A.heap-size — 1 // decrease heap size\nMAX-HEAPIFY (A, 1) // recover heap property\nreturn max\nHeap Sort (J.W.J. Williams 1964) applies n — 1 HEAP—EXTRACT—MAX\n(MIN) repetitions to sort an n-array in decreasing (increasing) order.\n(HW: write code and prove O(nlog n) runtime.)\nMarch 2022 Algorithms and DS |: Elementary DS 21",
+    "speaker_notes": null
+  }
+]

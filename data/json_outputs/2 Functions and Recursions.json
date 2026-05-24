@@ -1,0 +1,260 @@
+[
+  {
+    "page_number": 1,
+    "title": "Functions and Recursions",
+    "content": "March 2025\nFunctions and Recursions\nPrepared by Shmuel Wimer\nInstructed by Deganit Armon and Shmuel Wimer",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 2,
+    "title": null,
+    "content": "Growth of Functions\nRunning time T(n) of algorithms uses asymptotic notations.\nCog (n)\nF(n)\ncig(n)\nNo\nMarch 2025\nn\nf(n) = O(g(n))\ncg(n)\nFf(n)\nf(n)\ncg(n)\nn n\nNo\nF(n) = O(g(n))\nAlgorithms and DS |: Functions and Recursions\nNo\nFn) = Q(g(n))",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 3,
+    "title": null,
+    "content": "Q-notation: “same order of growth”.\ng(n) is asymptotically tight bound of f(n).\n{f(n)|4 cy > 0,cp > Oand ny € Ns.\n(9) = 0 < cagin) < fn) < cag(n) Vn = Mo}:\nO-notation (big-oh): “upper bound of growth”.\ng(n) is asymptotically upper bound of f(n).\n{f(n)| ic > Oand ng € Ns.\nO(g(n)) = 0 < f(n) < cg(n) Vn = no}.\nMarch 2025 Algorithms and DS |: Functions and Recursions 3",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 4,
+    "title": null,
+    "content": "Q-notation (big-omega): “lower bound of growth”.\ng(n) is asymptotically lower bound of f(n).\n{f(n)| ic > Oand ng € Ns.t.\n190) = 9 <cgin) < f(n) Vn = 9}.\nNote that f(n) = O(g(n))>f(n) = O(g(n)) since @ is stronger\nthan O.\nShow that given f(n) and g(n), f(n) = O(g(n)) iff f(n)\n= 0(g(n)) and f(n) = A(g(n)). (HW)\nMarch 2025 Algorithms and DS |: Functions and Recursions 4",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 5,
+    "title": null,
+    "content": "O-notation is not necessarily asymptotically tight.\no-notation (little-oh): “not asymptotically tight upper bound of\ngrowth”.\nFor n > 00 f(n) is insignificant w.r.t g(n), jim f(n)/g(n) = 0.\n{f(n)| Vc > O04 ngo€ Ns.t.\no(g(n)) — 0 < f(n) < cg(n) Vn = no}.\nMarch 2025 Algorithms and DS |: Functions and Recursions 5",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 6,
+    "title": null,
+    "content": "Q-notation is not necessarily asymptotically tight.\nw-notation (little-omega): “not asymptotically tight lower bound of\ngrowth”.\nFor n > oo f (n) is arbitrarily large w.rt g(n), lim f(n)/g(n) = ©.\n{f(n)|Vc > 04 no€ N st.\n(9) = 9 < cg(n) < fn) Vn = no}\nMarch 2025 Algorithms and DS |: Functions and Recursions 6",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 7,
+    "title": null,
+    "content": "Function Growth Properties\nLet f(n) and g(n) be asymptotically positive.\nf(n) = O(g(n)) and g(n) = @(h(n)) > fne= @(h(n)), > 0\ntransitivity. Holds for all other. (HW)\nf(n) = O(f(n)) by definition > @ is reflexive.\nReflexivity holds also for and O.\nf(r) = O(g(n)) © g(n) = O(f(n)) => @ is symmetric. (All other\ngrowth notations are not symmetric.) (HW)\nMarch 2025 Algorithms and DS |: Functions and Recursions 7",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 8,
+    "title": null,
+    "content": "f(n) = O(g(n)) & gn) = A(F(m)).\nf(n) = o(g(n)) & gn) = o(f()).\nAsymptotic notations are analog to real number. Let a, b € R then\nf(n) = 0(g(n)) is like a < b, f(n) = A(g(n)) is like a = b,\nf(n) = O(g(n)) is like a = b,\nf(n) = 0o(g(n)) is like a < b, f(n) = w(g(n)) is like a > b.\nVa,b€ Ra<b,a=b,ora> b. f(n) and g(n) may asymptotically\nnot comparable (HW).\nMarch 2025 Algorithms and DS |: Functions and Recursions 8",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 9,
+    "title": null,
+    "content": "NY\nRecurrences\nRecurrence: equation describing a function in terms of its value on\nsmaller arguments (inputs), e.g. T(n) = T(2n/3) + T(n/3) + O(n).\nThree methods to solve recursive equations:\n¢ Substitution guesses bound and prove correctness by induction.\n* Recursion-tree converts recursion into tree, associate cost to\nnodes by their level, then sum over the whole tree. (CLRS 4.4)\n* Master method provides bounds of the form T(n) = aT(n/b)\n+ f(n), where a > 1, b > 1 and f (n) a given function.\nMarch 2025 Algorithms and DS |: Functions and Recursions 9",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 10,
+    "title": null,
+    "content": "Divide-and-Conquer\nDivide the problem into few smaller instances of the same problem\nConquer each subproblem by solving them recursively.\nCombine subproblems’ solutions into solution of original problem.\nRecursive solution yields recursive runtime expression, e.g.,\n_ s9@) ifn = 1,\nM(n) = (or ea/2) + O(n) ifn>1.\nT(n) =T(m-1)+ 0(1).\nMarch 2025 Algorithms and DS |: Functions and Recursions 10",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 11,
+    "title": null,
+    "content": "Ny\nThe maximum-subarray problem\nGiven n-day history of £/iM exchange rate, what buy-sell interval\nshould maximize the profit?\n22/10/2021 Ty ,aInnxX aw\nnew\n>\n=\nit\nMarch 2025 Algorithms and DS |: Functions and Recursions 11",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 12,
+    "title": null,
+    "content": "Examining n(n — 1)/2 buy-sell intervals > O(n7). Any better?\nObviously, best buy-sell interval extends from local min to local max.\nStill O(n) local extremums may exist @.\nAssume w.l.o.g all points are alternating local extremums, first min,\nlast max.\nHistory is represented by differences of successive rates, yielding\nsequence of alternating signs (gain/loss).\nGiven A[low.. high] we seek the subarray with max sum.\n15 |-30| 21 | -7 19 | 5 29 |-18| 24 |-21| 8 | -4 | 35 ]-22| 7 |-12 16 | -30 | 18\narch 2025 Algorithms and DS |: Functions and Recursions 12",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 13,
+    "title": null,
+    "content": "Divide and conquer.\nIf A is split at mid, V Ali..j] S A[low.. high] there is:\n° left: low <i<j < mid,\n° right: mid <i<j < high, or\n* crossing: low <is< mid <j < high.\ncrosses the midpoint\nlow mid high\nee ee mid+ 1 “——~._-———”\nentirely in A[/ow .. mid] entirely in A[mid + 1.. high]\nMarch 2025 Algorithms and DS |: Functions and Recursions 13",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 14,
+    "title": null,
+    "content": "The best crossing subarray can be found in O(n)!\nA[mid + 1../]\nlow i mid ——>-—-, high\n—_~__——“ mid + 1 J\nAli ..mid]\nProgression from mid _ leftwards step-by-step finds best lower\nsubarray |max—left, mid] with cost left—sum.\nProgression from mid + 1 rightwards step-by-step finds best upper\nsubarray |mid + 1, max—right] with cost right—sum.\nOne of the subarrays can be empty with cost 0.\nMarch 2025 Algorithms and DS |: Functions and Recursions 14",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 15,
+    "title": null,
+    "content": "Following function finds the best crossing subarray in O(n) time. (see\nCLRS 4.1 for code)\nFIND-MAX-CROSSING-SUBARRAY (A, low, mid, high)\nreturn (max-left, max-right, left-sum + right-sum)\nApply recursive call of FIND—MAX—CROSSING—SUBARRAY.\nEach recursion splits the problem at mid into lower and upper halves.\nThen solves lower and upper problems and compares results to best\nsubarray crossing mid.\nMarch 2025 Algorithms and DS |: Functions and Recursions 15",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 16,
+    "title": null,
+    "content": "NY\nFIND-MAXIMUM-SUBARRAY (A, low, high)\nif high == low return (low, high, A[low]) // one element, recursion vos FOO |\nelse mid = |(low + high)/2| // best lower subarray\n(left-low, left-high, left-sum) =\\FIND=MAXIMUM=SUBARRAY (A, low, mid)\n(right-low, right-high, right-sum) = // best upper subarray\n(A, mid + 1, high)\n(cross-low, cross-high, cross-sum) = // best crossing subarray\n‘FIND-MAX-CROSSING-SUBARRAY (A. low, mid. high)\nif left-sum > right-sum and left-sum > cross-sum |omn) |\nreturn (/eft-low, left-high, left-sum) // \\ower wins\nelseif right-sum > left-sum and right-sum > cross-sum\nreturn (right-low, right-high, right-sum) // upper wins\nelse return (cross-low, cross-high, cross-sum) // crossing wins\nMarch 2025 Algorithms and DS I: Functions and Recursions 16",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 17,
+    "title": null,
+    "content": "Run-time analysis\nT(1) = @(1).\nT(n) = 0(1) + 2T(n/2) + O(n) + O(1) = 2T(N/2) + O(n).\nZ @(1) ifn =1,\nMn) = {orcas + O(n) ifn>1.\nThe master method (coming soon) solves this recursion to\nT(n) = O(nlogn).\nMarch 2025 Algorithms and DS |: Functions and Recursions 17",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 18,
+    "title": null,
+    "content": "The Substitution Method\nFind O and ( bounds in two steps:\n* Guess solution (no general method, needs experience).\ne Use induction to prove guess correctness and finding constants.\n1 ifn=1,\nExample: (1) T(n) = {oren/2 +n ifn>1.\nGuess: T(n) = O(nlogn) > dc > 0s.t. T(n) < cnlogn n > o.,\nInduction: the guess holds V m < n, in particular, m = n/2 >\n(2) T(n/2) < c(n/2)log(n/2).\nMarch 2025 Algorithms and DS |: Functions and Recursions 18",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 19,
+    "title": null,
+    "content": "Validate by substitution induction (2) in recurrence of T(n) (1)\nn on n\nT(n) <2 (clog) +n= cnlog>+n =cnlogn+n(1-—c)<\ncnlogn. forc>1\nSubstitution of n = 1 (induction base) is invalid (F = 5) but since n\n— oo, base can ben = 2.\nIndeed T(2) = 2T(1) +2 = 4 < c2log2, thus satisfying induction\nbase . (1) (1) holds for c > 2\nMarch 2025 Algorithms and DS |: Functions and Recursions 19",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 20,
+    "title": null,
+    "content": "Changing variables\nExample: T(n) = 2T(Jn) + logn.\nLooks difficult, but substitution m = logn, orn = 2” then\nT(2™) = 2T(2™/?) +m.\nRenaming S(m) = T(2™) yields\nS(m) = 2S(m/2) +m, solved by former example to\nT(n) = T(2™) = S(m) = O(mlogm) = O(log n log log n).\nMarch 2025 Algorithms and DS |: Functions and Recursions 20",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 21,
+    "title": null,
+    "content": "The Master Theorem\nGiven constants a > 1,b > 1and f(n) = 0, let T(n) be\nT(n) = aT(n/b) + f(n), (n/b is either [n/b] or [n/b]). Then\nT(n) = O(n! ¢) if f(n) = O(n!°8b **) for some € > 0.\nT(n) = @(nlogp “log, n) if f(m) = @(nlogp «), f(n) <, 2 > n!0dn 4\nT(n) = O(f(n)) if f(n) = A(nle8b 2*®) and\nf(n/b) < cf(n),forsomec <1, n> ©,\nMarch 2025 Algorithms and DS |: Functions and Recursions 21",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 22,
+    "title": null,
+    "content": "Proof for n = b', i € Z (integral powers).\nLemma 1: Given constants a > 1, b > 1and f(n) = 0, let T(n) be\n0(1) ifn = 1,\naT(n/b)+f(n) ifn=b4i>0.\n(3) Tim) =\n(4) T(n) = O(n!e8 7) + yar nt a f (n/b/).\nProof. Expanding recursion tree (3) yields\nMarch 2025 Algorithms and DS |: Functions and Recursions 22",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 23,
+    "title": null,
+    "content": "Wd\nfm) fm)\n] “MN 4 OO” +\n@ ~ (= f@)\na a +\nlogyn ——_” NE\nLas ia.» (a cay\n£N, fn vee fa @(1) @(1) @(nleb@)\nVo gg SSS ql°sp 2 = n!8b a >\nSum of all levels T(n) = @(nlogp a) + ree nt a! f (n/b/) => (4). =\nMarch 2025 Algorithms and DS |: Functions and Recursions 23",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 24,
+    "title": null,
+    "content": "Evaluation of yar nt a! f (n/b/).\nLemma 2: Given constants a >1,b >1and f(n) = 0,\ngn) = 54h\" a f(n/b/)\nhas the following asymptotic bounds:\n(5) g(n) = O(n!°8s «) if f(n) = O(n!°8s a-e)\n(6) g(n) = @(n!e8e * log, n) if f(n) = @(nle8e a)\n(7) g(n) = O(f()) ifaf(n/b) < cf(n),c < 1,forn > 0\nMarch 2025 Algorithms and DS |: Functions and Recursions 24",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 25,
+    "title": null,
+    "content": "Proof.\ng(n) = yen * al f (n/b/) = o(a yk\" ai (n /bi) 084 “) = _\nO (n'oe a-€ ars \"(abe /b18)’ ) _\nsum of power series\n_ . Elogyn\nO (n'oe a-€ ara “(b*)/) _ o(n logy a-eP ~ *) = _\nO(n logy a- “n—) = O(nlesp a- ené) = O(nle8p a) => (5).\nbE\nMarch 2025 Algorithms and DS |: Functions and Recursions 25",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 26,
+    "title": null,
+    "content": "(6) f(n) = @(n'ee» 2)\ngn) = yen ‘al f(n/b/) = a(x yb ‘a(n /bi)°8*) = _\np!°sb4 = q\n@ (nloeea yee H(a/ploeea)’) = @ (nloeea yee\" 1) =\n@(nleso4 logy n) => (6).\nMarch 2025 Algorithms and DS |: Functions and Recursions 26",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 27,
+    "title": null,
+    "content": "For (7) we show (a) g(n) = A(f (n)), (b) g(n) = O(f (n)).\n(a) g(n) = L282\" al f(n/b!) > f(n) > gm) = A(F@)).\n< (a/c)*f(n/b*) < (a/c)f (n/b) < fn) (*)\n(b) g(n) = Dh\" al f(n/b!) < Dee\" cI f(n) +0) <\nOnly finite n/b/ terms may not satisfy (*)\nfn) Deo c! + OC) = F(n) (=) + 0) = O(f@)) = (7).\nc<1",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 28,
+    "title": null,
+    "content": "March 2025\nLemma 3: Given constants a > 1, b > 1 and f(n) = 0, let T(n) be\n0(1) ifn = 1,\n\"= Jar(n/b) + fn) ifn=bi,i>o.\nT(n) = O(n'°8 7) if f (n) = O(n'°& 2-*)\nT(n) = O(n'°% *logn) if f(n) = @(n'°8 “)\nT(n) = O(f(n)) if f(n) = A(n!e8 42) and\naf (n/b) < cf(n),c < 1,forn > o\nAlgorithms and DS |: Functions and Recursions",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 29,
+    "title": null,
+    "content": "Ny\nProof. Substitution of Lemma 2 summation in Lemma 1. (HW\nCLRS 4.6.1 Lemma 4.4)\nWe proved the Master theorem for the case where n is integral\npower of b.\nFor the proof of any n see CLRS 4.6.2.\nMarch 2025 Algorithms and DS |: Functions and Recursions 29",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 30,
+    "title": null,
+    "content": "March 2025\nSupplementary\nAlgorithms and DS |: Functions and Recursions",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 31,
+    "title": null,
+    "content": "Linear Recursive Equations\nLetc; € R,1 Sis<r,andg:N — R. The function\nf(n) = Yin1 ci f(m — 1) + gn)\nIs called r-order recursive linear equation with constant coefficients.\nExample: f(n) = f(n—1)+f(n-—2) Wn >1, f(0) =1, f(1) =1,\ncalled Fibonacci formula, is homogeneous of order 2.\nExample: f(n) = 3f(n — 1) + 6f(n — 2) —4f(n-—3)+n?Vn>2 ,\nf(0) = 2, f(1) = 2, f(2) = 3 is nonhomogeneous of order 3.\nMarch 2025 Algorithms and DS |: Functions and Recursions 31",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 32,
+    "title": null,
+    "content": "Homogeneous Linear Equation with Constant\nCoefficients\nExample f(n) = f(n — 1) + f(n — 2) Vn > 1, f(0) = 1, f(1) = 1.\nThere is\nf(n) < 2f(n — 1) and\nf(n) > 2f(n — 2).\nBy Repetitive substitution there is\naln/2] < f(n) < 2-1,\nMarch 2025 Algorithms and DS |: Functions and Recursions",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 33,
+    "title": null,
+    "content": "Suppose f(n) = x”. Substitution in the recursive equation yields\nxP a xr ty yn?\nDividing by x”~2 yields the quadratic equation x* = x + 1 solved to\n_ 14+Vv5 _ 1-v5\n= =—.\nxy =z  X2\nThus, the sequences g(n) = x,” and h(n) = x2” satisfy\ng(n) = g(n—-1)+g(n—- 2) Vn > 1, and\nh(n) = h(n— 1) + h(n — 2) Vn > 1.\nStill, none of g(n) and h(n) satisfy f(0) = 1, f(1) = 1.\nMarch 2025 Algorithms and DS |: Functions and Recursions 33",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 34,
+    "title": null,
+    "content": "So, consider the linear combination\nf(n) = ag(n) + Bh(n), a, BP ER.\nEvidently, f(n) = f(n-—1) + f(n— 2), Vn > 1.\na, B are determined s.t.\n1=f(0) = ax,° + Bx,°=at Bf\n1=f(1) = ax,++ Bx,1 = atts po.\nThe two linear equations in a and f are solved, yielding\nn+1 n+1\nf(n) =4(%) 1 (=) :\nv5\nMarch 2025 Algorithms and DS |: Functions and Recursions 34",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 35,
+    "title": null,
+    "content": "To solve the general homogenous equation,\nf(n) = Yie1 ci fm — 0),\nand f(0), f(1),..., f(r — 1), assume f(n) = x”, yielding\nf(n) = x\" = Yt gx\".\nDivision by x\"~\" yields\nP(x) =x\" —yeL. cj x! = 0.\nFor x” to solve the recursive equation, x must be a root of the\ncharacteristic polynomial P(x) of the recursive equation.\nMarch 2025 Algorithms and DS |: Functions and Recursions 35",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 36,
+    "title": null,
+    "content": "NY\nTheorem A: Given f(n) = Yi_, ¢; f(n — i), let a(n) and b(n) solve\nthe equation. Let a, B € IR. Then aa(n) + Bb(n) solves the equation.\nProof By straight forward substitution. m\nTheorem B: If the roots of P(x) x;, 1 <i<r, are real and distinct,\nthe general solution of f(n) is\nx(n) = Yie1 ax,\" ,\nwhere a; € R, 1 Si <r, are uniquely determined by the initial\nvalues f(i),O <i<r-1.\nMarch 2025 Algorithms and DS |: Functions and Recursions 36",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 37,
+    "title": null,
+    "content": "Proof Since every root of P(x) solves f(n), by Theorem A so is the\nlinear combination x(n) = Yi_, ajx;\".\nTo determine a;,1<i<r,st. fi) =x), 0<i<r-—1, consider\nthe following system of 7 equations:\nff) = Ni, ax ,0O<j<r-1.\nThis is r linear equations system of the variables aj, 1 <i<r.\nSince x;, 1 <i <r are all distinct, its Vandermonde matrix satisfies\nMarch 2025 Algorithms and DS |: Functions and Recursions 37",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 38,
+    "title": null,
+    "content": "1 X41 x71\nx2 X21\ndet}, . , = Tre — %%) # 0.\n1 Xp, + x21\nThus, there is unique solutiona; € R, 1 <is<r.m\nExample f(n) = 3f(n — 1) + 4f(n — 2) — 12f(n — 3), Vn > 2,\nf(0) = 0, f(1) = 1, f(2) = 1.\nThe characteristic equation is\nx? — 3x7 —4x4+12=0,\nMarch 2025 Algorithms and DS |: Functions and Recursions 38",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 39,
+    "title": null,
+    "content": "which can be written\n(x — 2)(x + 2)(x —3) = 0.\nThus, x; = 2, x2 = —2, x3 = 3, and\nf(n) = ax\" + ApxX2\" + 3x3\".\nG1, Mz and a3 are determined by the initial values.\n0 =f(0) =a, +a, + az,\n1 = f(1) = 2a, — 2a, + 3a3,\n1 = f(2) = 4a, + 4a2 + 9a3,\nMarch 2025 Algorithms and DS |: Functions and Recursions 39",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 40,
+    "title": null,
+    "content": "solved to a; = 0,a2 = —1/5,a3 = 1/5.\nThus,\ngn —2)n\nfn) ==-\nMarch 2025 Algorithms and DS |: Functions and Recursions",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 41,
+    "title": null,
+    "content": "Nonhomogeneous Linear Equation with Constant\nCoefficients\nTheorem C: Let\nf(n) = Mini ci f(n — 1) + gm),\nbe nonhomogeneous linear recursive equation. Let a(n) be any\nsolution. Any other solution b(n) has the form\nb(n) = a(n) + h(n),\nwhere h(n) is a solution of the homogenous equation. m\nMarch 2025 Algorithms and DS |: Functions and Recursions 41",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 42,
+    "title": null,
+    "content": "Example f(n) = 2f(n — 1) + 4n — 6.\nIn this case g(n) = 4n— 6.\nThe solution of the homogeneous equation f(n) = 2f(n — 1) is f(n)\n= a2\", wherea € R.\nTo account the nonhomogeneous part, we seek f(7) that is linear in\nn, say f(n) = pn+q.\nSubstitution in the nonhomogeneous f(7), there is\npn+q=2(p(n—-1)+q)+4n-6,\nMarch 2025 Algorithms and DS |: Functions and Recursions 42",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 43,
+    "title": null,
+    "content": "which after rearrangement yields\nn(p +4) =2p—q+6.\nThe right-hand side depends on n, whereas the left does not. Hence\nthe equality holds only if both are zero, yielding p = —4 and q = —2.\nBy Theorem C\nf(n) =a2\"—4n-2. 0\nMarch 2025 Algorithms and DS |: Functions and Recursions 43",
+    "speaker_notes": null
+  }
+]

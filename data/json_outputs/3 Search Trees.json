@@ -1,0 +1,254 @@
+[
+  {
+    "page_number": 1,
+    "title": "Search Trees",
+    "content": "March 2025\nSearch Trees\nPrepared by Shmuel Wimer\nInstructed by Deganit Armon and Shmuel Wimer\nAlgorithms and DS |: Search Trees",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 2,
+    "title": null,
+    "content": "Binary Search Tree\nBST Supports dynamic-set operations: SEARCH , MINIMUM ,\nMAXIMUM, PREDECESSOR, SUCCESSOR, INSERT, and DELETE.\nUseful for dictionaries.\n* O(log n) worst-case time for complete BST,\n* O(n) worst-case time if the tree is a chain of n nodes.\n* Expected height of a randomly built BST is O(log n), special BSTs\nmaintain O(log n) height.\nMarch 2025 Algorithms and DS I: Search Trees 2",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 3,
+    "title": null,
+    "content": "BST property\nVy € right subtree\nVy € left subtree\ny. key < x. key 2)\nMarch 2025 Algorithms and DS I: Search Trees 3",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 4,
+    "title": null,
+    "content": "NY\nNodes’ keys can be efficiently reported by an inorder traversal.\nNode’s key (root) reported after all left subtree’s nodes and before\nright subtree’s nodes.\nINORDER-TREE-WALK (x)\nif x A NIL\nINORDER-TREE-WALK (x. left)\nprint x. key\nINORDER-TREE-WALK (x. right)\nPostorder traversal reports root’s key after left and right subtrees.\nPreorder traversal reports root’s key before left and right subtrees.\nMarch 2025 Algorithms and DS I: Search Trees 4",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 5,
+    "title": null,
+    "content": "NY\nTheorem. For n-node BST INORDER—TREE—WALK, T(n) = O(n).\nProof. INORDER—TREE—WALEK visits all nodes > T(n) = (n). We\nshow T(n) = O(n).\nEmpty subtree (x = @) yields\n(1) T(0) = c, for some constant c > 0.\nLet x be root of n-node tree, k in left and n — k — 1 in right subtrees.\nExcluding time spent on INORDER—TREE—WALEK calls, body spends\ntime bounded by some d > 0, hence\nMarch 2025 Algorithms and DS |: Search Trees 5",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 6,
+    "title": null,
+    "content": "(2)T(n) < Tk) + Tm—-k—-1) +d.\nLet’s substitute the guess T(n) < (c+d)n+c.\nFor induction base there is T(0) < (c +d)0 +c =c, true by (1).\nAssume by induction T(m) < (c +d)m+cWm <n. Then from (2),\nT(n) <T(kK) +Tm-k-1)+d<\nby induction by induction\n((c+@kt+c)+((c+dm-k-1)+c)+d=(c+d)ntc\n= O(n). &\nMarch 2025 Algorithms and DS |: Search Trees 6",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 7,
+    "title": null,
+    "content": "N\nQuerying >\nSEARCH, MINIMUM, MAXIMUM, PREDECESSOR, SUCCESSOR, all\ntake O(h) time, h is tree height (depth).\nMarch 2025 Algorithms and DS I: Search Trees 7",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 8,
+    "title": null,
+    "content": "Recursive (left) and iterative (right) codes take O(h) time.\nIterative code is much more efficient in most processors.\nTREE-SEARCH (x, k) ITERATIVE-TREE-SEARCH(x.k)\nif x == NIL or k == x. key while x A NIL andk ¥ x.key\nreturn x // found or not exists if k < x. key\nif k < x.key x = Xx.left\nreturn TREE-SEARCH (x. /eft, k) else x = x.right\nelse return TREE-SEARCH (x. right, k) return x // found or not exists\nMarch 2025 Algorithms and DS |: Search Trees",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 9,
+    "title": null,
+    "content": "TREE-MINIMUM (x) TREE-MAXIMUM(x)\nwhile x. left A NIL while x. right A NIL\nx = x.left xX = x.right\nreturn x return x\nMinimum and maximum codes take O(h) time.\nMarch 2025 Algorithms and DS I: Search Trees 9",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 10,
+    "title": null,
+    "content": "If a successor of x exists it is found by either two cases.\nIf x has right subtree the If x has no right subtree the\nsuccessor is minimum y successor is its lowest ancestor\n(leftmost) of that right subtree. to which left subtree x belongs.\nFinding predecessor is symmetric. Both take O(h) time. (see\nCLRS 12.2 for code)",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 11,
+    "title": null,
+    "content": "March 2025\nInsertion and Deletion\nAlgorithms and DS |: Search Trees",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 12,
+    "title": null,
+    "content": "New value v is inserted TREE-INSERT (7, z)\ninto T at a new leaf in y =NIL x = T-root\nO(h) time, preserving while x ~ NIL // traverse to leaf\nnode’s property of left yx\nif z.key < x.key x = x.left\nelse x = x.right\nz.p = y // add new leaf\nif y==NIL T.root = z //T empty\nelseif z.key < y.key  y.left = z\nelse y. right = z\nsubtree smaller and right\nsubtree larger keys.\nInitialize node z.key = v,\nz.left = @,z.right = @.\nMarch 2025 Algorithms and DS I: Search Trees 12",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 13,
+    "title": null,
+    "content": "Deletion of z also takes O(h) time but is more delicate and has few\ndifferent cases. (See code in CLRS 12.3)\nzis a leaf z has no left subtree z has no right subtree\na t\nMarch 2025 Algorithms and DS I: Search Trees 13",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 14,
+    "title": null,
+    "content": "z has both left and right subtrees.\nFirst need to find z’s successor y. y cannot have left subtree. (why?)\nIf it is z’s right child, then replace z by y.\nMarch 2025 Algorithms and DS I: Search Trees 14",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 15,
+    "title": null,
+    "content": "NY\nOtherwise, y is the leftmost in z’s right subtree.\nAll subtree nodes rooted at 7 (included) are larger than y. Hence y\ncan replace r, with r becoming y’s right child.\nMarch 2025 Algorithms and DS I: Search Trees 15",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 16,
+    "title": null,
+    "content": "Sorting with BST\nBST can be used for sorting n elements by keys. (HW: write code)\n¢ TREE—INSERT for every key (n repetitions) creates n-node BST.\n¢ INORDER—WALK will report the n sorted keys.\nWhat is the worst-case input, what runtime it yields? (HW)\nAssuming random input, what is the average runtime? (HW)\nWhat is the best-case input, what runtime it yields? (HW)\nMarch 2025 Algorithms and DS I: Search Trees 16",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 17,
+    "title": null,
+    "content": "AVL Trees\nBST can terribly perform O(n) per insertion and search (HW: how?).\nAVL trees (G.M. Adelson-Velskii, E.M. Landis, 1962) maintain O(log n)\nheight by Dynamic rebalancing.\nWNP\nBalance invariance: left and right subtrees depth differ at most by 1.\nMarch 2025 Algorithms and DS I: Search Trees 17",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 18,
+    "title": null,
+    "content": "Worst (imbalanced) AVL: 1 height diff occurs at all nodes. Otherwise\nleaves could be dropped without harming the invariance.\nLet N(h) be min number of nodes in h-height AVL tree.\nW.l.o.g let N(h — 1) min nodes in left subtree, and N(h — 2) min in\nright subtree. Then\nN(h) = N(h—-1)+ N(h-2)4+1\n/N(h— 2)\n(N(A— 1)\nMarch 2025 Algorithms and DS I: Search Trees 18",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 19,
+    "title": null,
+    "content": "N(h) =1+N(h—1)+N(h—2) > 2N(h—2).\nRecursion solved by substituting N(h) = A”. Then,\nAh > 2Ah-2 = 22 >2 >14>21/2 > N > 2\"/2_ Taking log,\nh<2logN.\nThe above is the worst situation, bounding any tree satisfying AVL\nbalance invariance.\n(Actually h < 1.44 log N, but proof is more complex).\nMarch 2025 Algorithms and DS I: Search Trees 19",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 20,
+    "title": null,
+    "content": "Insertion in AVL Tree\nv € T, LSON[v] and RSON[v] left and right sons, h(v) its height.\nTo track AVL |h(LSON[v]) — h(RSON[v])| < 1 balance invariance,\nv € T maintains h(v).\nAfter insertion to leaf (as in ordinary BST), leaf-to-root traversal\nupdates the height of all affected nodes.\nBalance violation at v is fixed by rotation at v, while preserving key\nordering invariance.\nMarch 2025 Algorithms and DS I: Search Trees 20",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 21,
+    "title": null,
+    "content": "Re - balance takes place depending where leaf yw inserted.\nBy single rotation if inserted in LSON|LSON[v]] or RSON[RSON[v]].\nBalance violation",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 22,
+    "title": null,
+    "content": "NY\nBy double rotation if inserted in LSON|[RSON[v i or RSON[LSON[v]].\nBalance violation\nRight rotation alone does not solve the imbalance.\nY subtree splits into V and W. Either uw € Voru € W.",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 23,
+    "title": null,
+    "content": "Balance restored by two rotations: 1* left, 2\"4 right.\nafter left\nrotation\nX, V, W, Z key\nordering preserved.\nafter right\nrotation",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 24,
+    "title": null,
+    "content": "2-3 Trees\n1. Every internal node has either 2 or 3 children.\n2. All root-to-leaf paths have same length.\n3. The elements of the dynamic set are stored only at leaves.\n¢ The keys at leaves are sorted left-to-right in ascending order.\n4. Aninternal node stores 3 directives\n* min,, minz, min3 — smallest keys in left, mid and right\nsubtrees, resp.\n* mingz and right subtree may not exist.\n(It is possible to use only min, and mins).\nAugust 2024 Algorithms and DS Il: Search Trees 24",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 25,
+    "title": null,
+    "content": "2-3 Tree Operations\n9/5] — 7) 8) 12 16| 19 | —\nSd 0700 GH\nMIN starts at root proceeding to left child until reaching a leaf,\nreturning its key. Returning min, at the root is also possible.\nMAX works similarly with right subtrees.\nAugust 2024 Algorithms and DS II: Search Trees 25",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 26,
+    "title": null,
+    "content": "Like BST, MEMBER starts at T’s root and proceeds downwards to\nsubtrees by comparing the key x to min,, ming, ming.\no Ifx €T,4 leaf with key x.\no Ifx<min, ,x€T.\no Ifmin, < x < min, search in left child.\no Ifmin, < x < ming search in mid child.\no Ifming < x search in right child.\nHW: write code accounting all cases and verify correctness.\nAugust 2024 Algorithms and DS Il: Search Trees 26",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 27,
+    "title": null,
+    "content": "INSERT ;\n7 16 18\n2]5]— 7]s]i2 16 | 19] —\n/2] 7] 16\n2[5|-| 7/8] 12 16 | 18 | 19\nd+ bo obo\nAugust 2024 Algorithms and DS II: Search Trees 27",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 28,
+    "title": null,
+    "content": "INSERT x starts at T’s root and like MEMBER proceeds downwards\nto node p € T that should be x’s parent.\nIf p has 2 leaves:\no x is added as 34 leaf and p’s min; directives, i =1,2,3, are\nupdated accordingly.\no If x happens to be the smallest of T, min, is updated along p-to-\nroot path.\nAugust 2024 Algorithms and DS II: Search Trees 28",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 29,
+    "title": null,
+    "content": "an pi|7 [si\non\n|\nof\nAugust 2024\nran 10{12|-|p",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 30,
+    "title": null,
+    "content": "If p has 3 leaves:\no Split p into p’ and p’’. The 2 smaller among {x, min,, minz, min3}\nattached to p’and the 2 larger to p”’.\no Lets be p’s parent.\n* Ifs had 2 children, replace p by p’and p”’, > s has 3 children.\n* If s had 3 children (now 4), split s into s’ and s’’, attach the 2\nsmaller to s’, attach the 2 larger to s”’.\n¢ Proceed upwards until parent absorbs the split of child.\n* If root r splits, create new root with children r’and r”’.\nAugust 2024 Algorithms and DS Il: Search Trees 30",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 31,
+    "title": null,
+    "content": "DELETE x starts at T’s root and like MEMBER proceeds downwards\nto node p € T which is x’s parent.\nIf x had 2 siblings (p had 3 directives):\no Delete x and update p’s min, , i = 1,2. Update min; up to root.\nIf x had 1 sibling, say y, delete x and modify T as follows:\no If p had larger sibling with 3 children, smallest moves to p.\no. Else, if p had smaller sibling with 3 children, largest moves to p.\nAugust 2024 Algorithms and DS Il: Search Trees 31",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 32,
+    "title": null,
+    "content": "[io] =]\n[2 | 10 | - |\n2|7]- [10 | 16 | —\n~\\\n2])5]- 7s |-| pRB <i |\nSo cv > OO\n[ 10 [Sy -\n2/;5)]-\n19 | —\nAugust 2024\np\ny\nOo OO",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 33,
+    "title": null,
+    "content": "o Else p had siblings with only 2 children:\n* x’s sibling y moves to p’s sibling as 3 child and p is deleted.\n* If p’s parent had 3 children 2 are left and we are done.\n¢ Otherwise, we proceed recursively upwards.\nAugust 2024 Algorithms and DS Il: Search Trees",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 34,
+    "title": null,
+    "content": "18 | -\n2 children’ yielding 3\n~ 19\nsubtrees merged | in parent\nAugust 2024\nord tb fy me\ngeen ene neee nee eeeeneeeeeneneeny\nSees ae ceeeeeeeel\nyj ? = :",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 35,
+    "title": null,
+    "content": "Complexities of Operations\nClaim: The n leaves of 2-3 tree of height h satisfy 2” <n < 3”.\nProof: By induction on h. For h = 1 there are 2 or 3 leaves.\nBy induction, at root’s sons, there is 2”-1 <n, < 3\"-1, i = 1,2,(3).\nThe root has either 2 or 3 sons, so\n2-=2-2? 1entn<n<ntntn; <3-3%1=3\" »\nCorollary: A 2-3 tree with n leaves has height h = O(log n). (HW)\nCorollary: INSERT and DELETE complexity is T(n) = O(log n). (HW)\nAugust 2024 Algorithms and DS Il: Search Trees 35",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 36,
+    "title": null,
+    "content": "March 2025\nSupplementary\nAlgorithms and DS |: Search Trees",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 37,
+    "title": null,
+    "content": "Random BSTs\nAll operations are O(h), so what is O(h)? (CLRS 12.4)\nh depends on the order and the values of inserted and deleted keys.\nStudy only random insertions and assume w.l.o.g keys are {1,2, ..., }.\nLet the root’s key R,, chosen randomly uniformly from {1,2, ...,n} so\nPr(R, = i) = 1/n.\nR, =i => {1,2,...,i-— 1} and {i + 1,2, ...,n} reside in randomly built\nleft and right subtrees, independent of each other.\nMarch 2025 Algorithms and DS I: Search Trees 37",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 38,
+    "title": null,
+    "content": "X,, random variable: height of randomly built BST of {1,2, ..., n}.\nIf R,, = i (chosen randomly) then\nXn = 1+ max(X;_1,Xn_i)-\n! | I\nXj-1 Xn-i\n1,..,i-Y {i +1, ...,n} |\nLh\" | AY\nMarch 2025 Algorithms and DS |: Search Trees 38",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 39,
+    "title": null,
+    "content": "Define random variable Y, = 2%”, then\n(1) ¥, = 244 maxi-aXn-) = 2 max(Yj-1, Yp_i).\n1 ifR, =i\nDefine random variables Z,;,1 <isn:Zyj = ( if R47’ =>\nn\nmean, average\n(2) E[Z,¢] =1-Pr(Ry, =i) +0-Pr(Rp #0) =1/n.\nChoosing R,, = i, subtrees randomly built oni — 1 andn —i keys.\nOther than number of keys, subtrees’ structure not affected by the\nchoice R,, = i.\nMarch 2025 Algorithms and DS |: Search Trees 39",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 40,
+    "title": null,
+    "content": "Ny\nZn iv Yi-1 and Y,_; are all independent of each other, hence (1) >\nElinearity (2) Independence: E[XY] = E[X]E[Y]\nE[Yn] =E Dara: . max(Y;_1, Yn-i)) =\n— Vici Elmax(¥j-1, Yr»-)] <\n2 4 oan\n= E[Y,] is recursive. | SUmmands appear twice\n(HW: Show E[Y,,] < 3(\"3°) by substitution, CLRS 12.4).\nMarch 2025 Algorithms and DS |: Search Trees 40",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 41,
+    "title": null,
+    "content": "Definition: g(x) is convex if\nug(%4) + A -wWg%2) = gx, +1 -p4)x2),0susi.\ng(x)\nx4 X2\nMarch 2025 Algorithms and DS I: Search Trees 41",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 42,
+    "title": null,
+    "content": "For convex function g of a random variable X there is\nE[g(X)] = g(E[X]), provided that E exists and finite. (HW)\nf (x) = 2* is convex (f\" > 0) =>\ng(E[X]) S$ Elg@)]\n2Elnl < E[2%] = E[Y,] < 4(\"*3) = O(n3)\nLog of both sides > E[X,,] = O(logn). m\nMarch 2025 Algorithms and DS I: Search Trees 42",
+    "speaker_notes": null
+  }
+]

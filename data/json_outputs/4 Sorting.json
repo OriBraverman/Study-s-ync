@@ -1,0 +1,182 @@
+[
+  {
+    "page_number": 1,
+    "title": "Sorting",
+    "content": "Sorting\nPrepared by Shmuel Wimer\nInstructed by Deganit Armon and Shmuel Wimer\nAlgorithms and DS |: Sorting 1",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 2,
+    "title": null,
+    "content": "WN:\nOverview Z\nFundamental algorithmic problem, used in enormous applications\nand for study of other algorithms.\nGiven sequence of n keys (@4,Q2,...,@,), reorder (permute) to\nsequence (a,’,Q’,...,Ay/) S.t. a,’ Sap’ S++ S a,’.\nPresented insertion sort and BST sort with @(n2) worst-case runtime\nand heapsort with O(n log n) runtime.\nWe show 2.(n log n) runtime for comparison-based, study merge sort\nand bucket sort (non-comparison) with O(n) runtime.",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 3,
+    "title": null,
+    "content": "Lower Bound of Sorting\nSorting algorithms were based on comparisons.\nW.l.o.g all values distinct. Only ordinal position of value matters.\nGiven input (@,,@2,...,A,), the sorting problem is to find a\npermutation zr of {1,2, ...,n}s.t. An(1) < Aggy < + < Ann).\nComparison sorting is modeled\nby a full binary decision tree.",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 4,
+    "title": null,
+    "content": "Every leaf of a decision tree is a permutation (x(1), (2), «, m(n)).\nExecution of sorting algorithm on given input corresponds to a root-\nto-leaf path yielding the sorted input aq7(4) < Agq(z) < +++ < Aan).\nBecause correct algorithm must be able to produce any permutation\nof the input, each of n! permutations must present at distinct leaf.\nConsequently, the decision tree must have at least n! leaves.",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 5,
+    "title": null,
+    "content": "Theorem: (M. Ben-Or) Any comparison sorting algorithm requires\nQ(n log n) comparisons in the worst case.\nProof: Let h be the height of the decision tree (longest root-to-leaf\npath) having l leaves. The tree is full binary hence 1 < 2”.\nAny of the n! permutations must present at distinct leaf > n! < 1.\n=n! <1<2\",>log(n!) <h.\nlog(n!) = NL, logi > ye? logs = QA(nlogn) > h=Q(nlogn). =",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 6,
+    "title": null,
+    "content": "Merge Sort\nIdea: two sorted subsequences merge into one sorted sequence.\nAlp..q] | 1 | 4] 8 }11/15] 16] 22\nAlp..r] 1;2)3 1/4] 8 |11/12)15)16)17)19/ 20) 22\nAlp..q] and A[q + 1..1r] are contiguous, merged into A[p..r] in O(r\n—p+1) time. See MERGE(A, p, g,r) code in CLRS 2.3.1.",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 7,
+    "title": null,
+    "content": "MERGE(A, p, g,1) can sort by divide-and-conquer array A[1..n].\nMERGE-SortT(A, p.r) // takes T(n)\nifp<r\nq = |\\(p+1r)/2]| // divide takes @(1)\nMERGE-SortT(A, p,q) // conquer takes T(n/2)\nMERGE-SorRT(A,g + 1.r) // conquer takes T(n/2)\nMERGE(A, p,q.r) // combine takes O(n)\nO(1 ifn =1\nMERGE-SORT takes T(n) = lortnf ) O(n) ifn>1’\nsolved by the master theorem to T(n) = O(nlogn).",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 8,
+    "title": null,
+    "content": "Linear Time Sorting\nComparison sorting did not assume anything on items. With some\nknowledge, e.g. integer numbers, linear-time sorting possible.\nCounting sort (CLRS 8.2) assumes that the n input elements are\nintegers in [0..k]. It has O(n + k) runtime.",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 9,
+    "title": null,
+    "content": "1 2 3 4 5 67 8\nInput 1..n A | 25) [2\n1 2 3 4 °5\nTemporary 0..k C “fa oO\nlet C[0..k] be a new array\nCount how many | fori = Otok\ntimers i € [0,k] C[i] = 0\nappears in input. for j = 1 to A.length\nC{Aly]] = C[Alj]] + 1",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 10,
+    "title": null,
+    "content": "Count the number\nof elements less or\nequal toi € [0,k].\nfori = ltok\nCli] = Cli] + Cli -1]\n1 2 3 4 5 6 7 8\nInput 1..n A (2[5]3}o[2]3]o]3|\n0 1 2 3 4 °5\nTemporary 0..k C f2]2]4]7] 7/8]\nAlgorithms and DS |: Sorting 10",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 11,
+    "title": null,
+    "content": "Input 1..n\nTemporary 0..k\n7 8 3\n123 4 5 6 0 1 2 4 5\nA|2|5]3]o[2 c[2]2|4|aj7\\38\nOutput 1..n\n123 4 5 6\nAlgorithms and DS |: Sorting",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 12,
+    "title": null,
+    "content": "for 7 = A.length downto |\nBic[A[y]]] = Aly]\nCIAly]] = CIAL] - 1\nInput 1..n Output 1..n\n12 3 4 567 8 1 2 3 4 5 67 8\nA(2|s|3{o[2[3[o[3], /Blolo}2|2}3]3{3|5_\nCounting sort is stable: numbers with same values are output in same\norder as in input. Important when numbers are keys of other data.\nStability is crucial in Radix sort using stable sort subroutine.",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 13,
+    "title": null,
+    "content": "Ny\nInput: n d-digit decimal numbers (radix k = 10). Sorts in d rounds\nfrom least to most significant digit. (HW: prove correctness)\n329 f. 720 frre >| 720] 7 329\nA457 hy 355). ; 4329)\" ) 4355,\n657 bs. a. 436 fhe} ABE fo A 1 436\ninput |839), & “4457). &. 4839) .& 4457] output\n[436]. 657). 355 [657\n720], 4329 a7 720\n355 ‘dg39} al 657 839\nTakes O(d(n + k)) runtime if stable sort takes O(n + k). (CLRS 8.3)",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 14,
+    "title": null,
+    "content": "Assumes input numbers,\n0<Ali]<1,1<i<n,\nw.|.0.g uniformly\ndistributed in [0, 1).\nUses auxiliary — array\nB[0..n — 1] of linked lists\n(buckets).\nBucket Sort\nA B\n1 |.78] 0 |\n217} 1 | ++foP oe\n3 |.39| 2 | + +(23) 4 >f2i, 4} ae\n4 |.26| 3 | ++[39/7\n5 |72| 4/7\n6 |94| s | 7\n7 |.21| 6 | +>[68|7\n8 |12| 7) ++) 48\n9 |.23] 8 | 7%\n10 |.68] 9 | +—>[94]7\nAlgorithms and DS |: Sorting",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 15,
+    "title": null,
+    "content": "BUCKET-SORT(A)\nlet B[O..n — 1] be a new array\nn = A.length\nfori = Oton —-1\nmake B{i] an empty list\nfor i = 1 ton // insert into appropriate bucket\ninsert A[/] into list B[|n A[i]]]\nfor i = Oton —1 //sort within bucket\nsort list B[i] with insertion sort\nconcatenate B[0], B[1]..... B{n — 1] in order\nMost time consuming is the insertion sort of the buckets linked lists.",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 16,
+    "title": null,
+    "content": "All the rest code takes O(n) time.\nIn worst case all n elements fall in one bucket, yielding @(n7)\nruntime.\nT(n) = O(n) + Yo-* O(n;?)\nwhere n; = |B[i]|, n = Dito nj.\nSee supplementary for proof of O(n) expected (mean, average) run\ntime.",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 17,
+    "title": null,
+    "content": "Supplementary\nAlgorithms and DS |: Sorting",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 18,
+    "title": null,
+    "content": "Expected Run Time of Bucket Sort\nT(n) = O(n) + YG7* O(n;”), (1)\nwhere n; = |B[i]|, n = Dito nj.\nE[T(n)] = O(n) + NE OEIn;,”)).\nexpectation linearity\n1 Alj] fals in bucket Bli |\nDefine random variable Xij = Fe th\notherwise\nO0<isn-1,1<j<n.Hence nj = Yi. Xij.",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 19,
+    "title": null,
+    "content": "E[n;*] =E (ar Xi) | = E[Dye1 Dee XijXix| =\nExpectation\nEly, X;;7 + XijXik 2\nBi =1%ij yi. ni 2asken ue] = (2) linearity\nWoy E[Xij? | + dF a1 Zasksn ELK Xin]\nE[X;;7| — 12442 (1 = ) —i. (3) b Expectation definition\nn n n\nE[XiXix] = E[Xi|EXul = =. (a) + Xi; and Xj independent",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 20,
+    "title": null,
+    "content": "Substitution of (3) and (4) into (2) yields\n2)—y1 _1,t=2-1\nE[n,;“] = n—+n(n Ns =2 *\nSubstitution into (1),\nT(n) = O(n) + 8-1 0(n;?) = O(n) +n0 (2-=) = O(n). m",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 21,
+    "title": null,
+    "content": "NY\nQuicksort (C.A.R. Hoare 1962)\nDivide-and-conquer algorithm comprising three steps. Given A[p..7],\n* Divide: Partition A[p..r] into Alp..q —1], Alq], Alq +1..r] s.t.\nAlp..q — 1] < Al[q] and A[q] < A[q + 1..r].\n* Conquer: Sort A[p..q — 1] and Alq + 1..1r] recursively.\n* Combine: No work required since A[p..7] is already sorted.\nQUICKSORT(A, p,r)\nifp<r\nq = PARTITION(A, p,r)\nQUICKSORT(A, p,q — 1)\nQUICKSORT(A,g + 1.1)",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 22,
+    "title": null,
+    "content": "PARTITION procedure rearranging A[p..r] is crucial, specifically the\npivot q € [p..r] choice.\nLeftward shift of elements < pivot x = A[r] and proper reposition of\npivot next to them ensures that > elements are rightward.\nAlp..r] before PARTITION 2\nAlp..r] before pivot reposition | 2\nAlp..r] after pivot reposition 2",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 23,
+    "title": null,
+    "content": "PARTITION(A, p, 7)\nx = Alr] //use last element for pivot\ni = p—1 // initialize border of not larger elements\nfor j = ptor—1 //build A[p..q —1]\nif A[j] <x //not larger than pivot ?\n// yes, move element leftward\ni =i +1 //shift border rightward\nexchange A[i| with A[/]\nexchange A[i + 1] with A[r] // reposition pivot element\nreturn i + 1 // return pivot location",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 24,
+    "title": null,
+    "content": "Invariants of PARTITION\np\nPARTITION runtime on A[p..1r] is O(r — p + 1). (HW)\nWorst-case PARTITION\nQUICKSORT calls subproblems of size n — 1 and 0.\nT(n) = Tn—-1)+T7(0) + O(n) = T(n— 1) + O(n) = O(n?).\n(HW: prove T(n), use substitution. What input yields worst-case?)",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 25,
+    "title": null,
+    "content": "Best-case PARTITION\nResults in |[n/2| and [n/2] — 1 subproblems. Ignoring | | and[_ |,\nT(n) = 2T(n/2) + O(n) = O(n log n). (HW: prove T(n).)\nFor any fixed 0 < a < 1/2, if PARTITION always splits into Bn and\n(1-B)n-1,a<B <1/2, T(n) = O(mlogn). (HW: prove.)\nTo overcome the worst-case input, pivot can be chosen randomly,\nexpecting average partition to be reasonably balanced.",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 26,
+    "title": null,
+    "content": "RANDOMIZED-PARTITION (A, p,r)\ni = RANDOM(p,r) // pivot drawn randomly\nexchange A[r] with A[i] // make pivot rightmost\nreturn PARTITION(A, p,7)\nRANDOMIZED-QUICKSORT(A, p, r)\nifp<r\nq = RANDOMIZED-PARTITION (A, p,r)\nRANDOMIZED-QUICKSORT(A, p,q — 1)\nRANDOMIZED-QUICKSORT(A,q + 1,1)\nRANDOMIZED—PARTITION dominates runtime, called at most n\ntimes since element can be pivot at most once.",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 27,
+    "title": null,
+    "content": "Within PARTITION loop there are comparisons of A[j] with the pivot\nx (A[j] < x).\nLet X be total number comparisons over all PARTITION’s loops. Total\nQUICKSORT runtime is therefore O(n + X).\nSo what is X?\nRename the elements of A as Zj, Z2,...,Z,, by their ascending sorted\nvalues and let Z;; = {zi, Ziad ww Zi}.\nHow many times QUICKSORT compares z; and z;, i # j?",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 28,
+    "title": null,
+    "content": "NY\nIn PARTITION’s comparison z < x, x is the pivot, and once the loop\ncompletes x is placed in final location and never touched again.\nHence QUICKSORT compares any Z; and z;, i # j, at most once.\n; , 1 2; is compared to z;\nDefine random variable Xj; = F th . P -\notherwise\nn- L n\nThen, X = QircicjenXij = Liar Ljais1Xij, and\nexpectation linearity\n(1) EX] =x) jz i+1 E[Xi;| =yr jz iv1 Pr[zi, 2; compared].",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 29,
+    "title": null,
+    "content": "NY\nRANDOMIZED-—PARTITION chooses pivot x from subarray A[p..r]\nrandomly and independently.\nLetx € Z;;. There are 3 cases:\n* Z;<x< Zj. 2 and z; never compared since x splits Z;; into\nsmaller and larger parts.\nZi x Zj\n* XxX = Z;.x is compared to all, hence z; and z; are compared.\nZi Zj",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 30,
+    "title": null,
+    "content": "* Xx = Z;.x is compared to all, hence z; and z; are compared.\nZi Zj\nlength of zi, wey\nz;|\nx chosen at random > Pr[z; is compared to z;| = 2/G —i+1).\nonly x = z; andx = z; apply\nSubstitution into (1) yields\nharmonic sum\nnd n nol n-i 2\nE[X] = diz j=it] j-i44 i+1 = Vic\nk=j-i\nye YR -1= = O(nlogn). =\nj-t=1 j-j41",
+    "speaker_notes": null
+  }
+]

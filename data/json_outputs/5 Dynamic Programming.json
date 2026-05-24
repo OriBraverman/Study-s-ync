@@ -1,0 +1,170 @@
+[
+  {
+    "page_number": 1,
+    "title": "Dynamic Programming",
+    "content": "Dynamic Programming\nPrepared by Shmuel Wimer\nInstructed by Deganit Armon and Shmuel Wimer\nAlgorithms and DS |: Dynamic Programming",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 2,
+    "title": null,
+    "content": "Rod Cutting Optimization\nLength i 4 2 3 | 4 5\nPricep; |3 |6 |8 |10|12\n®eh) WO) WAV\nr=3+10=13 r=6+8=14 r=3+6+6=15\nWhat cut maximizes revenue 7;, ?\nn-length rod has 2”~* possible cuts (less have distinct revenues, but\nstill non-polynomial in n)",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 3,
+    "title": null,
+    "content": "Recursive top-down solution: 7%, = maxy<j<n (pi + ™-i)\nWe examine few implementations.\nCUT-ROD(p,n)\nifn == 0\nreturn 0\nGq =—-& top-down: from n — 1 to 0\nfori = | ton\nq = max(q, p{i] + CUT-ROD(p,n —i))\nreturn ¢\nVery inefficient! CUT-ROD calls itself recursively again and again with\nsame parameter values.",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 4,
+    "title": null,
+    "content": "Nd\nRecursion tree nodes: sub-problem size resulting from CUT—ROD(p, 5).\nSame sub-problems solved many times! ;\nleft over rod size",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 5,
+    "title": null,
+    "content": "Ny\nLet T(i) be the total number of CUT—ROD calls initiated by calling\nCUT—ROD(j, i).\ncall at root\nThere is T(0) = 1andT(n) =1+ ar T (Uj), solved to\nT(n) = 92\") (HW: prove)\nRepetitions of same sub-problems can be avoided by memoization.",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 6,
+    "title": null,
+    "content": "Ny\nTop-down Solution by Dynamic Programming\nIdea: memoize max revenue for rod of size 0 <i <n and reuse it\nrather than re-compute.\nMEMOIZED-CUT-ROD (p, 1)\nlet r[O0..n] be a new array\nfor i = 0 ton // init revenues of sub-problems\nr{i] = —oo\nreturn MEMOIZED-CUT-ROD-AUX(p,7,1r)",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 7,
+    "title": null,
+    "content": "MEMOIZED-CUT-ROD-AUX(p,n,r)\nif r[n] > 0 // avoid repetition of sub-problems\nreturn r[{n] // use memoized solution\nif n == 0\ng = 0 //empty problem yields zero revenue\nelse g = —oo //solve all 1 to n sub-problems\nfori = | ton\ngq = max(q, p{i] + // choose the best of two\nMEMOIZED-CUT-ROD-AUX(p,” —i,1r))\nr{n] = q //memoize solution\nreturn ¢ top-down: from n — 1 to 0\nSolving n sub-problems, each 1 <j < n calls memoized j — 1 times\nreturning immediately > T(n) = @(n?).",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 8,
+    "title": null,
+    "content": "Bottom-up Solution by Dynamic Programming\nBOTTOM-UP-CUT-ROD(p, 7)\nlet r[O0..] be a new array // max revenue memoization array\nr[O] = 0\nfor 7 = | ton\ngq = —0O Bottom-up: from 0 ton — 1\nfori = | to /\nq = max(q, pli] + r[j —/]) // update max cost\nrij] =4 // memoize max revenue\nreturn [77]\nT(n) = @(n2). Sub-problems solution in ascending size avoids\nrepetitive solution of same size by using memoization.",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 9,
+    "title": null,
+    "content": "Cut Retrieval of Optimal Solution\nEXTENDED-BOTTOM-UP-CUT-ROD(p, 7)\nlet r[O..n] and s[0..n] be new arrays // 7 max revenue, s\nr[0] = 0 optimal 1%t cut memo\nfor 7 = | ton array\ngq = —oo // init max revenue\nfori = 1 to j // find 1% cut maximizing revenue for j\nif ¢g < pli]+r[j —i] //is better cut found\ngq = pli]}+rl[j —i] // update max revenue\ns[j] = i // record where optimal 1% cut occurs\nr{j] = ¢ // memoize max revenue\nreturn r and s",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 10,
+    "title": null,
+    "content": "Max revenue cuts is retrieved by backward traversal\nPRINT-CUT-ROD-SOLUTION (p, n)\n(7,8) = EXTENDED-BOTTOM-UP-CUT-ROD(p, 7)\nwhile n > 0\nprint s[n] // get first cut of max revenue solution\nn =n-—S{|n] // size of next (smaller) sub-problem",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 11,
+    "title": null,
+    "content": "Ny\nOptimal Matrix-Chain Multiplication\nGiven matrix multiplication A,Az---A,, #col A;_; = #row A;, what\nmultiplication order yields smallest number of scalar products?\nA,A7A3A, can be parenthesize as follows (multiplication associative):\n(A; (A2(A344))) , (Ar (A243) A4)) (A142) (4344),\n((A1(A243)) Aa), (((A1A2) As) Aa)\nFor Ayox100 » Biooxs » Csx50\n((AB)C) => (10 x 100 x 5) + (10 x 5 x 50) = 7500 products\n(A(BC)) = (10 x 100 x 50) + (100 x 5 x 50) = 75000 products!",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 12,
+    "title": null,
+    "content": "oa. 1 ifn=1\n# parenthesization: P(n) = yr! P(k)P(n—k) ifn >2\nP(n) grows non-polynomial, at least 0.(2\") (HW: use substitution)\nWhat is the structure of an optimal solution?\nNotation: Aj...; = AjAiz1°+* Aj\nIfi <j, parenthesization > 4k, iS k <j s.t. Aj...j = Aj...pAngssj-\nMultiplication cost (# scalar products):\ncost(Aj...;) = cost(Aj...,) + cost(Agy1...;) + cost(Aj...nAngaj):",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 13,
+    "title": null,
+    "content": "Wd\nOptimal solution => parenthesization of Aj... and Ax44...; must\nminimize # scalar products of each, suggesting recursive solution.\nNotation: m[i,j] + cost(Aj...;).\nmin.\nall parenthesizations\nAj: Pi-1 X Pi > Aj...kAx41-.; Multiplication takes p;_1p,pj; scalar\nproducts. Hence,\nmli,j] = mi, k] + m[k + 1,j] + pi-1PRd;-",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 14,
+    "title": null,
+    "content": "k canbeanyofi<k<j>\n0 ifi =j\n(1) m[i, j] = min {mli, k] + mk +1,j]+ pi-wpep;} ifi<j-\nisk<j\nStraight-forward recursions > T(n) = (2”) (as rod cutting).\n(Similar to rod cutting, memoization suggests efficient top-down\nsolution, see CLRS 15.3.)\nAvoid repetitive solutions of same problems by memoizing m[i, j].",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 15,
+    "title": null,
+    "content": "(1) > mi, j] of length j — i + 1 depends only on shorter sub-chains\nyielding m[i, k] and m[k + 1, /].\nThis suggests bottom-up solution.\nSubsequent algorithm runs in O(n?) and uses O(n”) memory space.\nIt supports the optimal parenthesis retrieval, using table s[i, 7] which\nstores the optimal k.",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 16,
+    "title": null,
+    "content": "MATRIX-CHAIN-ORDER (p)\nlet m[1..n,1..n] and s[1..n —1,2..n] be new tables\nfori = 1ton //no multiplication in length\nm{i.i] = 0 1 chain, zero cost\nfor/ = 2ton //1-chain length\nfori = | ton —/ +1 // compute min cost for\njJ=i+4+l-—-1 all chains of length 1\nm{i, j] = oo // init chain min cost\nfor k = i to j — 1 //set chain split border\nq = mli,k] + mk + 1.7] + pi-1 pe Dj\nif ¢ < m[i, 7] // update chain’s min cost and split\n{mli.j] = 4; sli. j) =k}\nreturn ™ and s",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 17,
+    "title": null,
+    "content": "Ny\nRetrieval of Optimal Parenthesization\nsli, j] € s[1..n — 1,2..n] records k splitting AjA;,1 --- Aj between Ax\nand Az, in the optimal parenthesization.\nPRINT-OPTIMAL-PARENS(s, i, j)\nif i == j\nprint “A”;\nelse print “(”\nPRINT-OPTIMAL-PARENS (s, 7, s[i, j])\nPRINT-OPTIMAL-PARENS (5, s[i, j] + 1. /)\nprint “)”\nParenthesization starts with (Ax. stn})(Astinjti.n) , proceeding\nrecursively.",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 18,
+    "title": null,
+    "content": "NY\nExample: Split table obtained for A, --- Ag optimal parenthesization.\nPRINT—OPTIMAL—PARENS(s, 1,6) recursion calls:\n(1,1)_(2,2)(3,3)\n((A;(A243)) (A445) Ao))-",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 19,
+    "title": null,
+    "content": "Dynamic Programming comprises:\n1. Optimal sub-structures\n2. Overlapping sub-problems\n3. Reconstruction of optimal solution\n4. Memoization",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 20,
+    "title": null,
+    "content": "Longest Common Subsequence (LCS)\nS, = ACCGGTCGAGTGCGCGGAAGCCGGCCGAA\nS2 = GTCGTTCGGAATGCCGTTGCTCTGTAA\nS; and Sz describe DNA.\nThe longest common subsequence $3 defines their similarity\n5S, = GTCGAGT CGGAAGCCGGCCGAA\nSz = GTCG!TCGGAA GCCG'''GC!}C!G AA\nS3 = GTCGTCGGAAGCCGGCCGAA",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 21,
+    "title": null,
+    "content": "NY\nDefinition: Z = (Z1, Zz, ..., Z,) subsequence of X = (x1, Xz, ...,Xm) if:\nstrictly increasing sequence (iy, iz, ..., iz) satisfies xi; = ZASTS k.\nSince X = (X1,X2,...,Xm) has 2™ distinct subsequences, finding LCS\nby enumeration is impractical.\nDefinition: X; = (x1, X2, ...,X;) is called the ith prefix of X.\nTheorem: (Optimal sub-structure of LCS)\nLet Z = (2Z1,Z2,..,Z%) be any LCS of X = (x4,X2,...,X%m) and Y",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 22,
+    "title": null,
+    "content": "Ny\n(1) If Xm =YMn. > Ze = Xm = Vn and Z;,_, is LCS of X,_1 and Y,,_4.\n(2) If Xm #Yy, and Z, #Xm,>Z is LCS of X,_1 and Y.\n(3) If Xj FY, and Z, # Y,,>Z is LCS of X and Y,_ 3.\nProof:\n(1) If Z, #Xp, then x, = y, could be appended to Z => 4LCS of\nlength k + 1, contradicting |Z| = k LCS.\n> Ze =Xm = Vn and Zy_1 a common subsequence of X,,_1 and\nYn-v |Ze-1| = k — 1, (yet not necessarily LCS).",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 23,
+    "title": null,
+    "content": "If Z,_1 is not LCS of X,,_; and Y,_1; > IW LCSs.t. |W| > k — 1, ie.,\nIW| =k.\nAppending x, = y, to W > 4 W' LCS of X and Y st. |W’| > k +1,\ncontradiction to |Z| = k LCS.\n(2) If Z, #Xm = Z is a common subsequence of X,,_; and Y, but\nassume in contrary that it is not LCS.\nSince |Z| = k, J W LCS of X;,_1 and Y with length > k + 1, which is\nalso LCS of X,, (= X) and Y, contradiction to |Z| = k LCS.\n(3) Symmetric to (2). m",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 24,
+    "title": null,
+    "content": "Consequence: LCS of two sequences contains LCS of prefixes of the\ntwo, thus LCS problem posses optimal sub-structure property.\nConsequence: If x,, = y,, LCS is obtained from LCS of X,,_1 and Y,_4.\nElse, LCS is the longest among X,,_; and Y or X and Y,_, LCSs.\nLet cli, j] be the length of LCS of X; and Y;, then\n0 ifi = Oorj =0,\ncli,j] =< cli-Lj-—1]+1 ifi,j > Oandx; = y;,\nmax(cli,j—1],cli-—1,j]) ifi,j > Oand x; # yj.",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 25,
+    "title": null,
+    "content": "Straight-forward recursive implementation solves the problem, but\nsame sub-problem may be solved few times.\nHW: What is the worst-case input for the recursive solution?\nHowever, only @(mn) distinct LCS sub-problems exist, and bottom-up\ndynamic programming applies.",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 26,
+    "title": null,
+    "content": "LCS-LENGTH (X,Y,m,n)\nlet c[(O0..m,0..n]| be new table\nfori = 1 tom c[i,0| = 0 //0-length X prefix\nfor j = Oton c[0,j] = 0 // 0-length Y prefix\nfori = | tom\nfor j = | ton\nif x; == y; // case (1) of theorem\ncli, j] = c{i- 1.7 —1] +1 //LCS growing\nelseif c{i — 1. 7] > cli. j — 1] // case (2)\ncli, j] = cli -—1./] // LCS not growing\nelse cli, j] = cli. j —1] // case (3), LCS not growing\nreturn c",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 27,
+    "title": null,
+    "content": "LCS Retrieval\nThe equation defining c[i, j] enables LCS retrieval in reverse order.\nStarting at c[m,n], examination of c[i—1,j—1], c[i-—1,j] and\ncli, j — 1] determines how c[i, j| was obtained.\nLCS increases whenever x; = y;.\nNote that LCS is not unique!\nQ: Does the order of (2) and (3) in LCS-LENGTH matter?",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 28,
+    "title": null,
+    "content": "75 @OO@OO®\nj\non | | on Reppy\nO|~ oop om (=)\nO|< NI NIN ) on\no|o NINIT NIN\no|o d|4 NIN\no|o dalodoid4\no|o oRRoR Ron Ron no)\nOOOO OO\noc moatrM OR\nAlgorithms and DS |: Dynamic Programming",
+    "speaker_notes": null
+  }
+]

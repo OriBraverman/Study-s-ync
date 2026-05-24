@@ -1,0 +1,230 @@
+[
+  {
+    "page_number": 1,
+    "title": "Exploring Graphs",
+    "content": "March 2022\nExploring Graphs\nPrepared by Shmuel Wimer\nInstructed by Deganit Armon and Shmuel Wimer\nAlgorithms and DS |: Exploring Graphs",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 2,
+    "title": null,
+    "content": "Definitions\nGraph G(V, E): structure consists of n vertices V = {v1, V2, ..., Vy}\nand edges E = {e1, €2,...,€m}-\nEdge e(v%, v;) has two vertex endpoints.\ne(v;, V;) is loop.\ne'(v%, v;) and e\" (vi, v;) parallel edges.\nG is simple if it has no loops and parallel edges.\nNodes and vertices are used interchangeably.\nMarch 2022 Algorithms and DS |: Exploring Graphs 2",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 3,
+    "title": null,
+    "content": "1) ee +s ][7\n2| pti] +5] +3] +44\n3| {2 ] 4-4] 7\n4| -{2[ +5] +B]\n(5) 5| +a oneey\nAdjacency list\nWo NO\nAdjacency matrix\nO(n?) (O(|V|7)) memory.\nan &\nMarch 2022 Algorithms and DS |: Exploring Graphs\nO(n +m) (O(|V| + |E|)) memory.",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 4,
+    "title": null,
+    "content": "Vertex degree d(v) is the number of edges incident to v € V.\nLemma 1: The number of odd-degree vertices is even.\nProof: Ve € E contributes 2, hence )i,cyd(v) = 2|E|. The total\ndegree sum of even-degree vertices is even anyway. Hence so must\nbe the total sum of odd-degree vertices. m\nEdge sequence e(v,V;),e(V4,V2),..,e(Yj_-1,4%) is l-length path\nP(v, V)).\nothe,\now foun\ncos ”\ntee, got\nMarch 2022 Algorithms and DS |: Exploring Graphs 4",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 5,
+    "title": null,
+    "content": "Path can also be co-length or 0-length.\nP is simple if a vertex appears only once (hence edge too)\nCircuit (cycle) C is a finite paths of length 1 > 0 where vg = 1.\nC is simple if the underlying path is so.\nG(V,E) is connected if Vu, v € V AP(u, v) connecting u and v.\nMarch 2022 Algorithms and DS |: Exploring Graphs 5",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 6,
+    "title": null,
+    "content": "Shortest-Path Algorithms\nThe edges of G(V, E’) are associated with weight w: E > R.\neeP(u,v) w(e) is called path length.\nThe distance d(u,v) between u,v € V is the shortest length among\nall P(u, v) if such exist, and oo otherwise.\nGiven s € V called source, let 6(v) = d(s, v) (© is possible).\nAssume that w(e) = 1, Ve € E.\nBreadth-First Search (BFS, Moore 1957) finds 6(v) Vv € V.\nMarch 2022 Algorithms and DS |: Exploring Graphs 6",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 7,
+    "title": null,
+    "content": "March 2022\nAlgorithms and DS |: Exploring Graphs\n@\ne -e\nese\n@\n@",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 8,
+    "title": null,
+    "content": "March 2022\nProcedure BFS(G,s;A) // output A: labels\nVv EV AW) = &; A(s) = 0 // initialization\nQ=9%;s->Q //Q: FIFO imitating wave\nT = {s} //T: already labeled (done) vertices\nwhile Q # @// Expand “outwards” from wave\nu = DEQUEUE(Q) // get vertex from wave\nVe(u,v )\nif (véT) // Label unlabeled\nJT =T U {v}// Labeled will never changed\nAw) =A(u) +1\nENQUEUE(1, 9) // put new labeled in wave\nAlgorithms and DS |: Exploring Graphs",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 9,
+    "title": null,
+    "content": "Theorem: 5 P(s, v) > at BFS termination A(v) = d(v).\nProof: BFS terminates because each iteration DEQUEUED u € Q.\nu cannot enter Q again since u € FJ and only v ¢é FJ is ENQUEUED, >\neventually 0 = @.\nWe show by induction on 6(v) that 4P(s,v) > A(v) = d(v).\nInduction base is s, A(s) = 0 = 6(s).\nAssume by induction Vu € V s.t. d(u) < i there is A(u) = d(w).\nMarch 2022 Algorithms and DS |: Exploring Graphs 9",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 10,
+    "title": null,
+    "content": "Letv EV st d(v) =i.\nSince 6(v) is finite J P(s,v) >Je(u,v) € P.\neooten\n- .\nss.\nLet us show that A(u) = d(u) =i-1.\nOtherwise, let d(u) <i-—1.\n> 6(v) < 6(u) +1 < Gi —1) +1 =i, in contrary to 6(v) = i.\nMarch 2022 Algorithms and DS |: Exploring Graphs 10",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 11,
+    "title": null,
+    "content": "eoct==.\n- ~\nea ss.\nNow by induction hypothesis A(uw) = d(u) =i-—1.\nOnce u € Q is DEQUEUED e(u, v) is detected.\nLet v ¢€ FT (unlabeled).\nv labeled from u > A(v) = A(u) + 1 = i = 4(v), and labeling occurs\nonly once, so we are done.\nMarch 2022 Algorithms and DS |: Exploring Graphs 11",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 12,
+    "title": null,
+    "content": "Otherwise, let v € FT (already labeled).\nBy 6(v) = i choice, A(v) < i impossible because 6(v) < A(v).\nA(v) >i also impossible. If it would > 3 e(w,v) and w€Q was\nDEQUEUED before u, s.t.A(w) = A(v) —-1 >i-1=A(w).\nBut DEQUEUE is non decreasing in A, hence impossible. m\nMarch 2022 Algorithms and DS |: Exploring Graphs 12",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 13,
+    "title": null,
+    "content": "BFS applicable for directed graphs by replacing e(u, v ) with é(u,v).\nRuntime.\nENQUEUE and DEQUEUE take O(1). v€V is ENQUEUE and\nDEQUEUE once = O(|V|).\nUsing Boolean array of size |V| for J, checking v € FT takes O(1).\ne(u, v) treated twice, from u and e(v, u) from v, > O(|E|).\nAllin all T(|V|, |E|) = OC|V| + |E[).\nMarch 2022 Algorithms and DS |: Exploring Graphs 13",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 14,
+    "title": null,
+    "content": "NY\nShortest path constructed by augmenting J with u, obtained by\nAww) =A(u) +41.\nA spanning tree T(V,E') of a connected graph G(V,E) is an edge-\nmaximal, connected, cycle-free subgraph (see lecture 9).\n(HW: prove |E’| = |V| — 1.)\nA by product of BFS is a spanning tree construction.\nLet v € V be labeled by u € V (A(v) = A(u) + 1), then mark e(u, v)\n= E' = Uprsfe} is spanning tree (HW: prove).\nMarch 2022 Algorithms and DS |: Exploring Graphs 14",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 15,
+    "title": null,
+    "content": "Ny\nDepth First Search\nSpanning tree can be found differently by Depth-First Search (DFS, J.\nHopcroft and R. Tarjan 1973).\nMarch 2022 Algorithms and DS |: Exploring Graphs 15",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 16,
+    "title": null,
+    "content": "DFS explores e(u, v7) incident to most recently visited u € V.\nIf v EV is yet unvisited, exploration proceeds from v_ further\n“deeper” in G.\nIf all w’s neighbors are visited, u backtracks to the vertex from where\nit was first visited.\nDFS visits all vertices, all edges are explored.\nBacktracked edges constitutes a spanning tree.\nMarch 2022 Algorithms and DS |: Exploring Graphs 16",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 17,
+    "title": null,
+    "content": "Procedure DFS(G(V, E), 5; K, F)\nVe € E marke \"new\" // K: first visit time stamp\nVv EVdoK|v] =0; Flv] =@ // F: where visited from\nK[s|] =1; u=s;i=2;\n// explore all vertex neighbors\nwhile 4 \"new\" e(u, v) || Flu] +@\nif J \"new\" e(u, v)\nmark e \"old“\nif K[v] = 0 // first time visit\n// set time stamp and proceed forward\nFlv] =u;K[v] =i++;u=v\nelse u = F[u] // backtrack\nMarch 2022 Algorithms and DS |: Exploring Graphs 17",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 18,
+    "title": null,
+    "content": "Lemma 2: DFS halts.\nProof: Otherwise, loop iterates infinitely.\nKu] < K[v]\nAt every iteration either of the two occurs: (us)\n1. a “new” edge is changed to “old” or, ‘\n2. an already visited vertex backtracks. _ Klul > xv] /\nse -\nw<-.22---\"7\nSince the loop is conditioned by 1 or 2, 1\nbacktracking\ncannot occur infinite times.\nSo, 2 occur infinitely, > a cyclic backtracking.\nMarch 2022 Algorithms and DS |: Exploring Graphs 18",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 19,
+    "title": null,
+    "content": "Once F[v| = @ changed to F[v| =u, wu already visited before, so\nKv] > K[u] > 0, contradicting cyclic backtracking. m\nLemma 3: DFS visits all v € V.\nProof: Assume v € V is unvisited after DFS halts.\nLet w € P(s,v) be the last visited and consider P(w,v), which all\nedges are “new”, particularly the edge incident to w.\nSince F(w) # @, w couldn’t be backtracked unless all its incident\nedges are “old”, hence it cannot be the last visited along P(s,v). m\nMarch 2022 Algorithms and DS |: Exploring Graphs 19",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 20,
+    "title": null,
+    "content": "Lemma 4: Backtracked edges E’ C E yield a spanning tree T(V, E’).\nProof: DFS visits all v € V > 3 P(s, v) of solely backtracked edges.\nE’ have cycle C => cyclic indexing of vertices along C, impossible by\nLemma 2.\nThus, T(V, E\"') obtained by U,ey P(s, v) is cycle-free, hence a tree. m\nDFS examines edge once. Some are backtracked once. Initialization is\nO(|V|) and O(|E|). DFS runtime is therefore O(|V| + |E]).\nMarch 2022 Algorithms and DS |: Exploring Graphs 20",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 21,
+    "title": null,
+    "content": "NY\nDirected graph (digraph) G(V, E) defined similarly to G(V, E) except\nthat end-vertices are ordered é(u,v). é is called are.\nArcs can also have weight defined by w: ER.\nThe in-degree d,(v) is the number of arcs entering v € V. Out-\ndegree d_(v) is the number of leaving arcs. A finite digraph satisfies\nYvev 4+ (V) = Yoev d_(v).\nl-length arc sequence €(V, v1), (V4, V2), ...,e(Yj-1, 1) is called\ndirected path P(vo, v,). Cycle is defined accordingly.\nMarch 2022 Algorithms and DS |: Exploring Graphs 21",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 22,
+    "title": null,
+    "content": "C1) (2) (3) 1| fo] +44]\n2| {s|74\n3| Lo] +s /7\n(4) (5) (6) > 4| 2/7\n5| —>[4]7\n123 45 6 6 | +f6[7\n1/0 0 10 0 ; ;\n1000010 Adjacency list\n3/0 00011\n4)0 10 0 0 0 Adjacency matrix\n5/0 0010 0\n6/0 0000 1\nDFS applicable to digraphs except @(v,u) replaces e(v, wu).\nMarch 2022 Algorithms and DS |: Exploring Graphs 22",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 23,
+    "title": null,
+    "content": "Lemma 5: Let w € V discovered first time and wu\n€ V already discovered, and let T,, be DFS subtree\nrooted at wu.\nIf upon w discovery 4 P(u,w) s.t. Vv € P(u,w), v\n# u, v already discovered, then w € T,,.\nProof: If w € T,,, let €(x,y) € P(u,w), s.t. x € T,, but y € T,.\nSince DFS explored all arcs incident at x before x backtracked, é(x,y)\nhas been explored and y discovered => y € T,,, contradiction. m\nMarch 2022 Algorithms and DS |: Exploring Graphs 23",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 24,
+    "title": null,
+    "content": "Ny\nTopological Sort\nA topological sort of V is a linear ordering f: V — {1,2,...,|V|} st.\né(u,v) € E = f(u) < f(v).\nUseful for scheduling when only partial precedence relations are\ndefined between tasks.\nLet Distrait Yuval (‘72'71ANN ‘7A31') get dressed, knowing pants precede\nbelt, shirt precede tie, etc.\nHow should he schedule dressing tasks?\nMarch 2022 Algorithms and DS |: Exploring Graphs 24",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 25,
+    "title": null,
+    "content": "undershorts socks\nv Y\n, pants shoes\nG(V,E) acyclic Vv\ndigraph (DAG). belt <———— shirt\nv\ntie\nVv\ntime jacket\nsocks | undershorts > pants > shoes | shirt > belt\nMarch 2022\nAlgorithms and DS |: Exploring Graphs\ntie > jacket",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 26,
+    "title": null,
+    "content": "Topological sort can be performed by applying DFS for DAG.\nLemma 6: A DAG has s € V s.t. d,(s) = 0.\nProof: Else, starting from any v € V we could backtrack infinitely. V is\nfinite so some u € V repeats = a cycle exists, contradicting DAG. m\nDFS—TOPO supplaments DFS with stack S (LIFO) to which wu € V is\nPUSH (insert) at backtrack.\nIt also supports few d,(s) = 0, where all s are first ENQUEUE and\nthen DEQUEUE one by one.\nMarch 2022 Algorithms and DS |: Exploring Graphs 26",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 27,
+    "title": null,
+    "content": "Procedure DFS—TOPO(G(V, E); F,S)\nVs EV s.t.d;,(s) = 0 ENQUEUE(Q, s)\nVe € E marke \"new\"\nVv EV do Flv] = @ // F visit wherefrom\nwhile s = DEQUEUE(Q) + @\nu=s\n// explore all vertex neighbors\nwhile u has \"new\" edge é(u,v) ||Fl[u] # @\nif v has \"new\" edge é(u,v)\nmark e \"old“\nif F[v] = @ Flv] =u; u=v//first time visit\nelse PUSH(S, wu); u=F[u] // backtrack\nMarch 2022 Algorithms and DS |: Exploring Graphs 27",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 28,
+    "title": null,
+    "content": "Theorem: DFS—TOPO yields topological sort when applied to DAG.\nProof: We show that if Jé(u,v) then PUSH(S, w) occurs later than\nPUSH(S, v).\nIf €(u,v) traversed > u was backtracked from v and w is then\nbacktracked later. > PUSH(S, w) occurs later than PUSH(S, v).\nSo let @(u,v) not traversed, and assume in contrary PUSH(S, wu)\noccurs earlier than PUSH(S, v) (v backtracked after 1).\nMarch 2022 Algorithms and DS |: Exploring Graphs 28",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 29,
+    "title": null,
+    "content": "NY\nLet P(s,u) and P(s,v) be implied by a DFS—TOPO spanning tree.\nAt time w backtracked, v not visited yet because DFS—TOPO\ntraverses P(w, u) before P(w, v).\nu however backtracked only after all its outgoing arcs explored, in\nparticular é(u, v), so v must be reached from wu, a contradiction. m\n/ ~ Pw, u)\n-—\nI\n“x,\nS . & é(u, v)\n‘ P(w, v)\n~ a\n~e\nMarch 2022 Algorithms and DS |: Exploring Graphs 29",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 30,
+    "title": null,
+    "content": "Iterative POP of S yields the topological sort.\nRuntime is O(|V| + |E|), same as ordinary DFS, given all d,(s) = 0\nare known prior.\nMarch 2022 Algorithms and DS |: Exploring Graphs 30",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 31,
+    "title": null,
+    "content": "Ny\nStrongly Connected Components\nStrongly connected component (SCC) of digraph G (V, E ) is maximal\nCCV st. Vu,v €C, J P(u,v) and 3 P(v,u), denoted u~v. ~ is\nequivalence relations and C is equivalence class. (HW: prove)\nContraction of SCCs yields the acyclic component graph Gscc,",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 32,
+    "title": null,
+    "content": "1°t pass:\nRun DFS1 and label v € V by backtrack time.\nMarch 2022 Algorithms and DS |: Exploring Graphs",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 33,
+    "title": null,
+    "content": "2\"4 pass:\nDerive G(V, E) by reverting E (SCCs unchanged).\nRun DFS2 on G. Encounter Roots in descending label order.\nDFS forest yields G’s SCCs.\nMarch 2022 Algorithms and DS |: Exploring Graphs 33",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 34,
+    "title": null,
+    "content": "So why is it working? (hand waving, informal)\nLet C, be SCC of G s.t. uy, v € Cy, u, be the root of DFS1 subtree Ty.)\nand let v € Ty, (ensured by lemma 5).\nSince 4P(u, v) and 4P(v, u,), C; is also SCC of G and v € Ty,\nNote that Ty, # Tu, can happen if some w € T,,, but AP(w,u,) in G\n>w €T,,.Sincew € C,, 4C; # C, SCC st. w € Cj,\nMarch 2022 Algorithms and DS |: Exploring Graphs 34",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 35,
+    "title": null,
+    "content": "Let u; be the root of a DFS1 subtree Ty,-\nw ¢€ Ty, since it was “wrongly” discovered by DFS1 earlier in T,,-\nHow are such “accidents” avoided by DFS2 in G?\nStarting DFS2 on G from Um (root) ensures that:\n1. Ifv € Cm, then 3P(Um, Vv) inG>ve V (Tu):\nMarch 2022 Algorithms and DS |: Exploring Graphs 35",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 36,
+    "title": null,
+    "content": "2. If vEC,,, then véV(Ty,,)- Otherwise, _ if v EV(Ty,,) =>\nAP(Um, Vv) in G> AP(v,Um) in G > Up (root) couldn’t left for\nT,\nUm? Out rather Um E V(Tu,) for some 1 <i < m, contradiction.\n= DFS2 derives C,, correctly.\nCorrectness of DFS2_ established by applying last argument\ninductively from m to 1. m\nMarch 2022 Algorithms and DS |: Exploring Graphs 36",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 37,
+    "title": null,
+    "content": "Procedure DFS1(G(V, E'); #)\nVe € E marke \"new\"\nVu € Vmarku\"new'\"; Flu] = @\nt=1\nwhile 4 \"new\" v € V // get root for new DFS subtree\nmark v \"old\" // grow DFS subtree rooted at v\nwhile 3 \"new\" e(v,u) || Flv] + @\nif J \"new\" e(v,u) mark e \"old\"// explore new edge\nifwis \"new\" // first time visit\nmark u \"old\"; Flu] = v;v =u\nelse H[v] = i++ ;v = Flv] // record backtrack time\nH|v] =i++// DFS subtree completed\nMarch 2022 Algorithms and DS |: Exploring Graphs 37",
+    "speaker_notes": null
+  },
+  {
+    "page_number": 38,
+    "title": null,
+    "content": "Procedure DFS2 (G (V, E), KH; SSCs)\nVe € F marke \"new\"\nVu €V marku \"new\"; Flu] = @\nwhile (4 \"new\" w € V)\nletv = argmax\"yew\"yey Jélw] // get largest backtrack time\nmark v \"old“ ;S = {v} // initialize new SCC and DFS subtree\nwhile 3 \"new\" e(v,u)|| Flv] + @\nif J \"new\" e(v,u) mark e \"old“\nifuwis \"new\" // expand SCC\nmark u \"old\"; Flu] =v;S=SU{v};v=u\nelse v = Flv] // backtrack\nSSCs = SSCsUS_ // SCC completed\nMarch 2022 Algorithms and DS |: Exploring Graphs 38",
+    "speaker_notes": null
+  }
+]
