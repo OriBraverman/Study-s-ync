@@ -454,16 +454,12 @@
         /* Iframe for visualizer */
         .viz-iframe {
             width: 100%;
-            min-height: 500px;
-            height: 500px; /* default starting height */
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 16px;
+            min-height: 600px;
+            height: 600px; /* default starting height */
+            border: none;
             background: #ffffff; /* Opaque white background is extremely clear for dynamic charts and shapes */
             overflow: hidden;
-            transition: height 0.3s ease;
-        }
-        body.light-theme .viz-iframe {
-            border-color: rgba(16, 185, 129, 0.15);
+            transition: height 0.2s ease-out;
         }
     </style>
 </head>
@@ -789,6 +785,89 @@
         let isRegisterMode = false;
         let userCourses = [];
 
+        let isVizMaximized = false;
+        let preMaximizedHeight = "";
+
+        function toggleVisualizerMaximize(iframeId) {
+            const container = document.getElementById('vizContainer');
+            const explanation = document.getElementById('vizExplanation');
+            const icon = document.getElementById('vizMaximizeIcon');
+            const text = document.getElementById('vizMaximizeText');
+            const iframe = document.getElementById(iframeId);
+            const liveArea = document.getElementById('vizLiveArea');
+            
+            if (!container || !iframe) return;
+            
+            isVizMaximized = !isVizMaximized;
+            
+            if (isVizMaximized) {
+                // Save current calculated height
+                preMaximizedHeight = iframe.style.height;
+                
+                // Maximize container
+                container.classList.remove('glass', 'p-6', 'rounded-2xl', 'shadow-lg', 'border-white/5');
+                container.classList.add(
+                    'fixed', 'inset-4', 'md:inset-6', 'lg:inset-8', 
+                    'z-[999]', 'flex', 'flex-col', 'modal-overlay', 
+                    'backdrop-blur-md', 'shadow-2xl', 'p-6', 'rounded-2xl', 
+                    'border', 'border-emerald-500/20', 'bg-slate-950/95'
+                );
+                
+                // If it's light theme, make it matching light-theme modal style
+                if (document.body.classList.contains('light-theme')) {
+                    container.classList.add('bg-white', 'border-emerald-500/30');
+                    container.classList.remove('bg-slate-950/95');
+                }
+                
+                // Hide explanation
+                if (explanation) explanation.classList.add('hidden');
+                
+                // Set iframe and live area to grow and fill the modal
+                if (liveArea) liveArea.classList.add('flex-1', 'h-full');
+                iframe.parentElement.classList.add('flex-1', 'h-full');
+                iframe.style.height = '100%';
+                iframe.style.minHeight = '100%';
+                
+                // Change button state
+                if (icon) icon.innerText = '✕';
+                if (text) text.innerText = 'סגור תצוגה מורחבת';
+                
+                // Block parent body scrolling
+                document.body.style.overflow = 'hidden';
+            } else {
+                // Restore container
+                container.classList.remove(
+                    'fixed', 'inset-4', 'md:inset-6', 'lg:inset-8', 
+                    'z-[999]', 'flex', 'flex-col', 'modal-overlay', 
+                    'backdrop-blur-md', 'shadow-2xl', 'p-6', 'rounded-2xl', 
+                    'border', 'border-emerald-500/20', 'bg-slate-950/95',
+                    'bg-white', 'border-emerald-500/30'
+                );
+                container.classList.add('glass', 'p-6', 'rounded-2xl', 'shadow-lg', 'border-white/5');
+                
+                // Show explanation
+                if (explanation) explanation.classList.remove('hidden');
+                
+                // Restore iframe style height
+                if (liveArea) liveArea.classList.remove('flex-1', 'h-full');
+                iframe.parentElement.classList.remove('flex-1', 'h-full');
+                iframe.style.height = preMaximizedHeight || '600px';
+                iframe.style.minHeight = '600px';
+                
+                // Change button state
+                if (icon) icon.innerText = '🔍';
+                if (text) text.innerText = 'תצוגה מורחבת (מסך מלא)';
+                
+                // Restore parent body scrolling
+                document.body.style.overflow = '';
+                
+                // Force a resize re-calculation
+                setTimeout(() => {
+                    window.dispatchEvent(new Event('resize'));
+                }, 100);
+            }
+        }
+
         document.addEventListener("DOMContentLoaded", async () => {
             if (authToken) { await fetchCurrentUser(); }
         });
@@ -959,6 +1038,13 @@
         // Tabs
         // ================================================================
         function switchTab(tabName) {
+            if (isVizMaximized && tabName !== 'viz') {
+                const iframe = document.querySelector('.viz-iframe');
+                if (iframe) {
+                    toggleVisualizerMaximize(iframe.id);
+                }
+            }
+
             ['lesson', 'plan', 'viz', 'test'].forEach(t => {
                 document.getElementById(t === 'lesson' ? 'lessonContent' : t + 'Content').classList.add('hidden');
                 document.getElementById('tab-' + t).classList.remove('tab-active'); document.getElementById('tab-' + t).classList.add('tab-inactive');
@@ -1476,15 +1562,23 @@
                 const v = data.visualizer;
                 const iframeId = 'vizFrame_' + Date.now();
                 resultDiv.innerHTML = `
-                    <div class="glass p-6 rounded-2xl shadow-lg border border-white/5 animate-slide-up">
-                        <h3 class="font-bold text-xl mb-3 text-emerald-400">${v.topic}</h3>
-                        <p class="text-gray-300 mb-5 leading-relaxed text-sm">${renderFormattedContent(v.explanation)}</p>
-                        <div class="mb-2">
+                    <div id="vizContainer" class="glass p-6 rounded-2xl shadow-lg border border-white/5 animate-slide-up relative transition-all duration-300 flex flex-col">
+                        <div class="flex items-center justify-between mb-4 border-b border-white/5 pb-2.5">
+                            <h3 class="font-bold text-xl text-emerald-400">${escapeHtml(v.topic)}</h3>
+                            <button id="vizExpandBtn" onclick="toggleVisualizerMaximize('${iframeId}')" class="flex items-center gap-1.5 px-3.5 py-2 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/20 hover:border-emerald-500/30 text-xs font-bold text-emerald-400 rounded-xl transition-all shadow-sm">
+                                <span id="vizMaximizeIcon">🔍</span>
+                                <span id="vizMaximizeText">תצוגה מורחבת (מסך מלא)</span>
+                            </button>
+                        </div>
+                        <div id="vizExplanation" class="text-gray-300 mb-5 leading-relaxed text-sm">${renderFormattedContent(v.explanation)}</div>
+                        <div id="vizLiveArea" class="mb-2 flex-1 flex flex-col">
                             <div class="flex items-center gap-2 mb-2">
                                 <span class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
                                 <p class="text-sm font-bold text-gray-300">תצוגה חיה</p>
                             </div>
-                            <iframe id="${iframeId}" class="viz-iframe" sandbox="allow-scripts allow-same-origin" scrolling="no"></iframe>
+                            <div class="w-full flex-1 min-h-[600px] relative rounded-2xl overflow-hidden border border-white/10 bg-white">
+                                <iframe id="${iframeId}" class="viz-iframe w-full h-full min-h-[600px]" sandbox="allow-scripts allow-same-origin" scrolling="no"></iframe>
+                            </div>
                         </div>
                     </div>
                 `;
@@ -1515,25 +1609,64 @@
                 
                 // Dynamic auto-resizing to perfectly match simulation content scrollHeight and prevent clipping
                 iframe.onload = () => {
-                    let resizeCount = 0;
-                    const resizeInterval = setInterval(() => {
-                        try {
-                            const innerDoc = iframe.contentDocument || iframe.contentWindow.document;
-                            if (innerDoc) {
+                    try {
+                        const innerDoc = iframe.contentDocument || iframe.contentWindow.document;
+                        if (innerDoc) {
+                            // Inject custom resets to ensure scrollHeight measures correctly
+                            const style = innerDoc.createElement('style');
+                            style.innerHTML = `
+                                html, body {
+                                    margin: 0;
+                                    padding: 0;
+                                    overflow: hidden !important;
+                                    height: auto !important;
+                                    background-color: transparent;
+                                }
+                                #root {
+                                    padding: 16px;
+                                    box-sizing: border-box;
+                                    height: auto !important;
+                                }
+                            `;
+                            innerDoc.head.appendChild(style);
+
+                            // Resizing function
+                            const updateHeight = () => {
+                                if (isVizMaximized) return; // Do not overwrite height during fullscreen
                                 const height = Math.max(
                                     innerDoc.body ? innerDoc.body.scrollHeight : 0,
-                                    innerDoc.documentElement ? innerDoc.documentElement.scrollHeight : 0
+                                    innerDoc.documentElement ? innerDoc.documentElement.scrollHeight : 0,
+                                    innerDoc.getElementById('root') ? innerDoc.getElementById('root').scrollHeight : 0
                                 );
                                 if (height > 50) {
-                                    iframe.style.height = (height + 30) + 'px';
+                                    iframe.style.height = (height + 25) + 'px';
                                 }
+                            };
+
+                            // Initial size update
+                            updateHeight();
+
+                            // Use ResizeObserver for perfect real-time updates upon any internal content change
+                            if (window.ResizeObserver) {
+                                const observer = new ResizeObserver(() => {
+                                    updateHeight();
+                                });
+                                if (innerDoc.body) observer.observe(innerDoc.body);
+                                const rootEl = innerDoc.getElementById('root');
+                                if (rootEl) observer.observe(rootEl);
+                            } else {
+                                // Fallback loop
+                                let resizeCount = 0;
+                                const resizeInterval = setInterval(() => {
+                                    updateHeight();
+                                    resizeCount++;
+                                    if (resizeCount > 30) clearInterval(resizeInterval);
+                                }, 500);
                             }
-                        } catch (err) {
-                            clearInterval(resizeInterval);
                         }
-                        resizeCount++;
-                        if (resizeCount > 20) clearInterval(resizeInterval); // Poll for 10 seconds to cover Babel compilation and rendering
-                    }, 500);
+                    } catch (err) {
+                        console.error("ResizeObserver iframe error:", err);
+                    }
                 };
 
                 // srcdoc is the reliable modern approach: the browser creates
