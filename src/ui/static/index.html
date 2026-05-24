@@ -1230,9 +1230,9 @@
                 document.getElementById('textContent').innerHTML = renderFormattedContent(cleanContent);
                 switchTab('lesson');
                 document.getElementById('chatBox').innerHTML = '';
-                let firstQuestion = lecture.ai_questions.replace("שאל את הסטודנט ", "");
-                addChatMessage('assistant', firstQuestion);
-                chatHistory = [{ role: "assistant", content: firstQuestion }];
+                let welcomeMsg = `שלום! אני כאן בשבילך וזמין לכל שאלה שיש לך על נושא ההרצאה: **${lecture.topic}**. מרגיש שפספסת משהו או רוצה לתרגל? שאל אותי חופשי!`;
+                addChatMessage('assistant', welcomeMsg);
+                chatHistory = [{ role: "assistant", content: welcomeMsg }];
                 if (window.MathJax && window.MathJax.typesetPromise) MathJax.typesetPromise();
                 else if (window.MathJax && window.MathJax.typeset) window.MathJax.typeset();
             } catch (e) { console.error("שגיאה בהצגת ההרצאה:", e); }
@@ -1257,7 +1257,7 @@
                 switchTab('lesson');
                 
                 document.getElementById('chatBox').innerHTML = '';
-                let firstMsg = `שלום! הגעת לנושא ${topic}. כיצד תרצה שנתרגל או נלמד אותו היום?`;
+                let firstMsg = `שלום! אני כאן בשבילך וזמין לכל שאלה שיש לך על נושא הלמידה העצמית: **${topic}**. מרגיש שפספסת משהו או רוצה לתרגל? שאל אותי חופשי!`;
                 addChatMessage('assistant', firstMsg);
                 chatHistory = [{ role: "assistant", content: firstMsg }];
             }
